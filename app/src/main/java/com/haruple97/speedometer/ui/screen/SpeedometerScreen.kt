@@ -2,6 +2,7 @@ package com.haruple97.speedometer.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,39 +25,52 @@ import com.haruple97.speedometer.viewmodel.SpeedViewModel
 
 @Composable
 fun SpeedometerRoute(
-    viewModel: SpeedViewModel = viewModel()
+    viewModel: SpeedViewModel = viewModel(),
+    isInPipMode: Boolean = false
 ) {
     val speedData by viewModel.speedState.collectAsStateWithLifecycle()
 
-    SpeedometerScreen(speedData = speedData)
+    SpeedometerScreen(speedData = speedData, isInPipMode = isInPipMode)
 }
 
 @Composable
 fun SpeedometerScreen(
-    speedData: SpeedData
+    speedData: SpeedData,
+    isInPipMode: Boolean = false
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(DashboardBlack)
-            .padding(top = 48.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {
-        // 게이지 (화면 상부 ~70%)
-        SpeedometerGauge(
-            currentSpeed = speedData.speedKmh,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
+    if (isInPipMode) {
+        // PiP 모드: 게이지만 전체 화면에 표시
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(DashboardBlack),
+            contentAlignment = Alignment.Center
+        ) {
+            SpeedometerGauge(currentSpeed = speedData.speedKmh)
+        }
+    } else {
+        // 일반 모드: 전체 UI
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(DashboardBlack)
+                .padding(top = 48.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+            SpeedometerGauge(
+                currentSpeed = speedData.speedKmh,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // 하단 정보 패널
-        SpeedInfoPanel(
-            maxSpeed = speedData.maxSpeedKmh,
-            gpsAccuracy = speedData.accuracyMeters,
-            isGpsActive = speedData.isGpsActive
-        )
+            SpeedInfoPanel(
+                maxSpeed = speedData.maxSpeedKmh,
+                gpsAccuracy = speedData.accuracyMeters,
+                isGpsActive = speedData.isGpsActive
+            )
+        }
     }
 }
 
@@ -72,6 +86,28 @@ private fun SpeedometerScreenPreview() {
                 isGpsActive = true,
                 timestamp = System.currentTimeMillis()
             )
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFF0A0A0A,
+    widthDp = 180,
+    heightDp = 180,
+    name = "PiP Mode"
+)
+@Composable
+private fun SpeedometerScreenPipPreview() {
+    SpeedometerTheme {
+        SpeedometerScreen(
+            speedData = SpeedData(
+                speedKmh = 85f,
+                maxSpeedKmh = 142f,
+                accuracyMeters = 3f,
+                isGpsActive = true
+            ),
+            isInPipMode = true
         )
     }
 }

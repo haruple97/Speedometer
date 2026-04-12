@@ -1,7 +1,10 @@
 package com.haruple97.speedometer
 
 import android.Manifest
+import android.app.PictureInPictureParams
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Rational
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -36,19 +39,39 @@ import com.haruple97.speedometer.ui.theme.SpeedometerTheme
 import com.haruple97.speedometer.ui.theme.UnitGray
 
 class MainActivity : ComponentActivity() {
+
+    private val isInPipMode = mutableStateOf(false)
+
+    private val pipParams = PictureInPictureParams.Builder()
+        .setAspectRatio(Rational(1, 1))
+        .build()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             SpeedometerTheme {
-                LocationPermissionGate()
+                LocationPermissionGate(isInPipMode = isInPipMode.value)
             }
         }
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        enterPictureInPictureMode(pipParams)
+    }
+
+    override fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration
+    ) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        isInPipMode.value = isInPictureInPictureMode
     }
 }
 
 @Composable
-private fun LocationPermissionGate() {
+private fun LocationPermissionGate(isInPipMode: Boolean) {
     var hasPermission by remember { mutableStateOf(false) }
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -67,7 +90,7 @@ private fun LocationPermissionGate() {
     }
 
     if (hasPermission) {
-        SpeedometerRoute()
+        SpeedometerRoute(isInPipMode = isInPipMode)
     } else {
         PermissionRequestScreen(
             onRequestPermission = {

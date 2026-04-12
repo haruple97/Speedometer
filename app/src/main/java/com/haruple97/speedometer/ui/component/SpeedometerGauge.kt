@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +39,7 @@ fun SpeedometerGauge(
 
     Box(
         modifier = modifier
+            .widthIn(max = 330.dp)
             .fillMaxWidth()
             .aspectRatio(1f),
         contentAlignment = Alignment.Center
