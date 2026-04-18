@@ -86,16 +86,24 @@ fun SpeedometerScreen(
                 }
             }
 
-            SpeedometerGauge(
-                currentSpeed = speedData.speedKmh,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                SpeedometerGauge(
+                    currentSpeed = speedData.speedKmh,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
 
-            SpeedInfoPanel(
-                maxSpeed = speedData.maxSpeedKmh,
-                gpsAccuracy = speedData.accuracyMeters,
-                isGpsActive = speedData.isGpsActive
-            )
+                SpeedInfoPanel(
+                    maxSpeed = speedData.maxSpeedKmh,
+                    gpsAccuracy = speedData.accuracyMeters,
+                    isGpsActive = speedData.isGpsActive,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 10.dp)
+                )
+            }
         }
     }
 }
