@@ -15,13 +15,14 @@ import com.haruple97.speedometer.ui.util.GaugeGeometry
 
 fun DrawScope.drawTickMarks(
     textMeasurer: TextMeasurer,
+    scale: Float = 1f,
     maxSpeed: Float = GaugeGeometry.MAX_SPEED
 ) {
     val center = Offset(size.width / 2, size.height / 2)
-    val outerRadius = size.minDimension / 2 - 24.dp.toPx()
-    val majorTickLength = 18.dp.toPx()
-    val minorTickLength = 10.dp.toPx()
-    val textRadius = outerRadius - majorTickLength - 16.dp.toPx()
+    val outerRadius = size.minDimension / 2 - 24.dp.toPx() * scale
+    val majorTickLength = 18.dp.toPx() * scale
+    val minorTickLength = 10.dp.toPx() * scale
+    val textRadius = outerRadius - majorTickLength - 16.dp.toPx() * scale
 
     val majorStep = 50
     val minorStep = 10
@@ -40,7 +41,7 @@ fun DrawScope.drawTickMarks(
             color = if (isMajor) TickMajor else TickMinor,
             start = outerPoint,
             end = innerPoint,
-            strokeWidth = if (isMajor) 2.dp.toPx() else 1.dp.toPx()
+            strokeWidth = if (isMajor) 2.dp.toPx() * scale else 1.dp.toPx() * scale
         )
 
         // 주요 눈금 숫자 (50 단위)
@@ -49,7 +50,7 @@ fun DrawScope.drawTickMarks(
             val text = speed.toString()
             val textStyle = TextStyle(
                 color = TickLight,
-                fontSize = 13.sp,
+                fontSize = 13.sp * scale,
                 fontWeight = FontWeight.Medium
             )
             val textLayoutResult = textMeasurer.measure(text, textStyle)

@@ -28,6 +28,7 @@ class DefaultLocationRepository(context: Context) : LocationRepository {
         .build()
 
     private var lastLocation: Location? = null
+    private val filter = GpsSpeedFilter()
 
     @SuppressLint("MissingPermission")
     override val speedFlow: Flow<SpeedData> = callbackFlow {
@@ -35,7 +36,7 @@ class DefaultLocationRepository(context: Context) : LocationRepository {
             override fun onLocationResult(result: LocationResult) {
                 val location = result.lastLocation ?: return
 
-                val speedMps = if (location.hasSpeed()) {
+                val rawSpeedMps = if (location.hasSpeed()) {
                     location.speed
                 } else {
                     // Fallback: 두 지점간 거리/시간으로 속도 계산
@@ -49,13 +50,12 @@ class DefaultLocationRepository(context: Context) : LocationRepository {
                     }
                 }
 
+                val filteredMps = filter.filter(rawSpeedMps, location) ?: return
                 lastLocation = location
-
-                val speedKmh = speedMps * 3.6f
 
                 trySend(
                     SpeedData(
-                        speedKmh = speedKmh,
+                        speedKmh = filteredMps * 3.6f,
                         accuracyMeters = if (location.hasAccuracy()) location.accuracy else null,
                         isGpsActive = true,
                         timestamp = location.time
@@ -82,5 +82,6 @@ class DefaultLocationRepository(context: Context) : LocationRepository {
     override fun stopTracking() {
         // Flow 수집 취소 시 awaitClose에서 자동 정리
         lastLocation = null
+        filter.reset()
     }
 }

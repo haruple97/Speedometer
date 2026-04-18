@@ -80,7 +80,7 @@ private fun SpeedometerScreenPreview() {
     SpeedometerTheme {
         SpeedometerScreen(
             speedData = SpeedData(
-                speedKmh = 85f,
+                speedKmh = 250f,
                 maxSpeedKmh = 142f,
                 accuracyMeters = 3f,
                 isGpsActive = true,

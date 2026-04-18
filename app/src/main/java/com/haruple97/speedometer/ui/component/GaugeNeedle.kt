@@ -12,20 +12,22 @@ import com.haruple97.speedometer.ui.util.GaugeGeometry
 
 fun DrawScope.drawNeedle(
     currentSpeed: Float,
+    scale: Float = 1f,
     maxSpeed: Float = GaugeGeometry.MAX_SPEED
 ) {
     val center = Offset(size.width / 2, size.height / 2)
-    val needleLength = size.minDimension / 2 - 60.dp.toPx()
-    val needleBaseWidth = 8.dp.toPx()
-    val pivotRadius = 10.dp.toPx()
+    val needleLength = size.minDimension / 2 - 60.dp.toPx() * scale
+    val needleBaseWidth = 8.dp.toPx() * scale
+    val pivotRadius = 10.dp.toPx() * scale
+    val tailOffset = 20.dp.toPx() * scale
 
     val angle = GaugeGeometry.speedToAngle(currentSpeed.coerceIn(0f, maxSpeed))
 
     // 바늘 경로 (위를 향한 삼각형, 0도 = 오른쪽)
     val needlePath = Path().apply {
-        moveTo(center.x + needleLength, center.y)                        // 끝 (뾰족)
-        lineTo(center.x - 20.dp.toPx(), center.y - needleBaseWidth / 2) // 좌상단
-        lineTo(center.x - 20.dp.toPx(), center.y + needleBaseWidth / 2) // 좌하단
+        moveTo(center.x + needleLength, center.y)                    // 끝 (뾰족)
+        lineTo(center.x - tailOffset, center.y - needleBaseWidth / 2) // 좌상단
+        lineTo(center.x - tailOffset, center.y + needleBaseWidth / 2) // 좌하단
         close()
     }
 

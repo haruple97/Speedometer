@@ -19,8 +19,10 @@ import com.haruple97.speedometer.ui.theme.UnitGray
 @Composable
 fun DigitalSpeedDisplay(
     speed: Int,
+    scale: Float = 1f,
     modifier: Modifier = Modifier
 ) {
+    val displayLarge = MaterialTheme.typography.displayLarge
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -28,14 +30,14 @@ fun DigitalSpeedDisplay(
     ) {
         Text(
             text = speed.toString(),
-            style = MaterialTheme.typography.displayLarge,
+            style = displayLarge.copy(fontSize = displayLarge.fontSize * scale),
             color = DigitalWhite
         )
         Text(
             text = "km/h",
             style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.Normal,
-                fontSize = 16.sp
+                fontSize = 16.sp * scale
             ),
             color = UnitGray
         )
