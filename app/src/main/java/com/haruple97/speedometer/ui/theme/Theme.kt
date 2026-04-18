@@ -35,7 +35,6 @@ fun SpeedometerTheme(
 
     MaterialTheme(
         colorScheme = SpeedometerColorScheme,
-        typography = Typography,
         content = content
     )
 }

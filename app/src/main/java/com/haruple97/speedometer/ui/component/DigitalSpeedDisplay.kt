@@ -3,16 +3,14 @@ package com.haruple97.speedometer.ui.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import com.haruple97.speedometer.ui.theme.DashboardBlack
 import com.haruple97.speedometer.ui.theme.DigitalWhite
+import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.SpeedometerTheme
 import com.haruple97.speedometer.ui.theme.UnitGray
 
@@ -22,7 +20,8 @@ fun DigitalSpeedDisplay(
     scale: Float = 1f,
     modifier: Modifier = Modifier
 ) {
-    val displayLarge = MaterialTheme.typography.displayLarge
+    val data1 = SpeedometerTextStyle.Data1Style()
+    val h4 = SpeedometerTextStyle.H4RegularStyle()
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -30,15 +29,12 @@ fun DigitalSpeedDisplay(
     ) {
         Text(
             text = speed.toString(),
-            style = displayLarge.copy(fontSize = displayLarge.fontSize * scale),
+            style = data1.copy(fontSize = data1.fontSize * scale),
             color = DigitalWhite
         )
         Text(
             text = "km/h",
-            style = MaterialTheme.typography.titleMedium.copy(
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp * scale
-            ),
+            style = h4.copy(fontSize = h4.fontSize * scale),
             color = UnitGray
         )
     }

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +19,7 @@ import com.haruple97.speedometer.ui.theme.AccentAmber
 import com.haruple97.speedometer.ui.theme.DashboardBlack
 import com.haruple97.speedometer.ui.theme.GpsActive
 import com.haruple97.speedometer.ui.theme.GpsInactive
+import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.SpeedometerTheme
 import com.haruple97.speedometer.ui.theme.TickLight
 import com.haruple97.speedometer.ui.theme.UnitGray
@@ -41,14 +41,14 @@ fun SpeedInfoPanel(
         // 최고 속도
         Text(
             text = "MAX  ${maxSpeed.toInt()} km/h",
-            style = MaterialTheme.typography.bodySmall,
+            style = SpeedometerTextStyle.CaptionRegularStyle(),
             color = AccentAmber
         )
 
         // GPS 정확도
         Text(
             text = if (gpsAccuracy != null) "±${gpsAccuracy.toInt()}m" else "--",
-            style = MaterialTheme.typography.bodySmall,
+            style = SpeedometerTextStyle.CaptionRegularStyle(),
             color = UnitGray
         )
 
@@ -65,7 +65,7 @@ fun SpeedInfoPanel(
             )
             Text(
                 text = "GPS",
-                style = MaterialTheme.typography.bodySmall,
+                style = SpeedometerTextStyle.CaptionRegularStyle(),
                 color = TickLight
             )
         }

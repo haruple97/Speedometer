@@ -5,16 +5,14 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.haruple97.speedometer.ui.theme.TickLight
 import com.haruple97.speedometer.ui.theme.TickMajor
 import com.haruple97.speedometer.ui.theme.TickMinor
 import com.haruple97.speedometer.ui.util.GaugeGeometry
 
 fun DrawScope.drawTickMarks(
     textMeasurer: TextMeasurer,
+    tickTextStyle: TextStyle,
     scale: Float = 1f,
     maxSpeed: Float = GaugeGeometry.MAX_SPEED
 ) {
@@ -48,12 +46,7 @@ fun DrawScope.drawTickMarks(
         if (isMajor) {
             val textPoint = GaugeGeometry.angleToOffset(angle, center, textRadius)
             val text = speed.toString()
-            val textStyle = TextStyle(
-                color = TickLight,
-                fontSize = 13.sp * scale,
-                fontWeight = FontWeight.Medium
-            )
-            val textLayoutResult = textMeasurer.measure(text, textStyle)
+            val textLayoutResult = textMeasurer.measure(text, tickTextStyle)
             drawText(
                 textLayoutResult = textLayoutResult,
                 topLeft = Offset(

@@ -19,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import com.haruple97.speedometer.ui.theme.DashboardBlack
+import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.SpeedometerTheme
+import com.haruple97.speedometer.ui.theme.TickLight
 
 private val REFERENCE_SIZE = 330.dp
 
@@ -38,6 +40,7 @@ fun SpeedometerGauge(
     )
 
     val textMeasurer = rememberTextMeasurer()
+    val tickBaseStyle = SpeedometerTextStyle.Body2Style().copy(color = TickLight)
 
     BoxWithConstraints(
         modifier = modifier
@@ -50,7 +53,11 @@ fun SpeedometerGauge(
 
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawGaugeArc(currentSpeed = animatedSpeed, scale = scale)
-            drawTickMarks(textMeasurer = textMeasurer, scale = scale)
+            drawTickMarks(
+                textMeasurer = textMeasurer,
+                tickTextStyle = tickBaseStyle.copy(fontSize = tickBaseStyle.fontSize * scale),
+                scale = scale
+            )
             drawNeedle(currentSpeed = animatedSpeed, scale = scale)
         }
 

@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +34,7 @@ import com.haruple97.speedometer.ui.screen.SpeedometerRoute
 import com.haruple97.speedometer.ui.theme.DashboardBlack
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeSafe
+import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.SpeedometerTheme
 import com.haruple97.speedometer.ui.theme.UnitGray
 
@@ -119,13 +119,13 @@ private fun PermissionRequestScreen(
     ) {
         Text(
             text = "Speedometer",
-            style = MaterialTheme.typography.displayMedium,
+            style = SpeedometerTextStyle.Data2Style(),
             color = DigitalWhite
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "GPS 위치 권한이 필요합니다.\n실시간 속도를 측정하기 위해\n위치 접근을 허용해 주세요.",
-            style = MaterialTheme.typography.bodyLarge,
+            style = SpeedometerTextStyle.H4RegularStyle(),
             color = UnitGray,
             textAlign = TextAlign.Center
         )
