@@ -30,7 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.haruple97.speedometer.ui.screen.SpeedometerRoute
+import com.haruple97.speedometer.ui.navigation.SpeedometerAppNavHost
 import com.haruple97.speedometer.ui.theme.DashboardBlack
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeSafe
@@ -90,7 +90,7 @@ private fun LocationPermissionGate(isInPipMode: Boolean) {
     }
 
     if (hasPermission) {
-        SpeedometerRoute(isInPipMode = isInPipMode)
+        SpeedometerAppNavHost(isInPipMode = isInPipMode)
     } else {
         PermissionRequestScreen(
             onRequestPermission = {
