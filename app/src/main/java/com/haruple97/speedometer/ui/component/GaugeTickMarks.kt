@@ -60,8 +60,13 @@ fun DrawScope.drawTickMarks(
     }
 }
 
+// 라벨 5~8개 수준의 일관된 밀도를 유지하도록 maxDisplay 구간별 step 선택.
+// 120~175 구간은 50 이면 너무 드문드문(150→4개), 20 이면 과밀(150→9개)이라 25 로 보정.
 private fun pickTickSteps(maxDisplay: Int): Pair<Int, Int> = when {
-    maxDisplay <= 100 -> 20 to 5
-    maxDisplay <= 200 -> 40 to 10
-    else -> 50 to 10
+    maxDisplay <= 30  -> 5 to 1
+    maxDisplay <= 60  -> 10 to 2
+    maxDisplay <= 120 -> 20 to 5
+    maxDisplay <= 175 -> 25 to 5
+    maxDisplay <= 400 -> 50 to 10
+    else              -> 100 to 20
 }
