@@ -14,6 +14,7 @@ import com.haruple97.speedometer.util.AppScope
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -73,8 +74,9 @@ class AppOpenAdManager(
         if (state.firstInstallMs == 0L) state.firstInstallMs = now
         state.launchCount = state.launchCount + 1
 
-        // MobileAds SDK 초기화 완료 후 첫 프리로드
-        AppScope.scope.launch {
+        // MobileAds SDK 초기화 완료 후 첫 프리로드.
+        // AppOpenAd.load 는 main UI 스레드에서만 호출 가능하므로 Dispatchers.Main 명시.
+        AppScope.scope.launch(Dispatchers.Main) {
             MobileAdsInitializer.initialized.filter { it }.first()
             loadAdIfNeeded()
         }
