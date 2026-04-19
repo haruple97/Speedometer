@@ -3,6 +3,10 @@ package com.haruple97.speedometer.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.ads.nativead.NativeAd
+import com.haruple97.speedometer.data.ads.AdUnitIds
+import com.haruple97.speedometer.data.ads.MobileAdsInitializer
+import com.haruple97.speedometer.data.ads.NativeAdLoader
 import com.haruple97.speedometer.data.database.DatabaseProvider
 import com.haruple97.speedometer.data.trip.SummaryPeriod
 import com.haruple97.speedometer.data.trip.TripAggregate
@@ -13,9 +17,12 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class HistoryViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -45,7 +52,27 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
             initialValue = TripAggregate.EMPTY,
         )
 
+    private val nativeAdLoader = NativeAdLoader(
+        context = application,
+        adUnitId = AdUnitIds.nativeRecordList,
+        count = 5,
+    )
+    val nativeAds: StateFlow<List<NativeAd>> = nativeAdLoader.ads
+
+    init {
+        viewModelScope.launch {
+            // MobileAds SDK 초기화 완료 후에 광고 로드 요청.
+            MobileAdsInitializer.initialized.filter { it }.first()
+            nativeAdLoader.load()
+        }
+    }
+
     fun selectPeriod(period: SummaryPeriod) {
         _selectedPeriod.value = period
+    }
+
+    override fun onCleared() {
+        nativeAdLoader.destroy()
+        super.onCleared()
     }
 }

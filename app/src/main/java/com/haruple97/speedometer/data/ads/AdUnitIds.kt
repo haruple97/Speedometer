@@ -13,6 +13,11 @@ object AdUnitIds {
     val bannerMain: String =
         if (BuildConfig.DEBUG) TEST_BANNER else "ca-app-pub-3898269947993948/2710891025"
 
+    /** 기록 리스트 사이 Native Advanced (record_list). */
+    val nativeRecordList: String =
+        if (BuildConfig.DEBUG) TEST_NATIVE else "ca-app-pub-3898269947993948/5240838136"
+
     // https://developers.google.com/admob/android/test-ads
     private const val TEST_BANNER = "ca-app-pub-3940256099942544/6300978111"
+    private const val TEST_NATIVE = "ca-app-pub-3940256099942544/2247696110"
 }
