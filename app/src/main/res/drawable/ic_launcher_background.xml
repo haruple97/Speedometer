@@ -14,8 +14,8 @@
                 android:centerY="54"
                 android:gradientRadius="76"
                 android:type="radial">
-                <item android:color="#A50021" android:offset="0.0" />
-                <item android:color="#5E000F" android:offset="1.0" />
+                <item android:color="#FF1744" android:offset="0.0" />
+                <item android:color="#C2001A" android:offset="1.0" />
             </gradient>
         </aapt:attr>
     </path>

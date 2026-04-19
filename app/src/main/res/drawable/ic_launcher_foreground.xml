@@ -66,8 +66,8 @@
         android:fillColor="#FAFFFFFF"
         android:pathData="M54,54 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
 
-    <!-- (h) 허브 중심점 — 베이스와 동일한 다크레드 핀 -->
+    <!-- (h) 허브 중심점 — 베이스와 동일한 레이싱 레드 핀 -->
     <path
-        android:fillColor="#A50021"
+        android:fillColor="#FF1744"
         android:pathData="M54,54 m-1.5,0 a1.5,1.5 0 1,0 3,0 a1.5,1.5 0 1,0 -3,0" />
 </vector>
