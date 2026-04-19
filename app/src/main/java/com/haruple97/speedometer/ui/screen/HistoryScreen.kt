@@ -11,15 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -38,7 +32,6 @@ import com.haruple97.speedometer.ui.component.history.SummaryCard
 import com.haruple97.speedometer.ui.component.history.TripListDivider
 import com.haruple97.speedometer.ui.component.history.TripListItem
 import com.haruple97.speedometer.ui.theme.DashboardBlack
-import com.haruple97.speedometer.ui.theme.DashboardDarkGray
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.UnitGray
@@ -47,7 +40,6 @@ import com.haruple97.speedometer.viewmodel.SettingsViewModel
 
 @Composable
 fun HistoryRoute(
-    onNavigateBack: () -> Unit,
     onTripSelected: (Long) -> Unit,
     historyViewModel: HistoryViewModel = viewModel(),
     settingsViewModel: SettingsViewModel = viewModel(),
@@ -63,12 +55,10 @@ fun HistoryRoute(
         summary = summary,
         selectedPeriod = selectedPeriod,
         onPeriodChange = historyViewModel::selectPeriod,
-        onNavigateBack = onNavigateBack,
         onTripSelected = onTripSelected,
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryScreen(
     trips: List<TripEntity>,
@@ -76,31 +66,9 @@ fun HistoryScreen(
     summary: TripAggregate,
     selectedPeriod: SummaryPeriod,
     onPeriodChange: (SummaryPeriod) -> Unit,
-    onNavigateBack: () -> Unit,
     onTripSelected: (Long) -> Unit,
 ) {
-    Scaffold(
-        containerColor = DashboardBlack,
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "기록", color = DigitalWhite) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "뒤로",
-                            tint = DigitalWhite,
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = DashboardDarkGray,
-                    titleContentColor = DigitalWhite,
-                    navigationIconContentColor = DigitalWhite,
-                ),
-            )
-        },
-    ) { innerPadding ->
+    Scaffold(containerColor = DashboardBlack) { innerPadding ->
         if (trips.isEmpty()) {
             HistoryEmptyState(
                 modifier = Modifier

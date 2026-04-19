@@ -4,15 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -21,10 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.haruple97.speedometer.R
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.haruple97.speedometer.data.model.SpeedData
@@ -32,7 +25,6 @@ import com.haruple97.speedometer.data.settings.UserPreferences
 import com.haruple97.speedometer.ui.component.SpeedInfoPanel
 import com.haruple97.speedometer.ui.component.SpeedometerGauge
 import com.haruple97.speedometer.ui.theme.DashboardBlack
-import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.SpeedometerTheme
 import com.haruple97.speedometer.util.VibrationHelper
 import com.haruple97.speedometer.viewmodel.SettingsViewModel
@@ -43,8 +35,6 @@ fun SpeedometerRoute(
     speedViewModel: SpeedViewModel = viewModel(),
     settingsViewModel: SettingsViewModel = viewModel(),
     isInPipMode: Boolean = false,
-    onNavigateToSettings: () -> Unit,
-    onNavigateToHistory: () -> Unit,
 ) {
     val speedData by speedViewModel.speedState.collectAsStateWithLifecycle()
     val preferences by settingsViewModel.preferences.collectAsStateWithLifecycle()
@@ -53,8 +43,6 @@ fun SpeedometerRoute(
         speedData = speedData,
         preferences = preferences,
         isInPipMode = isInPipMode,
-        onNavigateToSettings = onNavigateToSettings,
-        onNavigateToHistory = onNavigateToHistory,
     )
 }
 
@@ -63,8 +51,6 @@ fun SpeedometerScreen(
     speedData: SpeedData,
     preferences: UserPreferences,
     isInPipMode: Boolean = false,
-    onNavigateToSettings: () -> Unit,
-    onNavigateToHistory: () -> Unit,
 ) {
     val context = LocalContext.current
     val vibrationHelper = remember(context) { VibrationHelper(context) }
@@ -93,38 +79,16 @@ fun SpeedometerScreen(
             )
         }
     } else {
-        // 일반 모드: 전체 UI. HUD 모드 활성 시 게이지/인포판만 좌우 반전.
+        // 일반 모드: 상단 아이콘 Row 는 바텀 내비게이션으로 이관되어 제거됨.
+        // HUD 활성 시 게이지/인포판만 좌우 반전.
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(DashboardBlack)
-                .statusBarsPadding()
-                .padding(top = 15.dp),
+                .statusBarsPadding(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                IconButton(onClick = onNavigateToHistory) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_history_chart),
-                        contentDescription = "기록",
-                        tint = DigitalWhite
-                    )
-                }
-                IconButton(onClick = onNavigateToSettings) {
-                    Icon(
-                        imageVector = Icons.Filled.Settings,
-                        contentDescription = "설정",
-                        tint = DigitalWhite
-                    )
-                }
-            }
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -166,8 +130,6 @@ private fun SpeedometerScreenPreview() {
                 timestamp = System.currentTimeMillis()
             ),
             preferences = UserPreferences(),
-            onNavigateToSettings = {},
-            onNavigateToHistory = {},
         )
     }
 }
@@ -189,8 +151,6 @@ private fun SpeedometerScreenHudPreview() {
                 overspeedEnabled = true,
                 overspeedThreshold = 110f,
             ),
-            onNavigateToSettings = {},
-            onNavigateToHistory = {},
         )
     }
 }
@@ -214,8 +174,6 @@ private fun SpeedometerScreenPipPreview() {
             ),
             preferences = UserPreferences(),
             isInPipMode = true,
-            onNavigateToSettings = {},
-            onNavigateToHistory = {},
         )
     }
 }

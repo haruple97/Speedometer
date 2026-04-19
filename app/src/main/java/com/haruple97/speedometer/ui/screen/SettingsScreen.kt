@@ -13,15 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,8 +41,6 @@ import com.haruple97.speedometer.ui.component.settings.SettingSegmentRow
 import com.haruple97.speedometer.ui.component.settings.SettingToggleRow
 import com.haruple97.speedometer.ui.component.settings.SettingValueRow
 import com.haruple97.speedometer.ui.theme.DashboardBlack
-import com.haruple97.speedometer.ui.theme.DashboardDarkGray
-import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.SpeedometerTheme
 import com.haruple97.speedometer.ui.theme.UnitGray
@@ -59,7 +51,6 @@ private const val PLAY_STORE_URL =
 
 @Composable
 fun SettingsRoute(
-    onNavigateBack: () -> Unit,
     viewModel: SettingsViewModel = viewModel(),
 ) {
     val preferences by viewModel.preferences.collectAsStateWithLifecycle()
@@ -67,7 +58,6 @@ fun SettingsRoute(
 
     SettingsScreen(
         preferences = preferences,
-        onNavigateBack = onNavigateBack,
         onKeepScreenOnChange = viewModel::setKeepScreenOn,
         onHudModeChange = viewModel::setHudMode,
         onMaxSpeedChange = viewModel::setMaxSpeed,
@@ -87,11 +77,9 @@ fun SettingsRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     preferences: UserPreferences,
-    onNavigateBack: () -> Unit,
     onKeepScreenOnChange: (Boolean) -> Unit,
     onHudModeChange: (Boolean) -> Unit,
     onMaxSpeedChange: (Float) -> Unit,
@@ -107,28 +95,7 @@ fun SettingsScreen(
     var showThresholdDialog by remember { mutableStateOf(false) }
     var pendingPreset by remember { mutableStateOf<SpeedPreset?>(null) }
 
-    Scaffold(
-        containerColor = DashboardBlack,
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "설정", color = DigitalWhite) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "뒤로",
-                            tint = DigitalWhite,
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = DashboardDarkGray,
-                    titleContentColor = DigitalWhite,
-                    navigationIconContentColor = DigitalWhite,
-                ),
-            )
-        },
-    ) { innerPadding ->
+    Scaffold(containerColor = DashboardBlack) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -275,7 +242,6 @@ private fun SettingsScreenPreview() {
                 speedUnit = SpeedUnit.KMH,
                 distanceUnit = DistanceUnit.KM,
             ),
-            onNavigateBack = {},
             onKeepScreenOnChange = {},
             onHudModeChange = {},
             onMaxSpeedChange = {},
