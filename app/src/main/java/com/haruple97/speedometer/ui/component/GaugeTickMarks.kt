@@ -6,6 +6,7 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.ui.theme.TickMajor
 import com.haruple97.speedometer.ui.theme.TickMinor
 import com.haruple97.speedometer.ui.util.GaugeGeometry
@@ -13,8 +14,9 @@ import com.haruple97.speedometer.ui.util.GaugeGeometry
 fun DrawScope.drawTickMarks(
     textMeasurer: TextMeasurer,
     tickTextStyle: TextStyle,
+    maxSpeed: Float,
+    speedUnit: SpeedUnit,
     scale: Float = 1f,
-    maxSpeed: Float = GaugeGeometry.MAX_SPEED
 ) {
     val center = Offset(size.width / 2, size.height / 2)
     val outerRadius = size.minDimension / 2 - 24.dp.toPx() * scale
@@ -22,19 +24,19 @@ fun DrawScope.drawTickMarks(
     val minorTickLength = 10.dp.toPx() * scale
     val textRadius = outerRadius - majorTickLength - 16.dp.toPx() * scale
 
-    val majorStep = 50
-    val minorStep = 10
+    val maxDisplay = speedUnit.fromKmh(maxSpeed).toInt()
+    val (majorStep, minorStep) = pickTickSteps(maxDisplay)
 
-    var speed = 0
-    while (speed <= maxSpeed.toInt()) {
-        val angle = GaugeGeometry.speedToAngle(speed.toFloat())
-        val isMajor = speed % majorStep == 0
+    var value = 0
+    while (value <= maxDisplay) {
+        val kmh = speedUnit.toKmh(value.toFloat())
+        val angle = GaugeGeometry.speedToAngle(kmh, maxSpeed)
+        val isMajor = value % majorStep == 0
 
         val outerPoint = GaugeGeometry.angleToOffset(angle, center, outerRadius)
         val tickLength = if (isMajor) majorTickLength else minorTickLength
         val innerPoint = GaugeGeometry.angleToOffset(angle, center, outerRadius - tickLength)
 
-        // 눈금선
         drawLine(
             color = if (isMajor) TickMajor else TickMinor,
             start = outerPoint,
@@ -42,11 +44,9 @@ fun DrawScope.drawTickMarks(
             strokeWidth = if (isMajor) 2.dp.toPx() * scale else 1.dp.toPx() * scale
         )
 
-        // 주요 눈금 숫자 (50 단위)
         if (isMajor) {
             val textPoint = GaugeGeometry.angleToOffset(angle, center, textRadius)
-            val text = speed.toString()
-            val textLayoutResult = textMeasurer.measure(text, tickTextStyle)
+            val textLayoutResult = textMeasurer.measure(value.toString(), tickTextStyle)
             drawText(
                 textLayoutResult = textLayoutResult,
                 topLeft = Offset(
@@ -56,6 +56,12 @@ fun DrawScope.drawTickMarks(
             )
         }
 
-        speed += minorStep
+        value += minorStep
     }
+}
+
+private fun pickTickSteps(maxDisplay: Int): Pair<Int, Int> = when {
+    maxDisplay <= 100 -> 20 to 5
+    maxDisplay <= 200 -> 40 to 10
+    else -> 50 to 10
 }

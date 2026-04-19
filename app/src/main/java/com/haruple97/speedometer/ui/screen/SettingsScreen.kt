@@ -138,7 +138,7 @@ fun SettingsScreen(
                 )
                 SettingValueRow(
                     title = "최대 속도",
-                    value = "${preferences.maxSpeed.toInt()} km/h",
+                    value = "${preferences.speedUnit.fromKmh(preferences.maxSpeed).toInt()} ${preferences.speedUnit.label}",
                     onClick = { showMaxSpeedDialog = true },
                 )
             }
@@ -156,7 +156,7 @@ fun SettingsScreen(
                 ) {
                     SettingValueRow(
                         title = "임계값",
-                        value = "${preferences.overspeedThreshold.toInt()} km/h",
+                        value = "${preferences.speedUnit.fromKmh(preferences.overspeedThreshold).toInt()} ${preferences.speedUnit.label}",
                         onClick = { showThresholdDialog = true },
                     )
                 }
@@ -195,10 +195,11 @@ fun SettingsScreen(
 
     if (showMaxSpeedDialog) {
         MaxSpeedDialog(
-            current = preferences.maxSpeed,
+            currentKmh = preferences.maxSpeed,
+            speedUnit = preferences.speedUnit,
             onDismiss = { showMaxSpeedDialog = false },
-            onConfirm = { value ->
-                onMaxSpeedChange(value)
+            onConfirm = { kmh ->
+                onMaxSpeedChange(kmh)
                 showMaxSpeedDialog = false
             },
         )
@@ -206,10 +207,11 @@ fun SettingsScreen(
 
     if (showThresholdDialog) {
         OverspeedThresholdDialog(
-            current = preferences.overspeedThreshold,
+            currentKmh = preferences.overspeedThreshold,
+            speedUnit = preferences.speedUnit,
             onDismiss = { showThresholdDialog = false },
-            onConfirm = { value ->
-                onOverspeedThresholdChange(value)
+            onConfirm = { kmh ->
+                onOverspeedThresholdChange(kmh)
                 showThresholdDialog = false
             },
         )

@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.ui.theme.AccentAmber
 import com.haruple97.speedometer.ui.theme.DashboardBlack
 import com.haruple97.speedometer.ui.theme.GpsActive
@@ -26,10 +27,11 @@ import com.haruple97.speedometer.ui.theme.UnitGray
 
 @Composable
 fun SpeedInfoPanel(
-    maxSpeed: Float,
+    maxSpeedKmh: Float,
     gpsAccuracy: Float?,
     isGpsActive: Boolean,
-    modifier: Modifier = Modifier
+    speedUnit: SpeedUnit = SpeedUnit.KMH,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -40,7 +42,7 @@ fun SpeedInfoPanel(
     ) {
         // 최고 속도
         Text(
-            text = "MAX  ${maxSpeed.toInt()} km/h",
+            text = "MAX  ${speedUnit.fromKmh(maxSpeedKmh).toInt()} ${speedUnit.label}",
             style = SpeedometerTextStyle.CaptionRegularStyle(),
             color = AccentAmber
         )
@@ -77,7 +79,7 @@ fun SpeedInfoPanel(
 private fun SpeedInfoPanelPreview() {
     SpeedometerTheme {
         SpeedInfoPanel(
-            maxSpeed = 142f,
+            maxSpeedKmh = 142f,
             gpsAccuracy = 3f,
             isGpsActive = true,
             modifier = Modifier.background(DashboardBlack)

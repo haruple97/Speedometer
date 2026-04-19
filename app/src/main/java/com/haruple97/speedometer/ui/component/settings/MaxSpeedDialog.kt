@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.ui.theme.DashboardDarkGray
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeSafe
@@ -25,35 +26,47 @@ import com.haruple97.speedometer.ui.theme.UnitGray
 
 @Composable
 fun MaxSpeedDialog(
-    current: Float,
+    currentKmh: Float,
+    speedUnit: SpeedUnit,
     onDismiss: () -> Unit,
     onConfirm: (Float) -> Unit,
 ) {
+    val range = when (speedUnit) {
+        SpeedUnit.KMH -> 100f..400f
+        SpeedUnit.MPH -> 60f..250f
+    }
+    val stepIncrement = 10
     SliderDialog(
         title = "최대 속도",
-        unit = "km/h",
-        valueRange = 100f..400f,
-        steps = ((400 - 100) / 10) - 1,
-        current = current,
+        unit = speedUnit.label,
+        valueRange = range,
+        stepIncrement = stepIncrement,
+        currentDisplay = speedUnit.fromKmh(currentKmh),
         onDismiss = onDismiss,
-        onConfirm = onConfirm,
+        onConfirm = { display -> onConfirm(speedUnit.toKmh(display)) },
     )
 }
 
 @Composable
 fun OverspeedThresholdDialog(
-    current: Float,
+    currentKmh: Float,
+    speedUnit: SpeedUnit,
     onDismiss: () -> Unit,
     onConfirm: (Float) -> Unit,
 ) {
+    val range = when (speedUnit) {
+        SpeedUnit.KMH -> 30f..250f
+        SpeedUnit.MPH -> 20f..160f
+    }
+    val stepIncrement = 5
     SliderDialog(
         title = "과속 경고 임계값",
-        unit = "km/h",
-        valueRange = 30f..250f,
-        steps = ((250 - 30) / 5) - 1,
-        current = current,
+        unit = speedUnit.label,
+        valueRange = range,
+        stepIncrement = stepIncrement,
+        currentDisplay = speedUnit.fromKmh(currentKmh),
         onDismiss = onDismiss,
-        onConfirm = onConfirm,
+        onConfirm = { display -> onConfirm(speedUnit.toKmh(display)) },
     )
 }
 
@@ -62,12 +75,13 @@ private fun SliderDialog(
     title: String,
     unit: String,
     valueRange: ClosedFloatingPointRange<Float>,
-    steps: Int,
-    current: Float,
+    stepIncrement: Int,
+    currentDisplay: Float,
     onDismiss: () -> Unit,
     onConfirm: (Float) -> Unit,
 ) {
-    var draft by remember { mutableFloatStateOf(current.coerceIn(valueRange)) }
+    val steps = ((valueRange.endInclusive - valueRange.start).toInt() / stepIncrement) - 1
+    var draft by remember { mutableFloatStateOf(currentDisplay.coerceIn(valueRange)) }
 
     AlertDialog(
         onDismissRequest = onDismiss,

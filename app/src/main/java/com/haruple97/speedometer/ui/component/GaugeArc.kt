@@ -19,8 +19,8 @@ import com.haruple97.speedometer.ui.util.GaugeGeometry
 
 fun DrawScope.drawGaugeArc(
     currentSpeed: Float,
+    maxSpeed: Float,
     scale: Float = 1f,
-    maxSpeed: Float = GaugeGeometry.MAX_SPEED
 ) {
     val strokeWidth = 12.dp.toPx() * scale
     val padding = strokeWidth / 2 + 24.dp.toPx() * scale
@@ -64,7 +64,6 @@ fun DrawScope.drawGaugeArc(
         }
 
         // 글로우: saveLayer로 합성 alpha 0.3을 한 번만 적용.
-        // 레이어 내부에서는 세그먼트를 불투명으로 그려 stacking 없이 최종 합성 때 균일 alpha 0.3.
         val glowPaint = Paint().apply { alpha = 0.3f }
         drawContext.canvas.saveLayer(Rect(0f, 0f, size.width, size.height), glowPaint)
         for (i in 0 until segments) {
@@ -72,7 +71,6 @@ fun DrawScope.drawGaugeArc(
             val segCenterAngle = segStart + step * 0.5f
             val segSpeed = ((segCenterAngle - GaugeGeometry.START_ANGLE) / GaugeGeometry.SWEEP_ANGLE) * maxSpeed
             val color = gradientColorForSpeed(segSpeed)
-            // 내부는 Butt(위치 고정), 양 끝만 Round(바깥 halo 반원).
             val cap = if (i == 0 || i == segments - 1) StrokeCap.Round else StrokeCap.Butt
 
             drawArc(
@@ -89,14 +87,12 @@ fun DrawScope.drawGaugeArc(
     }
 }
 
-// 속도(0~350)를 앵커 색상 사이에서 선형 보간한 그라데이션 색상.
-// 구간별 매핑(GaugeGeometry.speedToColor)과 달리 경계에서 연속적으로 변한다.
+// 절대 속도(km/h)에 대한 연속 보간 그라데이션. maxSpeed 무관.
 private fun gradientColorForSpeed(speed: Float): Color {
-    val s = speed.coerceIn(0f, GaugeGeometry.MAX_SPEED)
     return when {
-        s <= 120f -> lerp(GaugeSafe, GaugeCaution, s / 120f)
-        s <= 200f -> lerp(GaugeCaution, GaugeDanger, (s - 120f) / 80f)
-        s <= 280f -> lerp(GaugeDanger, GaugeCritical, (s - 200f) / 80f)
+        speed <= 120f -> lerp(GaugeSafe, GaugeCaution, (speed / 120f).coerceIn(0f, 1f))
+        speed <= 200f -> lerp(GaugeCaution, GaugeDanger, ((speed - 120f) / 80f).coerceIn(0f, 1f))
+        speed <= 280f -> lerp(GaugeDanger, GaugeCritical, ((speed - 200f) / 80f).coerceIn(0f, 1f))
         else -> GaugeCritical
     }
 }
