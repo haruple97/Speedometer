@@ -1,12 +1,17 @@
 package com.haruple97.speedometer.ui.navigation
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -49,17 +54,17 @@ fun SpeedometerAppNavHost(isInPipMode: Boolean) {
             startDestination = Screen.Speedometer.route,
             modifier = Modifier.padding(innerPadding),
         ) {
-            composable(Screen.Speedometer.route) {
+            tabComposable(Screen.Speedometer.route) {
                 SpeedometerRoute(isInPipMode = false)
             }
-            composable(Screen.History.route) {
+            tabComposable(Screen.History.route) {
                 HistoryRoute(
                     onTripSelected = { tripId ->
                         navController.navigate(Screen.TripDetail.createRoute(tripId))
                     },
                 )
             }
-            composable(Screen.Settings.route) {
+            tabComposable(Screen.Settings.route) {
                 SettingsRoute()
             }
             composable(
@@ -93,4 +98,22 @@ private fun androidx.navigation.NavController.navigateToTab(tab: BottomTab) {
         launchSingleTop = true
         restoreState = true
     }
+}
+
+/**
+ * 탭 destination 전용 composable — 탭 간 왕복 시 스냅 전환(모든 enter/exit None).
+ * TripDetail 같은 드릴다운 destination 은 기본 composable 을 그대로 써서 fade 전환 유지.
+ */
+private fun NavGraphBuilder.tabComposable(
+    route: String,
+    content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
+) {
+    composable(
+        route = route,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None },
+        popExitTransition = { ExitTransition.None },
+        content = content,
+    )
 }

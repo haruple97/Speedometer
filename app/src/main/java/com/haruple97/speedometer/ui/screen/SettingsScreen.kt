@@ -8,8 +8,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -95,7 +97,10 @@ fun SettingsScreen(
     var showThresholdDialog by remember { mutableStateOf(false) }
     var pendingPreset by remember { mutableStateOf<SpeedPreset?>(null) }
 
-    Scaffold(containerColor = DashboardBlack) { innerPadding ->
+    Scaffold(
+        containerColor = DashboardBlack,
+        contentWindowInsets = WindowInsets.statusBars,
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
