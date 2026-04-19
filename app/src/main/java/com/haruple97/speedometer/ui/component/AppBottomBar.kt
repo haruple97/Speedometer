@@ -1,7 +1,10 @@
 package com.haruple97.speedometer.ui.component
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -40,11 +43,19 @@ fun AppBottomBar(
     val selectedTab = BottomTab.fromRoute(currentRoute)
     val haptic = LocalHapticFeedback.current
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+            // 혹시 남는 공간도 바 톤으로 이어지게 해 "검정 띠" 오인 방지
+            .background(DashboardDarkGray)
+            // 시스템 nav bar 인셋은 Column 레벨에서 1회만 적용
+            .navigationBarsPadding(),
+    ) {
         HorizontalDivider(thickness = 1.dp, color = GaugeTrack)
         NavigationBar(
             containerColor = DashboardDarkGray,
             tonalElevation = 0.dp,
+            // Column 이 이미 인셋을 처리하므로 NavigationBar 자체의 자동 인셋은 비활성
+            windowInsets = WindowInsets(0, 0, 0, 0),
         ) {
             BottomTab.entries.forEach { tab ->
                 val isSelected = tab == selectedTab
