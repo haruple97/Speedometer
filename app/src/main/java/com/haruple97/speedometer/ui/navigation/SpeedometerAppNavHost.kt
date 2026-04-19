@@ -1,6 +1,5 @@
 package com.haruple97.speedometer.ui.navigation
 
-import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.WindowInsets
@@ -9,9 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -49,22 +46,27 @@ fun SpeedometerAppNavHost(isInPipMode: Boolean) {
             )
         },
     ) { innerPadding ->
+        // 모든 destination(탭·TripDetail 포함) 스냅 전환.
         NavHost(
             navController = navController,
             startDestination = Screen.Speedometer.route,
             modifier = Modifier.padding(innerPadding),
+            enterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None },
+            popEnterTransition = { EnterTransition.None },
+            popExitTransition = { ExitTransition.None },
         ) {
-            tabComposable(Screen.Speedometer.route) {
+            composable(Screen.Speedometer.route) {
                 SpeedometerRoute(isInPipMode = false)
             }
-            tabComposable(Screen.History.route) {
+            composable(Screen.History.route) {
                 HistoryRoute(
                     onTripSelected = { tripId ->
                         navController.navigate(Screen.TripDetail.createRoute(tripId))
                     },
                 )
             }
-            tabComposable(Screen.Settings.route) {
+            composable(Screen.Settings.route) {
                 SettingsRoute()
             }
             composable(
@@ -98,22 +100,4 @@ private fun androidx.navigation.NavController.navigateToTab(tab: BottomTab) {
         launchSingleTop = true
         restoreState = true
     }
-}
-
-/**
- * 탭 destination 전용 composable — 탭 간 왕복 시 스냅 전환(모든 enter/exit None).
- * TripDetail 같은 드릴다운 destination 은 기본 composable 을 그대로 써서 fade 전환 유지.
- */
-private fun NavGraphBuilder.tabComposable(
-    route: String,
-    content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
-) {
-    composable(
-        route = route,
-        enterTransition = { EnterTransition.None },
-        exitTransition = { ExitTransition.None },
-        popEnterTransition = { EnterTransition.None },
-        popExitTransition = { ExitTransition.None },
-        content = content,
-    )
 }
