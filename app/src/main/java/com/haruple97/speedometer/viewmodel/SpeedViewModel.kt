@@ -3,9 +3,11 @@ package com.haruple97.speedometer.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.haruple97.speedometer.data.database.DatabaseProvider
 import com.haruple97.speedometer.data.location.DefaultLocationRepository
 import com.haruple97.speedometer.data.location.LocationRepository
 import com.haruple97.speedometer.data.model.SpeedData
+import com.haruple97.speedometer.data.trip.TripRecorder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,6 +17,10 @@ import kotlinx.coroutines.launch
 class SpeedViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: LocationRepository = DefaultLocationRepository(application)
+    private val tripRecorder = TripRecorder(
+        dao = DatabaseProvider.get(application).tripDao(),
+        scope = viewModelScope,
+    )
 
     private val _speedState = MutableStateFlow(SpeedData())
     val speedState: StateFlow<SpeedData> = _speedState.asStateFlow()
@@ -26,12 +32,14 @@ class SpeedViewModel(application: Application) : AndroidViewModel(application) {
                 .collect { newData ->
                     val maxSpeed = maxOf(_speedState.value.maxSpeedKmh, newData.speedKmh)
                     _speedState.value = newData.copy(maxSpeedKmh = maxSpeed)
+                    tripRecorder.onSample(newData)
                 }
         }
     }
 
     override fun onCleared() {
         super.onCleared()
+        tripRecorder.finalizeIfRunning()
         repository.stopTracking()
     }
 }

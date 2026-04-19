@@ -36,15 +36,16 @@ class DefaultLocationRepository(context: Context) : LocationRepository {
             override fun onLocationResult(result: LocationResult) {
                 val location = result.lastLocation ?: return
 
+                val prev = lastLocation
+                val deltaDistance = if (prev != null) prev.distanceTo(location) else 0f
+
                 val rawSpeedMps = if (location.hasSpeed()) {
                     location.speed
                 } else {
                     // Fallback: 두 지점간 거리/시간으로 속도 계산
-                    val prev = lastLocation
                     if (prev != null) {
-                        val distance = prev.distanceTo(location)
                         val timeDiff = (location.time - prev.time) / 1000f
-                        if (timeDiff > 0) distance / timeDiff else 0f
+                        if (timeDiff > 0) deltaDistance / timeDiff else 0f
                     } else {
                         0f
                     }
@@ -58,7 +59,8 @@ class DefaultLocationRepository(context: Context) : LocationRepository {
                         speedKmh = filteredMps * 3.6f,
                         accuracyMeters = if (location.hasAccuracy()) location.accuracy else null,
                         isGpsActive = true,
-                        timestamp = location.time
+                        timestamp = location.time,
+                        deltaDistanceMeters = deltaDistance,
                     )
                 )
             }

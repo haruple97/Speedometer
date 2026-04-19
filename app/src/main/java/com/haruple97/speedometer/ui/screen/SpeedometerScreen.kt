@@ -21,8 +21,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.haruple97.speedometer.data.model.SpeedData
@@ -42,6 +44,7 @@ fun SpeedometerRoute(
     settingsViewModel: SettingsViewModel = viewModel(),
     isInPipMode: Boolean = false,
     onNavigateToSettings: () -> Unit,
+    onNavigateToHistory: () -> Unit,
 ) {
     val speedData by speedViewModel.speedState.collectAsStateWithLifecycle()
     val preferences by settingsViewModel.preferences.collectAsStateWithLifecycle()
@@ -51,6 +54,7 @@ fun SpeedometerRoute(
         preferences = preferences,
         isInPipMode = isInPipMode,
         onNavigateToSettings = onNavigateToSettings,
+        onNavigateToHistory = onNavigateToHistory,
     )
 }
 
@@ -60,6 +64,7 @@ fun SpeedometerScreen(
     preferences: UserPreferences,
     isInPipMode: Boolean = false,
     onNavigateToSettings: () -> Unit,
+    onNavigateToHistory: () -> Unit,
 ) {
     val context = LocalContext.current
     val vibrationHelper = remember(context) { VibrationHelper(context) }
@@ -101,9 +106,16 @@ fun SpeedometerScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(end = 12.dp),
-                horizontalArrangement = Arrangement.End
+                    .padding(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                IconButton(onClick = onNavigateToHistory) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_history_chart),
+                        contentDescription = "기록",
+                        tint = DigitalWhite
+                    )
+                }
                 IconButton(onClick = onNavigateToSettings) {
                     Icon(
                         imageVector = Icons.Filled.Settings,
@@ -154,7 +166,8 @@ private fun SpeedometerScreenPreview() {
                 timestamp = System.currentTimeMillis()
             ),
             preferences = UserPreferences(),
-            onNavigateToSettings = {}
+            onNavigateToSettings = {},
+            onNavigateToHistory = {},
         )
     }
 }
@@ -176,7 +189,8 @@ private fun SpeedometerScreenHudPreview() {
                 overspeedEnabled = true,
                 overspeedThreshold = 110f,
             ),
-            onNavigateToSettings = {}
+            onNavigateToSettings = {},
+            onNavigateToHistory = {},
         )
     }
 }
@@ -200,7 +214,8 @@ private fun SpeedometerScreenPipPreview() {
             ),
             preferences = UserPreferences(),
             isInPipMode = true,
-            onNavigateToSettings = {}
+            onNavigateToSettings = {},
+            onNavigateToHistory = {},
         )
     }
 }
