@@ -17,6 +17,7 @@ class SettingsRepository(private val context: Context) {
                 overspeedThreshold = prefs[SettingsKeys.OVERSPEED_THRESHOLD] ?: 110f,
                 speedUnit = SpeedUnit.fromStorage(prefs[SettingsKeys.SPEED_UNIT]),
                 distanceUnit = DistanceUnit.fromStorage(prefs[SettingsKeys.DISTANCE_UNIT]),
+                autoRecordingEnabled = prefs[SettingsKeys.AUTO_RECORDING_ENABLED] ?: true,
             )
         }
 
@@ -46,6 +47,10 @@ class SettingsRepository(private val context: Context) {
 
     suspend fun setDistanceUnit(unit: DistanceUnit) {
         context.settingsDataStore.edit { it[SettingsKeys.DISTANCE_UNIT] = unit.storageKey }
+    }
+
+    suspend fun setAutoRecordingEnabled(value: Boolean) {
+        context.settingsDataStore.edit { it[SettingsKeys.AUTO_RECORDING_ENABLED] = value }
     }
 
     // 프리셋의 5개 필드를 한 번의 edit으로 원자적 적용. 단위(km/mi)는 유지.

@@ -63,6 +63,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         observeKeepScreenOn()
+        observeAutoRecording()
         observeTripRecording()
         recoverDanglingTrips()
         setContent {
@@ -78,6 +79,19 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 repo.speedFlow.collect { recorder.onSample(it) }
+            }
+        }
+    }
+
+    private fun observeAutoRecording() {
+        val settingsRepo = SettingsRepository(applicationContext)
+        val recorder = TripRecorderProvider.get(applicationContext)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                settingsRepo.preferencesFlow
+                    .map { it.autoRecordingEnabled }
+                    .distinctUntilChanged()
+                    .collect { recorder.setAutoRecordingEnabled(it) }
             }
         }
     }

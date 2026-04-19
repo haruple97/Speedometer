@@ -42,4 +42,5 @@ data class UserPreferences(
     val overspeedThreshold: Float = 110f,
     val speedUnit: SpeedUnit = SpeedUnit.KMH,
     val distanceUnit: DistanceUnit = DistanceUnit.KM,
+    val autoRecordingEnabled: Boolean = true,
 )

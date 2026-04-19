@@ -12,4 +12,5 @@ object SettingsKeys {
     val OVERSPEED_THRESHOLD = floatPreferencesKey("overspeed_threshold")
     val SPEED_UNIT = stringPreferencesKey("speed_unit")
     val DISTANCE_UNIT = stringPreferencesKey("distance_unit")
+    val AUTO_RECORDING_ENABLED = booleanPreferencesKey("auto_recording_enabled")
 }

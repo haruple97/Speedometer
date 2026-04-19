@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.haruple97.speedometer.data.settings.DistanceUnit
@@ -48,7 +49,9 @@ import com.haruple97.speedometer.ui.component.settings.SettingValueRow
 import com.haruple97.speedometer.ui.theme.DashboardBlack
 import com.haruple97.speedometer.ui.theme.DashboardDarkGray
 import com.haruple97.speedometer.ui.theme.DigitalWhite
+import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.SpeedometerTheme
+import com.haruple97.speedometer.ui.theme.UnitGray
 import com.haruple97.speedometer.viewmodel.SettingsViewModel
 
 private const val PLAY_STORE_URL =
@@ -73,6 +76,7 @@ fun SettingsRoute(
         onSpeedUnitChange = viewModel::setSpeedUnit,
         onDistanceUnitChange = viewModel::setDistanceUnit,
         onApplyPreset = viewModel::applyPreset,
+        onAutoRecordingEnabledChange = viewModel::setAutoRecordingEnabled,
         onShareApp = {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
@@ -96,6 +100,7 @@ fun SettingsScreen(
     onSpeedUnitChange: (SpeedUnit) -> Unit,
     onDistanceUnitChange: (DistanceUnit) -> Unit,
     onApplyPreset: (SpeedPreset) -> Unit,
+    onAutoRecordingEnabledChange: (Boolean) -> Unit,
     onShareApp: () -> Unit,
 ) {
     var showMaxSpeedDialog by remember { mutableStateOf(false) }
@@ -152,6 +157,20 @@ fun SettingsScreen(
                     title = "최대 속도",
                     value = "${preferences.speedUnit.fromKmh(preferences.maxSpeed).toInt()} ${preferences.speedUnit.label}",
                     onClick = { showMaxSpeedDialog = true },
+                )
+            }
+
+            SettingSection(title = "기록") {
+                SettingToggleRow(
+                    title = "주행 자동 기록",
+                    checked = preferences.autoRecordingEnabled,
+                    onCheckedChange = onAutoRecordingEnabledChange,
+                )
+                Text(
+                    text = "꺼짐 시 이후 주행은 기록 화면에 저장되지 않습니다.",
+                    style = SpeedometerTextStyle.CaptionRegularStyle(),
+                    color = UnitGray,
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
                 )
             }
 
@@ -265,6 +284,7 @@ private fun SettingsScreenPreview() {
             onSpeedUnitChange = {},
             onDistanceUnitChange = {},
             onApplyPreset = {},
+            onAutoRecordingEnabledChange = {},
             onShareApp = {},
         )
     }

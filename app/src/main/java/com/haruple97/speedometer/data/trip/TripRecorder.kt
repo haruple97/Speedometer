@@ -60,11 +60,42 @@ class TripRecorder(
     private var state: State = State.Idle
     private val mutex = Mutex()
 
+    @Volatile
+    private var autoRecordingEnabled: Boolean = true
+
     fun onSample(sample: SpeedData) {
         // timestamp == 0 인 초기 기본 SpeedData 는 무시
         if (sample.timestamp == 0L) return
+        // 빠른 경로: 플래그 OFF 이면 코루틴/락 비용 없이 즉시 리턴
+        if (!autoRecordingEnabled) return
         scope.launch {
-            mutex.withLock { advance(sample) }
+            mutex.withLock {
+                if (!autoRecordingEnabled) return@withLock
+                advance(sample)
+            }
+        }
+    }
+
+    /**
+     * 자동 기록 토글. OFF 로 전환 시 진행 중 트립(Running/Stopping)을 그 시점까지
+     * 마무리해 저장하고 Idle 로 돌린다. ON 은 플래그만 갱신하고 다음 샘플부터 자연 진입.
+     */
+    fun setAutoRecordingEnabled(enabled: Boolean) {
+        scope.launch {
+            mutex.withLock {
+                if (autoRecordingEnabled == enabled) return@withLock
+                autoRecordingEnabled = enabled
+                if (!enabled) {
+                    val s = state
+                    val running = when (s) {
+                        is State.Running -> s
+                        is State.Stopping -> s.running
+                        else -> null
+                    } ?: return@withLock
+                    closeTrip(running, running.lastSampleMs)
+                    state = State.Idle
+                }
+            }
         }
     }
 

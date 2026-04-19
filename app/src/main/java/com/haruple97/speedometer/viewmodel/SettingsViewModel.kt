@@ -55,4 +55,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun applyPreset(preset: SpeedPreset) = viewModelScope.launch {
         repository.applyPreset(preset)
     }
+
+    fun setAutoRecordingEnabled(value: Boolean) = viewModelScope.launch {
+        repository.setAutoRecordingEnabled(value)
+    }
 }
