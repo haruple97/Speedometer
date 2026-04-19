@@ -17,7 +17,12 @@ object AdUnitIds {
     val nativeRecordList: String =
         if (BuildConfig.DEBUG) TEST_NATIVE else "ca-app-pub-3898269947993948/5240838136"
 
+    /** 앱 warm resume 시 전체화면 App Open (app_opening). */
+    val appOpen: String =
+        if (BuildConfig.DEBUG) TEST_APP_OPEN else "ca-app-pub-3898269947993948/7720721302"
+
     // https://developers.google.com/admob/android/test-ads
     private const val TEST_BANNER = "ca-app-pub-3940256099942544/6300978111"
     private const val TEST_NATIVE = "ca-app-pub-3940256099942544/2247696110"
+    private const val TEST_APP_OPEN = "ca-app-pub-3940256099942544/9257395921"
 }

@@ -58,6 +58,9 @@ class TripRecorder(
     }
 
     private var state: State = State.Idle
+
+    /** 트립이 진행 중(Running 또는 Stopping 상태)인지 여부. 광고 가드 등에서 사용. */
+    fun isActive(): Boolean = state is State.Running || state is State.Stopping
     private val mutex = Mutex()
 
     @Volatile

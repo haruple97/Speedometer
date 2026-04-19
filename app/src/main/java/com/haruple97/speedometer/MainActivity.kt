@@ -144,23 +144,38 @@ class MainActivity : ComponentActivity() {
         enterPictureInPictureMode(pipParams)
     }
 
+    private fun appOpenAdManager() =
+        (application as SpeedometerApplication).appOpenAdManager
+
     override fun onPictureInPictureModeChanged(
         isInPictureInPictureMode: Boolean,
         newConfig: Configuration
     ) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        val wasInPip = isInPipMode.value
         isInPipMode.value = isInPictureInPictureMode
+        // PiP 종료 직후 복귀 세션은 App Open 광고 보호.
+        if (wasInPip && !isInPictureInPictureMode) {
+            appOpenAdManager().markJustReturnedFromPip()
+        }
     }
 }
 
 @Composable
 private fun LocationPermissionGate(isInPipMode: Boolean) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     var hasPermission by remember { mutableStateOf(false) }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
-        hasPermission = permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true
+        val granted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true
+        // 첫 권한 허용 직후 warm resume 시 App Open 광고 보호.
+        if (granted && !hasPermission) {
+            (context.applicationContext as SpeedometerApplication)
+                .appOpenAdManager.markPermissionJustGranted()
+        }
+        hasPermission = granted
     }
 
     LaunchedEffect(Unit) {
