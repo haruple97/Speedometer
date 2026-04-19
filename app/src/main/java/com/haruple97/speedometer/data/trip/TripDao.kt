@@ -29,4 +29,10 @@ interface TripDao {
 
     @Query("DELETE FROM trips WHERE id = :id")
     suspend fun deleteTrip(id: Long)
+
+    @Query("SELECT * FROM trips WHERE endedAt = 0")
+    suspend fun findDanglingTrips(): List<TripEntity>
+
+    @Query("SELECT MAX(timestampMs) FROM trip_samples WHERE tripId = :tripId")
+    suspend fun lastSampleTimestamp(tripId: Long): Long?
 }

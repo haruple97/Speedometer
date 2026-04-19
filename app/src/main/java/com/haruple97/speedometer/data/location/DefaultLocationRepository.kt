@@ -11,11 +11,17 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.haruple97.speedometer.data.model.SpeedData
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.shareIn
 
-class DefaultLocationRepository(context: Context) : LocationRepository {
+class DefaultLocationRepository(
+    context: Context,
+    scope: CoroutineScope,
+) : LocationRepository {
 
     private val fusedClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(context)
@@ -31,7 +37,7 @@ class DefaultLocationRepository(context: Context) : LocationRepository {
     private val filter = GpsSpeedFilter()
 
     @SuppressLint("MissingPermission")
-    override val speedFlow: Flow<SpeedData> = callbackFlow {
+    private val rawSpeedFlow: Flow<SpeedData> = callbackFlow {
         val callback = object : LocationCallback() {
             override fun onLocationResult(result: LocationResult) {
                 val location = result.lastLocation ?: return
@@ -76,6 +82,12 @@ class DefaultLocationRepository(context: Context) : LocationRepository {
             fusedClient.removeLocationUpdates(callback)
         }
     }
+
+    override val speedFlow: Flow<SpeedData> = rawSpeedFlow.shareIn(
+        scope = scope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        replay = 1,
+    )
 
     override fun startTracking() {
         // Flow 수집 시 자동으로 시작됨 (callbackFlow)

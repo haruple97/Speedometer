@@ -14,7 +14,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.haruple97.speedometer.data.database.DatabaseProvider
+import com.haruple97.speedometer.data.location.LocationRepositoryProvider
 import com.haruple97.speedometer.data.settings.SettingsRepository
+import com.haruple97.speedometer.data.trip.TripRecorderProvider
+import com.haruple97.speedometer.data.trip.TripRecoveryService
+import com.haruple97.speedometer.util.AppScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -58,10 +63,37 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         observeKeepScreenOn()
+        observeTripRecording()
+        recoverDanglingTrips()
         setContent {
             SpeedometerTheme {
                 LocationPermissionGate(isInPipMode = isInPipMode.value)
             }
+        }
+    }
+
+    private fun observeTripRecording() {
+        val repo = LocationRepositoryProvider.get(applicationContext)
+        val recorder = TripRecorderProvider.get(applicationContext)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                repo.speedFlow.collect { recorder.onSample(it) }
+            }
+        }
+    }
+
+    private fun recoverDanglingTrips() {
+        val dao = DatabaseProvider.get(applicationContext).tripDao()
+        AppScope.scope.launch {
+            TripRecoveryService(dao).recoverDanglingTrips()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isFinishing) {
+            // finalize 는 AppScope 에서 돌기 때문에 Activity 파괴 후에도 Room write 완료 가능
+            TripRecorderProvider.get(applicationContext).finalizeIfRunning()
         }
     }
 
