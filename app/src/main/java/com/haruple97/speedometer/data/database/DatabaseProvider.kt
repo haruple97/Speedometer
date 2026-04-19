@@ -13,6 +13,9 @@ object DatabaseProvider {
                 context.applicationContext,
                 SpeedometerDatabase::class.java,
                 "speedometer.db",
-            ).build().also { instance = it }
+            )
+                .addMigrations(MIGRATION_1_2)
+                .build()
+                .also { instance = it }
         }
 }

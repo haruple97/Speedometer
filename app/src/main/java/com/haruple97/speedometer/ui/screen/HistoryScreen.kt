@@ -31,7 +31,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.UserPreferences
+import com.haruple97.speedometer.data.trip.SummaryPeriod
+import com.haruple97.speedometer.data.trip.TripAggregate
 import com.haruple97.speedometer.data.trip.TripEntity
+import com.haruple97.speedometer.ui.component.history.SummaryCard
 import com.haruple97.speedometer.ui.component.history.TripListDivider
 import com.haruple97.speedometer.ui.component.history.TripListItem
 import com.haruple97.speedometer.ui.theme.DashboardBlack
@@ -51,10 +54,15 @@ fun HistoryRoute(
 ) {
     val trips by historyViewModel.trips.collectAsStateWithLifecycle()
     val preferences by settingsViewModel.preferences.collectAsStateWithLifecycle()
+    val summary by historyViewModel.summary.collectAsStateWithLifecycle()
+    val selectedPeriod by historyViewModel.selectedPeriod.collectAsStateWithLifecycle()
 
     HistoryScreen(
         trips = trips,
         preferences = preferences,
+        summary = summary,
+        selectedPeriod = selectedPeriod,
+        onPeriodChange = historyViewModel::selectPeriod,
         onNavigateBack = onNavigateBack,
         onTripSelected = onTripSelected,
     )
@@ -65,6 +73,9 @@ fun HistoryRoute(
 fun HistoryScreen(
     trips: List<TripEntity>,
     preferences: UserPreferences,
+    summary: TripAggregate,
+    selectedPeriod: SummaryPeriod,
+    onPeriodChange: (SummaryPeriod) -> Unit,
     onNavigateBack: () -> Unit,
     onTripSelected: (Long) -> Unit,
 ) {
@@ -105,6 +116,16 @@ fun HistoryScreen(
                     .background(DashboardBlack)
                     .padding(innerPadding),
             ) {
+                item(key = "summary") {
+                    SummaryCard(
+                        summary = summary,
+                        period = selectedPeriod,
+                        onPeriodChange = onPeriodChange,
+                        speedUnit = preferences.speedUnit,
+                        distanceUnit = preferences.distanceUnit,
+                    )
+                    TripListDivider()
+                }
                 items(items = trips, key = { it.id }) { trip ->
                     TripListItem(
                         trip = trip,

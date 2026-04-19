@@ -22,4 +22,6 @@ data class TripSampleEntity(
     val tripId: Long,
     val timestampMs: Long,
     val speedKmh: Float,
+    /** 수집 시점 기준, 트립의 과속 임계값(스냅샷)을 초과했는지 여부. */
+    val isOverspeed: Boolean = false,
 )

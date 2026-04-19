@@ -8,7 +8,7 @@ import com.haruple97.speedometer.data.trip.TripSampleEntity
 
 @Database(
     entities = [TripEntity::class, TripSampleEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 abstract class SpeedometerDatabase : RoomDatabase() {

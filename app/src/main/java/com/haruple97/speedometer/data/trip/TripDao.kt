@@ -35,4 +35,15 @@ interface TripDao {
 
     @Query("SELECT MAX(timestampMs) FROM trip_samples WHERE tripId = :tripId")
     suspend fun lastSampleTimestamp(tripId: Long): Long?
+
+    @Query(
+        """SELECT
+            COALESCE(SUM(distanceMeters), 0) AS totalDistanceMeters,
+            COALESCE(SUM(endedAt - startedAt), 0) AS totalDurationMs,
+            COALESCE(MAX(maxSpeedKmh), 0) AS maxSpeedKmh,
+            COUNT(*) AS tripCount
+        FROM trips
+        WHERE startedAt >= :fromMs AND endedAt > 0"""
+    )
+    suspend fun aggregate(fromMs: Long): TripAggregate
 }

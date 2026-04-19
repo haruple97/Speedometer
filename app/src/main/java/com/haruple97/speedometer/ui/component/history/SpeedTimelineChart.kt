@@ -2,7 +2,6 @@ package com.haruple97.speedometer.ui.component.history
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
@@ -10,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -81,6 +82,18 @@ fun SpeedTimelineChart(
         fun xFor(ts: Long): Float = plotLeft + plotW * ((ts - startMs).toFloat() / durationMs)
         fun yFor(kmh: Float): Float = plotBottom - plotH * (kmh / yMaxKmh).coerceIn(0f, 1f)
 
+        // 과속 구간 음영 band — threshold 위 영역. 선/그리드 보다 먼저 그려 뒤에 깔리게.
+        if (overspeedThresholdKmh != null && overspeedThresholdKmh < yMaxKmh) {
+            val bandTop = yFor(yMaxKmh)
+            val bandBottom = yFor(overspeedThresholdKmh)
+            drawRect(
+                color = NeedleRed,
+                topLeft = Offset(plotLeft, bandTop),
+                size = Size(plotRight - plotLeft, bandBottom - bandTop),
+                alpha = 0.15f,
+            )
+        }
+
         // 수평 그리드 + Y축 라벨
         val gridLines = 4
         for (i in 0..gridLines) {
@@ -131,6 +144,23 @@ fun SpeedTimelineChart(
             )
         }
 
+        // 과속 상승 에지 마커 — 트립 저장 시점의 isOverspeed 스냅샷 기반
+        if (overspeedThresholdKmh != null) {
+            val triangleSize = 6.dp.toPx()
+            for (i in 1 until samples.size) {
+                val prev = samples[i - 1]
+                val cur = samples[i]
+                if (!prev.isOverspeed && cur.isOverspeed) {
+                    val cx = xFor(cur.timestampMs)
+                    val cy = yFor(cur.speedKmh) - 10.dp.toPx()
+                    drawWarningTriangle(
+                        center = Offset(cx, cy),
+                        size = triangleSize,
+                    )
+                }
+            }
+        }
+
         // 최고 속도 포인트
         val maxSample = samples.maxByOrNull { it.speedKmh } ?: samples.first()
         val maxX = xFor(maxSample.timestampMs)
@@ -167,4 +197,14 @@ private fun DrawScope.drawLabel(
         textLayoutResult = layout,
         topLeft = Offset(x, y),
     )
+}
+
+private fun DrawScope.drawWarningTriangle(center: Offset, size: Float) {
+    val path = Path().apply {
+        moveTo(center.x, center.y - size)             // 꼭대기
+        lineTo(center.x - size, center.y + size)      // 좌하단
+        lineTo(center.x + size, center.y + size)      // 우하단
+        close()
+    }
+    drawPath(path = path, color = NeedleRed)
 }

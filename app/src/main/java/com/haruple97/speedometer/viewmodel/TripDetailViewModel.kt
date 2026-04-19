@@ -31,4 +31,11 @@ class TripDetailViewModel(application: Application) : AndroidViewModel(applicati
             _state.value = TripDetailUiState(trip = trip, samples = samples, isLoading = false)
         }
     }
+
+    fun delete(tripId: Long, onDeleted: () -> Unit) {
+        viewModelScope.launch {
+            dao.deleteTrip(tripId)
+            onDeleted()
+        }
+    }
 }
