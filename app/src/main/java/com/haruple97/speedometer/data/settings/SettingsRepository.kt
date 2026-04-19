@@ -47,4 +47,15 @@ class SettingsRepository(private val context: Context) {
     suspend fun setDistanceUnit(unit: DistanceUnit) {
         context.settingsDataStore.edit { it[SettingsKeys.DISTANCE_UNIT] = unit.storageKey }
     }
+
+    // 프리셋의 5개 필드를 한 번의 edit으로 원자적 적용. 단위(km/mi)는 유지.
+    suspend fun applyPreset(preset: SpeedPreset) {
+        context.settingsDataStore.edit {
+            it[SettingsKeys.MAX_SPEED] = preset.maxSpeedKmh
+            it[SettingsKeys.OVERSPEED_ENABLED] = preset.overspeedEnabled
+            it[SettingsKeys.OVERSPEED_THRESHOLD] = preset.overspeedThresholdKmh
+            it[SettingsKeys.HUD_MODE] = preset.hudMode
+            it[SettingsKeys.KEEP_SCREEN_ON] = preset.keepScreenOn
+        }
+    }
 }

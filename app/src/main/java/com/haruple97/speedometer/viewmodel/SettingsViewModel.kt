@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.haruple97.speedometer.data.settings.DistanceUnit
 import com.haruple97.speedometer.data.settings.SettingsRepository
+import com.haruple97.speedometer.data.settings.SpeedPreset
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.settings.UserPreferences
 import kotlinx.coroutines.flow.SharingStarted
@@ -49,5 +50,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun setDistanceUnit(unit: DistanceUnit) = viewModelScope.launch {
         repository.setDistanceUnit(unit)
+    }
+
+    fun applyPreset(preset: SpeedPreset) = viewModelScope.launch {
+        repository.applyPreset(preset)
     }
 }

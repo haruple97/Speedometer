@@ -33,10 +33,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.haruple97.speedometer.data.settings.DistanceUnit
+import com.haruple97.speedometer.data.settings.SpeedPreset
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.settings.UserPreferences
 import com.haruple97.speedometer.ui.component.settings.MaxSpeedDialog
 import com.haruple97.speedometer.ui.component.settings.OverspeedThresholdDialog
+import com.haruple97.speedometer.ui.component.settings.PresetConfirmDialog
+import com.haruple97.speedometer.ui.component.settings.PresetRow
 import com.haruple97.speedometer.ui.component.settings.SettingActionRow
 import com.haruple97.speedometer.ui.component.settings.SettingSection
 import com.haruple97.speedometer.ui.component.settings.SettingSegmentRow
@@ -69,6 +72,7 @@ fun SettingsRoute(
         onOverspeedThresholdChange = viewModel::setOverspeedThreshold,
         onSpeedUnitChange = viewModel::setSpeedUnit,
         onDistanceUnitChange = viewModel::setDistanceUnit,
+        onApplyPreset = viewModel::applyPreset,
         onShareApp = {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
@@ -91,10 +95,12 @@ fun SettingsScreen(
     onOverspeedThresholdChange: (Float) -> Unit,
     onSpeedUnitChange: (SpeedUnit) -> Unit,
     onDistanceUnitChange: (DistanceUnit) -> Unit,
+    onApplyPreset: (SpeedPreset) -> Unit,
     onShareApp: () -> Unit,
 ) {
     var showMaxSpeedDialog by remember { mutableStateOf(false) }
     var showThresholdDialog by remember { mutableStateOf(false) }
+    var pendingPreset by remember { mutableStateOf<SpeedPreset?>(null) }
 
     Scaffold(
         containerColor = DashboardBlack,
@@ -125,6 +131,12 @@ fun SettingsScreen(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState()),
         ) {
+            SettingSection(title = "주행 프리셋") {
+                PresetRow(
+                    onPresetClick = { pendingPreset = it },
+                )
+            }
+
             SettingSection(title = "주행") {
                 SettingToggleRow(
                     title = "화면 켜짐 유지",
@@ -216,6 +228,18 @@ fun SettingsScreen(
             },
         )
     }
+
+    pendingPreset?.let { preset ->
+        PresetConfirmDialog(
+            preset = preset,
+            speedUnit = preferences.speedUnit,
+            onDismiss = { pendingPreset = null },
+            onConfirm = {
+                onApplyPreset(preset)
+                pendingPreset = null
+            },
+        )
+    }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFF0A0A0A)
@@ -240,6 +264,7 @@ private fun SettingsScreenPreview() {
             onOverspeedThresholdChange = {},
             onSpeedUnitChange = {},
             onDistanceUnitChange = {},
+            onApplyPreset = {},
             onShareApp = {},
         )
     }
