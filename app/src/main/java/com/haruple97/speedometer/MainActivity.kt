@@ -14,6 +14,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.haruple97.speedometer.data.ads.AdConsentManager
+import com.haruple97.speedometer.data.ads.MobileAdsInitializer
 import com.haruple97.speedometer.data.database.DatabaseProvider
 import com.haruple97.speedometer.data.location.LocationRepositoryProvider
 import com.haruple97.speedometer.data.settings.SettingsRepository
@@ -66,10 +68,18 @@ class MainActivity : ComponentActivity() {
         observeAutoRecording()
         observeTripRecording()
         recoverDanglingTrips()
+        initializeAds()
         setContent {
             SpeedometerTheme {
                 LocationPermissionGate(isInPipMode = isInPipMode.value)
             }
+        }
+    }
+
+    /** UMP 동의 수집 이후 MobileAds 초기화. canRequestAds 가 true 로 확정돼야 광고 요청 허용됨. */
+    private fun initializeAds() {
+        AdConsentManager(this).gatherConsent {
+            MobileAdsInitializer.initialize(applicationContext)
         }
     }
 

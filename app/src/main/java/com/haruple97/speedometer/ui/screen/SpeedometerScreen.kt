@@ -20,8 +20,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.haruple97.speedometer.data.ads.AdUnitIds
 import com.haruple97.speedometer.data.model.SpeedData
 import com.haruple97.speedometer.data.settings.UserPreferences
+import com.haruple97.speedometer.ui.component.AdBanner
 import com.haruple97.speedometer.ui.component.SpeedInfoPanel
 import com.haruple97.speedometer.ui.component.SpeedometerGauge
 import com.haruple97.speedometer.ui.theme.DashboardBlack
@@ -89,6 +91,9 @@ fun SpeedometerScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
+            // 상단 배너 — HUD 반전 대상 밖에 배치해 반사 모드에서도 정방향 유지.
+            AdBanner(adUnitId = AdUnitIds.bannerMain)
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
