@@ -21,8 +21,13 @@ object AdUnitIds {
     val appOpen: String =
         if (BuildConfig.DEBUG) TEST_APP_OPEN else "ca-app-pub-3898269947993948/7720721302"
 
+    /** 프리미엄 기능 언락용 Rewarded (preminum_function). */
+    val rewardedPremium: String =
+        if (BuildConfig.DEBUG) TEST_REWARDED else "ca-app-pub-3898269947993948/1189912483"
+
     // https://developers.google.com/admob/android/test-ads
     private const val TEST_BANNER = "ca-app-pub-3940256099942544/6300978111"
     private const val TEST_NATIVE = "ca-app-pub-3940256099942544/2247696110"
     private const val TEST_APP_OPEN = "ca-app-pub-3940256099942544/9257395921"
+    private const val TEST_REWARDED = "ca-app-pub-3940256099942544/5224354917"
 }

@@ -8,4 +8,5 @@ sealed class Screen(val route: String) {
         const val ARG_TRIP_ID = "tripId"
         fun createRoute(tripId: Long): String = "trip_detail/$tripId"
     }
+    data object AnalyticsDetail : Screen("analytics_detail")
 }

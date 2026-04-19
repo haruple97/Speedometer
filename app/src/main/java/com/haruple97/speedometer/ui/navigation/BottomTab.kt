@@ -46,6 +46,7 @@ enum class BottomTab(
         fun fromRoute(route: String?): BottomTab = when {
             route == null -> Speedometer
             route.startsWith("trip_detail") -> History
+            route == Screen.AnalyticsDetail.route -> History
             else -> entries.firstOrNull { it.route == route } ?: Speedometer
         }
     }

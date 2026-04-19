@@ -16,6 +16,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.haruple97.speedometer.ui.component.AppBottomBar
+import com.haruple97.speedometer.ui.screen.AnalyticsDetailRoute
 import com.haruple97.speedometer.ui.screen.HistoryRoute
 import com.haruple97.speedometer.ui.screen.SettingsRoute
 import com.haruple97.speedometer.ui.screen.SpeedometerRoute
@@ -64,6 +65,9 @@ fun SpeedometerAppNavHost(isInPipMode: Boolean) {
                     onTripSelected = { tripId ->
                         navController.navigate(Screen.TripDetail.createRoute(tripId))
                     },
+                    onAnalyticsOpen = {
+                        navController.navigate(Screen.AnalyticsDetail.route)
+                    },
                 )
             }
             composable(Screen.Settings.route) {
@@ -80,6 +84,14 @@ fun SpeedometerAppNavHost(isInPipMode: Boolean) {
                 TripDetailRoute(
                     tripId = tripId,
                     onNavigateBack = { navController.popBackStack() },
+                )
+            }
+            composable(Screen.AnalyticsDetail.route) {
+                AnalyticsDetailRoute(
+                    onNavigateBack = { navController.popBackStack() },
+                    onTripClick = { tripId ->
+                        navController.navigate(Screen.TripDetail.createRoute(tripId))
+                    },
                 )
             }
         }

@@ -8,6 +8,9 @@ import com.haruple97.speedometer.data.ads.AdUnitIds
 import com.haruple97.speedometer.data.ads.MobileAdsInitializer
 import com.haruple97.speedometer.data.ads.NativeAdLoader
 import com.haruple97.speedometer.data.database.DatabaseProvider
+import com.haruple97.speedometer.data.premium.PremiumFeature
+import com.haruple97.speedometer.data.premium.PremiumUnlockRepository
+import com.haruple97.speedometer.data.premium.UnlockState
 import com.haruple97.speedometer.data.trip.SummaryPeriod
 import com.haruple97.speedometer.data.trip.TripAggregate
 import com.haruple97.speedometer.data.trip.TripEntity
@@ -27,6 +30,7 @@ import kotlinx.coroutines.launch
 class HistoryViewModel(application: Application) : AndroidViewModel(application) {
 
     private val dao = DatabaseProvider.get(application).tripDao()
+    private val premiumRepo = PremiumUnlockRepository(application)
 
     val trips: StateFlow<List<TripEntity>> = dao.observeAllTrips()
         .stateIn(
@@ -59,9 +63,16 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     )
     val nativeAds: StateFlow<List<NativeAd>> = nativeAdLoader.ads
 
+    val analyticsUnlockState: StateFlow<UnlockState> =
+        premiumRepo.observeUnlockState(PremiumFeature.AdvancedAnalytics)
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = UnlockState.Locked,
+            )
+
     init {
         viewModelScope.launch {
-            // MobileAds SDK 초기화 완료 후에 광고 로드 요청.
             MobileAdsInitializer.initialized.filter { it }.first()
             nativeAdLoader.load()
         }
@@ -69,6 +80,16 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
 
     fun selectPeriod(period: SummaryPeriod) {
         _selectedPeriod.value = period
+    }
+
+    /** 보상형 전면 광고 시청 완료 콜백에서 호출 — 24시간 언락. */
+    fun grantAnalyticsUnlock() {
+        viewModelScope.launch {
+            premiumRepo.unlockForDuration(
+                feature = PremiumFeature.AdvancedAnalytics,
+                durationMs = 24L * 60 * 60 * 1000,
+            )
+        }
     }
 
     override fun onCleared() {

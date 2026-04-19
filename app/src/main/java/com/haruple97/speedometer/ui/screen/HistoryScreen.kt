@@ -1,5 +1,6 @@
 package com.haruple97.speedometer.ui.screen
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,8 +19,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,14 +32,18 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.ads.nativead.NativeAd
 import com.haruple97.speedometer.R
+import com.haruple97.speedometer.SpeedometerApplication
+import com.haruple97.speedometer.data.premium.UnlockState
 import com.haruple97.speedometer.data.settings.UserPreferences
 import com.haruple97.speedometer.data.trip.SummaryPeriod
 import com.haruple97.speedometer.data.trip.TripAggregate
 import com.haruple97.speedometer.data.trip.TripEntity
+import com.haruple97.speedometer.ui.component.history.AnalyticsAccessCard
 import com.haruple97.speedometer.ui.component.history.NativeAdCard
 import com.haruple97.speedometer.ui.component.history.SummaryCard
 import com.haruple97.speedometer.ui.component.history.TripListDivider
 import com.haruple97.speedometer.ui.component.history.TripListItem
+import com.haruple97.speedometer.ui.component.premium.UnlockPromptDialog
 import com.haruple97.speedometer.ui.theme.DashboardBlack
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
@@ -48,6 +57,7 @@ private const val AD_INTERVAL = 5     // 이후 5개 트립마다 광고
 @Composable
 fun HistoryRoute(
     onTripSelected: (Long) -> Unit,
+    onAnalyticsOpen: () -> Unit,
     historyViewModel: HistoryViewModel = viewModel(),
     settingsViewModel: SettingsViewModel = viewModel(),
 ) {
@@ -56,6 +66,10 @@ fun HistoryRoute(
     val summary by historyViewModel.summary.collectAsStateWithLifecycle()
     val selectedPeriod by historyViewModel.selectedPeriod.collectAsStateWithLifecycle()
     val nativeAds by historyViewModel.nativeAds.collectAsStateWithLifecycle()
+    val analyticsUnlockState by historyViewModel.analyticsUnlockState.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+    var showUnlockPrompt by remember { mutableStateOf(false) }
 
     HistoryScreen(
         trips = trips,
@@ -63,9 +77,53 @@ fun HistoryRoute(
         summary = summary,
         selectedPeriod = selectedPeriod,
         nativeAds = nativeAds,
+        analyticsUnlockState = analyticsUnlockState,
         onPeriodChange = historyViewModel::selectPeriod,
         onTripSelected = onTripSelected,
+        onAnalyticsCardClick = {
+            if (analyticsUnlockState is UnlockState.UnlockedUntil) {
+                onAnalyticsOpen()
+            } else {
+                showUnlockPrompt = true
+            }
+        },
     )
+
+    if (showUnlockPrompt) {
+        UnlockPromptDialog(
+            title = "상세 분석 열어볼까요?",
+            message = "짧은 광고를 보면 24시간 동안 요일·시간대 주행 패턴 · 속도 구간 분석 · 월간 히트맵 · 개인 기록까지 전부 확인할 수 있어요.",
+            confirmText = "광고 보기",
+            dismissText = "다음에",
+            onConfirm = {
+                showUnlockPrompt = false
+                val activity = context.findActivity() ?: return@UnlockPromptDialog
+                val manager = (activity.application as SpeedometerApplication)
+                    .rewardedAdManager
+                manager.showForReward(
+                    activity = activity,
+                    onRewardEarned = {
+                        historyViewModel.grantAnalyticsUnlock()
+                        onAnalyticsOpen()
+                    },
+                    onUnavailable = {
+                        // 광고 준비 안 됐거나 주행 중 — 사용자엔 조용히 무시, 다음 기회에 자동 제안 가능
+                    },
+                )
+            },
+            onDismiss = { showUnlockPrompt = false },
+        )
+    }
+}
+
+/** Compose Context (보통 ContextWrapper) 에서 Activity 를 거슬러 찾음. */
+private fun android.content.Context.findActivity(): Activity? {
+    var ctx = this
+    while (ctx is android.content.ContextWrapper) {
+        if (ctx is Activity) return ctx
+        ctx = ctx.baseContext
+    }
+    return null
 }
 
 @Composable
@@ -75,8 +133,10 @@ fun HistoryScreen(
     summary: TripAggregate,
     selectedPeriod: SummaryPeriod,
     nativeAds: List<NativeAd>,
+    analyticsUnlockState: UnlockState,
     onPeriodChange: (SummaryPeriod) -> Unit,
     onTripSelected: (Long) -> Unit,
+    onAnalyticsCardClick: () -> Unit,
 ) {
     Scaffold(
         containerColor = DashboardBlack,
@@ -105,6 +165,12 @@ fun HistoryScreen(
                         onPeriodChange = onPeriodChange,
                         speedUnit = preferences.speedUnit,
                         distanceUnit = preferences.distanceUnit,
+                    )
+                }
+                item(key = "analytics_access") {
+                    AnalyticsAccessCard(
+                        unlockState = analyticsUnlockState,
+                        onClick = onAnalyticsCardClick,
                     )
                     TripListDivider()
                 }
@@ -144,11 +210,6 @@ fun HistoryScreen(
     }
 }
 
-/**
- * 트립 리스트와 로드된 네이티브 광고를 섞어 렌더링 순서를 만든다.
- * 규칙: FIRST_AD_AFTER 번째 트립 이후, 이후 AD_INTERVAL 개마다 광고 1개.
- * 광고 풀이 비어 있으면(아직 로드 중이거나 실패) 광고 없이 트립만 렌더.
- */
 private fun buildHistoryListItems(
     trips: List<TripEntity>,
     ads: List<NativeAd>,
