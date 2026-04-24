@@ -13,11 +13,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +51,7 @@ import com.haruple97.speedometer.data.trip.TripEntity
 import com.haruple97.speedometer.ui.component.history.AnalyticsAccessCard
 import com.haruple97.speedometer.ui.component.history.NativeAdCard
 import com.haruple97.speedometer.ui.component.history.SummaryCard
+import com.haruple97.speedometer.ui.component.history.SwipeDeleteBackground
 import com.haruple97.speedometer.ui.component.history.TripListDivider
 import com.haruple97.speedometer.ui.component.history.TripListItem
 import com.haruple97.speedometer.ui.component.premium.UnlockPromptDialog
@@ -61,7 +72,9 @@ fun HistoryRoute(
     historyViewModel: HistoryViewModel = viewModel(),
     settingsViewModel: SettingsViewModel = viewModel(),
 ) {
-    val trips by historyViewModel.trips.collectAsStateWithLifecycle()
+    val rawTrips by historyViewModel.trips.collectAsStateWithLifecycle()
+    val visibleTrips by historyViewModel.visibleTrips.collectAsStateWithLifecycle()
+    val lastPendingTripId by historyViewModel.lastPendingTripId.collectAsStateWithLifecycle()
     val preferences by settingsViewModel.preferences.collectAsStateWithLifecycle()
     val summary by historyViewModel.summary.collectAsStateWithLifecycle()
     val selectedPeriod by historyViewModel.selectedPeriod.collectAsStateWithLifecycle()
@@ -70,16 +83,23 @@ fun HistoryRoute(
 
     val context = LocalContext.current
     var showUnlockPrompt by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     HistoryScreen(
-        trips = trips,
+        visibleTrips = visibleTrips,
+        rawTripsEmpty = rawTrips.isEmpty(),
         preferences = preferences,
         summary = summary,
         selectedPeriod = selectedPeriod,
         nativeAds = nativeAds,
         analyticsUnlockState = analyticsUnlockState,
+        lastPendingTripId = lastPendingTripId,
+        snackbarHostState = snackbarHostState,
         onPeriodChange = historyViewModel::selectPeriod,
         onTripSelected = onTripSelected,
+        onSwipeDelete = historyViewModel::requestDeleteTrip,
+        onUndoDelete = historyViewModel::undoDelete,
+        onSnackbarDismissed = historyViewModel::clearLastPending,
         onAnalyticsCardClick = {
             if (analyticsUnlockState is UnlockState.UnlockedUntil) {
                 onAnalyticsOpen()
@@ -126,23 +146,46 @@ private fun android.content.Context.findActivity(): Activity? {
     return null
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryScreen(
-    trips: List<TripEntity>,
+    visibleTrips: List<TripEntity>,
+    rawTripsEmpty: Boolean,
     preferences: UserPreferences,
     summary: TripAggregate,
     selectedPeriod: SummaryPeriod,
     nativeAds: List<NativeAd>,
     analyticsUnlockState: UnlockState,
+    lastPendingTripId: Long?,
+    snackbarHostState: SnackbarHostState,
     onPeriodChange: (SummaryPeriod) -> Unit,
     onTripSelected: (Long) -> Unit,
+    onSwipeDelete: (Long) -> Unit,
+    onUndoDelete: (Long) -> Unit,
+    onSnackbarDismissed: () -> Unit,
     onAnalyticsCardClick: () -> Unit,
 ) {
+    // Snackbar 트리거 — pending trip 이 새로 생기면 한 번 띄우고 결과를 ViewModel 로 회신.
+    LaunchedEffect(lastPendingTripId) {
+        val id = lastPendingTripId ?: return@LaunchedEffect
+        val result = snackbarHostState.showSnackbar(
+            message = "기록이 삭제되었습니다",
+            actionLabel = "실행 취소",
+            duration = SnackbarDuration.Short,
+            withDismissAction = false,
+        )
+        when (result) {
+            SnackbarResult.ActionPerformed -> onUndoDelete(id)
+            SnackbarResult.Dismissed -> onSnackbarDismissed()
+        }
+    }
+
     Scaffold(
         containerColor = DashboardBlack,
         contentWindowInsets = WindowInsets.statusBars,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) { innerPadding ->
-        if (trips.isEmpty()) {
+        if (rawTripsEmpty) {
             HistoryEmptyState(
                 modifier = Modifier
                     .fillMaxSize()
@@ -151,7 +194,7 @@ fun HistoryScreen(
                     .padding(32.dp),
             )
         } else {
-            val listItems = buildHistoryListItems(trips, nativeAds)
+            val listItems = buildHistoryListItems(visibleTrips, nativeAds)
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -191,10 +234,11 @@ fun HistoryScreen(
                 ) { item ->
                     when (item) {
                         is HistoryListItem.Trip -> {
-                            TripListItem(
+                            SwipeDeletableTripRow(
                                 trip = item.trip,
                                 speedUnit = preferences.speedUnit,
                                 onClick = { onTripSelected(item.trip.id) },
+                                onSwipeDelete = { onSwipeDelete(item.trip.id) },
                             )
                             TripListDivider()
                         }
@@ -207,6 +251,40 @@ fun HistoryScreen(
                 }
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun LazyItemScope.SwipeDeletableTripRow(
+    trip: TripEntity,
+    speedUnit: com.haruple97.speedometer.data.settings.SpeedUnit,
+    onClick: () -> Unit,
+    onSwipeDelete: () -> Unit,
+) {
+    val dismissState = rememberSwipeToDismissBoxState(
+        confirmValueChange = { value ->
+            if (value == SwipeToDismissBoxValue.EndToStart) {
+                onSwipeDelete()
+                true
+            } else {
+                false
+            }
+        },
+        positionalThreshold = { totalDistance -> totalDistance * 0.5f },
+    )
+    SwipeToDismissBox(
+        state = dismissState,
+        backgroundContent = { SwipeDeleteBackground(state = dismissState) },
+        enableDismissFromStartToEnd = false,
+        enableDismissFromEndToStart = true,
+        modifier = Modifier.animateItem(),
+    ) {
+        TripListItem(
+            trip = trip,
+            speedUnit = speedUnit,
+            onClick = onClick,
+        )
     }
 }
 
