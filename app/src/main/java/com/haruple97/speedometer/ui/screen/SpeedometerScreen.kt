@@ -23,7 +23,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.haruple97.speedometer.data.ads.AdUnitIds
 import com.haruple97.speedometer.data.model.SpeedData
 import com.haruple97.speedometer.data.settings.UserPreferences
+import com.haruple97.speedometer.data.trip.TripRecorderProvider
 import com.haruple97.speedometer.ui.component.AdBanner
+import com.haruple97.speedometer.ui.component.RecordingControlButton
 import com.haruple97.speedometer.ui.component.SpeedInfoPanel
 import com.haruple97.speedometer.ui.component.SpeedometerGauge
 import com.haruple97.speedometer.ui.theme.DashboardBlack
@@ -40,11 +42,17 @@ fun SpeedometerRoute(
 ) {
     val speedData by speedViewModel.speedState.collectAsStateWithLifecycle()
     val preferences by settingsViewModel.preferences.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val recorder = remember(context) { TripRecorderProvider.get(context) }
+    val isRecording by recorder.activeFlow.collectAsStateWithLifecycle()
 
     SpeedometerScreen(
         speedData = speedData,
         preferences = preferences,
         isInPipMode = isInPipMode,
+        isRecording = isRecording,
+        onStartManualRecording = recorder::startManualRecording,
+        onStopManualRecording = recorder::stopManualRecording,
     )
 }
 
@@ -53,6 +61,9 @@ fun SpeedometerScreen(
     speedData: SpeedData,
     preferences: UserPreferences,
     isInPipMode: Boolean = false,
+    isRecording: Boolean = false,
+    onStartManualRecording: () -> Unit = {},
+    onStopManualRecording: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val vibrationHelper = remember(context) { VibrationHelper(context) }
@@ -112,10 +123,21 @@ fun SpeedometerScreen(
                     maxSpeedKmh = speedData.maxSpeedKmh,
                     gpsAccuracy = speedData.accuracyMeters,
                     isGpsActive = speedData.isGpsActive,
+                    isRecording = isRecording,
                     speedUnit = preferences.speedUnit,
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(bottom = 10.dp)
+                )
+            }
+
+            // 자동 기록 OFF (수동 모드) 일 때만 시작/정지 버튼을 게이지 아래에 노출.
+            // HUD 반전 영역(graphicsLayer scaleX = -1f) 밖에 두어 버튼 텍스트는 항상 정방향.
+            if (!preferences.autoRecordingEnabled) {
+                RecordingControlButton(
+                    isRecording = isRecording,
+                    onClick = if (isRecording) onStopManualRecording else onStartManualRecording,
+                    modifier = Modifier.padding(top = 24.dp)
                 )
             }
         }

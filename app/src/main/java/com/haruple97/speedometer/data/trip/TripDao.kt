@@ -36,6 +36,20 @@ interface TripDao {
     @Query("SELECT MAX(timestampMs) FROM trip_samples WHERE tripId = :tripId")
     suspend fun lastSampleTimestamp(tripId: Long): Long?
 
+    /**
+     * 비정상 종료된 트립 복구용 — sample 테이블에서 stats 재계산.
+     * distance 는 sample 에 저장돼있지 않아 복구 불가.
+     */
+    @Query(
+        """SELECT
+            COUNT(*) AS sampleCount,
+            COALESCE(MAX(speedKmh), 0) AS maxSpeedKmh,
+            COALESCE(AVG(speedKmh), 0) AS avgSpeedKmh,
+            COALESCE(MAX(timestampMs), 0) AS lastTimestampMs
+           FROM trip_samples WHERE tripId = :tripId"""
+    )
+    suspend fun aggregateSamples(tripId: Long): SampleAggregate
+
     @Query(
         """SELECT
             COALESCE(SUM(distanceMeters), 0) AS totalDistanceMeters,

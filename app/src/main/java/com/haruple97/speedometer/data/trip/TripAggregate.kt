@@ -13,6 +13,14 @@ data class TripAggregate(
     }
 }
 
+/** 단일 트립의 sample 테이블 집계 — dangling 트립 복구용. distance 는 복구 불가. */
+data class SampleAggregate(
+    val sampleCount: Int,
+    val maxSpeedKmh: Float,
+    val avgSpeedKmh: Float,
+    val lastTimestampMs: Long,
+)
+
 enum class SummaryPeriod(val label: String) {
     THIS_WEEK("이번주"),
     THIS_MONTH("이번달"),

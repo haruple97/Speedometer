@@ -139,7 +139,7 @@ fun SettingsScreen(
                     onCheckedChange = onAutoRecordingEnabledChange,
                 )
                 Text(
-                    text = "꺼짐 시 이후 주행은 기록 화면에 저장되지 않습니다.",
+                    text = "꺼짐 시 메인 화면의 시작/정지 버튼으로 직접 기록할 수 있습니다.",
                     style = SpeedometerTextStyle.CaptionRegularStyle(),
                     color = UnitGray,
                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
