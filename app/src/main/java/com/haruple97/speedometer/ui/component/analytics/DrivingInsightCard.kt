@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeSafe
 import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
@@ -25,7 +27,7 @@ fun DrivingInsightRow(
     ) {
         if (insights.isEmpty()) {
             Text(
-                text = "더 많은 주행 기록이 쌓이면 맞춤 인사이트를 보여드릴게요.",
+                text = stringResource(R.string.insight_empty),
                 style = SpeedometerTextStyle.Body2RegularStyle(),
                 color = UnitGray,
             )

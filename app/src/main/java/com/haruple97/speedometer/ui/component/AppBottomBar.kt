@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.haruple97.speedometer.ui.navigation.BottomTab
 import com.haruple97.speedometer.ui.theme.DashboardDarkGray
@@ -59,6 +60,7 @@ fun AppBottomBar(
         ) {
             BottomTab.entries.forEach { tab ->
                 val isSelected = tab == selectedTab
+                val label = stringResource(tab.labelRes)
                 NavigationBarItem(
                     selected = isSelected,
                     onClick = {
@@ -74,13 +76,13 @@ fun AppBottomBar(
                         ) { selected ->
                             Icon(
                                 imageVector = if (selected) tab.filledIcon else tab.outlinedIcon,
-                                contentDescription = tab.label,
+                                contentDescription = label,
                             )
                         }
                     },
                     label = {
                         Text(
-                            text = tab.label,
+                            text = label,
                             style = SpeedometerTextStyle.CaptionStyle(),
                         )
                     },

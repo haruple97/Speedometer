@@ -43,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.haruple97.speedometer.ui.navigation.SpeedometerAppNavHost
@@ -216,13 +217,13 @@ private fun PermissionRequestScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Speedometer",
+            text = stringResource(R.string.app_name),
             style = SpeedometerTextStyle.Data2Style(),
             color = DigitalWhite
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "GPS 위치 권한이 필요합니다.\n실시간 속도를 측정하기 위해\n위치 접근을 허용해 주세요.",
+            text = stringResource(R.string.perm_body),
             style = SpeedometerTextStyle.H4RegularStyle(),
             color = UnitGray,
             textAlign = TextAlign.Center
@@ -235,7 +236,7 @@ private fun PermissionRequestScreen(
             )
         ) {
             Text(
-                text = "권한 허용",
+                text = stringResource(R.string.perm_grant_cta),
                 color = DashboardBlack
             )
         }

@@ -1,5 +1,6 @@
 package com.haruple97.speedometer.ui.screen
 
+import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,10 +32,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.settings.UserPreferences
 import com.haruple97.speedometer.data.trip.TripEntity
@@ -47,6 +51,8 @@ import com.haruple97.speedometer.ui.theme.GaugeSafe
 import com.haruple97.speedometer.ui.theme.NeedleRed
 import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.UnitGray
+import com.haruple97.speedometer.util.formatOneDecimal
+import com.haruple97.speedometer.util.rememberDateFormat
 import com.haruple97.speedometer.viewmodel.SettingsViewModel
 import com.haruple97.speedometer.viewmodel.TripDetailUiState
 import com.haruple97.speedometer.viewmodel.TripDetailViewModel
@@ -65,6 +71,10 @@ fun TripDetailRoute(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val preferences by settingsViewModel.preferences.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val locale = LocalConfiguration.current.locales[0] ?: Locale.getDefault()
+    val sharePattern = stringResource(R.string.format_date_month_day)
+    val shareTemplate = stringResource(R.string.trip_detail_share_template)
+    val shareChooserTitle = stringResource(R.string.trip_detail_share_chooser)
 
     LaunchedEffect(tripId) { viewModel.load(tripId) }
 
@@ -76,12 +86,12 @@ fun TripDetailRoute(
             viewModel.delete(tripId, onDeleted = onNavigateBack)
         },
         onShare = { trip ->
-            val text = buildShareText(trip, preferences.speedUnit)
+            val text = buildShareText(trip, preferences.speedUnit, sharePattern, locale, shareTemplate)
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, text)
             }
-            context.startActivity(Intent.createChooser(intent, "기록 공유"))
+            context.startActivity(Intent.createChooser(intent, shareChooserTitle))
         },
     )
 }
@@ -103,12 +113,12 @@ fun TripDetailScreen(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             TopAppBar(
-                title = { Text("기록 상세", color = DigitalWhite) },
+                title = { Text(stringResource(R.string.trip_detail_title), color = DigitalWhite) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "뒤로",
+                            contentDescription = stringResource(R.string.nav_back),
                             tint = DigitalWhite,
                         )
                     }
@@ -118,14 +128,14 @@ fun TripDetailScreen(
                         IconButton(onClick = { onShare(trip) }) {
                             Icon(
                                 imageVector = Icons.Filled.Share,
-                                contentDescription = "공유",
+                                contentDescription = stringResource(R.string.action_share),
                                 tint = DigitalWhite,
                             )
                         }
                         IconButton(onClick = { showDeleteDialog = true }) {
                             Icon(
                                 imageVector = Icons.Filled.Delete,
-                                contentDescription = "삭제",
+                                contentDescription = stringResource(R.string.action_delete),
                                 tint = DigitalWhite,
                             )
                         }
@@ -141,7 +151,7 @@ fun TripDetailScreen(
     ) { innerPadding ->
         if (trip == null) {
             Text(
-                text = if (state.isLoading) "" else "기록을 찾을 수 없습니다",
+                text = if (state.isLoading) "" else stringResource(R.string.trip_detail_not_found),
                 style = SpeedometerTextStyle.Body1RegularStyle(),
                 color = UnitGray,
                 modifier = Modifier
@@ -152,17 +162,14 @@ fun TripDetailScreen(
         }
 
         val unit = preferences.speedUnit
-        val dateFormat = remember { SimpleDateFormat("M월 d일 (E)", Locale.KOREAN) }
-        val timeFormat = remember { SimpleDateFormat("HH:mm", Locale.KOREAN) }
+        val dateFormat = rememberDateFormat(R.string.format_date_month_day_weekday)
+        val timeFormat = rememberDateFormat(R.string.format_time_hm)
         val startedAt = trip.startedAt
         val endedAt = if (trip.endedAt == 0L) startedAt else trip.endedAt
         val durationMin = ((endedAt - startedAt) / 60_000f).roundToInt().coerceAtLeast(0)
         val distanceKm = trip.distanceMeters / 1000f
-        val distanceText = if (unit == SpeedUnit.MPH) {
-            "%.1f".format(distanceKm * 0.621371f)
-        } else {
-            "%.1f".format(distanceKm)
-        }
+        val distanceDisplay = if (unit == SpeedUnit.MPH) distanceKm * 0.621371f else distanceKm
+        val distanceText = formatOneDecimal(distanceDisplay)
         val distanceUnit = if (unit == SpeedUnit.MPH) "mi" else "km"
 
         Column(
@@ -182,7 +189,11 @@ fun TripDetailScreen(
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    text = "${timeFormat.format(Date(startedAt))} – ${timeFormat.format(Date(endedAt))}",
+                    text = stringResource(
+                        R.string.format_time_range,
+                        timeFormat.format(Date(startedAt)),
+                        timeFormat.format(Date(endedAt)),
+                    ),
                     style = SpeedometerTextStyle.Body1RegularStyle(),
                     color = UnitGray,
                 )
@@ -190,15 +201,19 @@ fun TripDetailScreen(
 
             TripStatGrid(
                 cards = listOf(
-                    Triple("거리", distanceText, distanceUnit),
-                    Triple("주행 시간", durationMin.toString(), "분"),
+                    Triple(stringResource(R.string.trip_detail_metric_distance), distanceText, distanceUnit),
                     Triple(
-                        "최고 속도",
+                        stringResource(R.string.trip_detail_metric_duration),
+                        durationMin.toString(),
+                        stringResource(R.string.unit_minute_short),
+                    ),
+                    Triple(
+                        stringResource(R.string.trip_detail_metric_max_speed),
                         unit.fromKmh(trip.maxSpeedKmh).roundToInt().toString(),
                         unit.label,
                     ),
                     Triple(
-                        "평균 속도",
+                        stringResource(R.string.trip_detail_metric_avg_speed),
                         unit.fromKmh(trip.avgSpeedKmh).roundToInt().toString(),
                         unit.label,
                     ),
@@ -222,14 +237,14 @@ fun TripDetailScreen(
             textContentColor = DigitalWhite,
             title = {
                 Text(
-                    text = "이 기록을 삭제할까요?",
+                    text = stringResource(R.string.trip_detail_delete_title),
                     style = SpeedometerTextStyle.H3Style(),
                     color = DigitalWhite,
                 )
             },
             text = {
                 Text(
-                    text = "삭제 후에는 되돌릴 수 없습니다.",
+                    text = stringResource(R.string.trip_detail_delete_body),
                     style = SpeedometerTextStyle.Body1RegularStyle(),
                     color = UnitGray,
                 )
@@ -239,33 +254,45 @@ fun TripDetailScreen(
                     showDeleteDialog = false
                     onDelete()
                 }) {
-                    Text("삭제", color = NeedleRed)
+                    Text(stringResource(R.string.action_delete), color = NeedleRed)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteDialog = false }) {
-                    Text("취소", color = GaugeSafe)
+                    Text(stringResource(R.string.action_cancel), color = GaugeSafe)
                 }
             },
         )
     }
 }
 
-private fun buildShareText(trip: TripEntity, unit: SpeedUnit): String {
-    val dateFormat = SimpleDateFormat("M월 d일", Locale.KOREAN)
+private fun buildShareText(
+    trip: TripEntity,
+    unit: SpeedUnit,
+    datePattern: String,
+    locale: Locale,
+    template: String,
+): String {
+    val dateFormat = SimpleDateFormat(datePattern, locale)
     val startedAt = trip.startedAt
     val endedAt = if (trip.endedAt == 0L) startedAt else trip.endedAt
     val durationMin = ((endedAt - startedAt) / 60_000f).roundToInt().coerceAtLeast(0)
+    val durationFormatted = if (durationMin >= 60) {
+        "${durationMin / 60}h ${durationMin % 60}m"
+    } else {
+        "${durationMin}m"
+    }
     val distanceKm = trip.distanceMeters / 1000f
     val distanceDisplay = if (unit == SpeedUnit.MPH) distanceKm * 0.621371f else distanceKm
     val distanceLabel = if (unit == SpeedUnit.MPH) "mi" else "km"
-    return buildString {
-        append(dateFormat.format(Date(startedAt)))
-        append(" 주행 · ")
-        append("%.1f %s".format(distanceDisplay, distanceLabel))
-        append(" · ${durationMin}분 · 최고 ")
-        append("${unit.fromKmh(trip.maxSpeedKmh).roundToInt()} ${unit.label}")
-        append(" · 평균 ")
-        append("${unit.fromKmh(trip.avgSpeedKmh).roundToInt()} ${unit.label}")
-    }
+    return template.format(
+        /* %1$s date */ dateFormat.format(Date(startedAt)),
+        /* %2$s distance */ String.format(locale, "%.1f", distanceDisplay),
+        /* %3$s distanceUnit */ distanceLabel,
+        /* %4$s duration */ durationFormatted,
+        /* %5$s top */ unit.fromKmh(trip.maxSpeedKmh).roundToInt().toString(),
+        /* %6$s topUnit */ unit.label,
+        /* %7$s avg */ unit.fromKmh(trip.avgSpeedKmh).roundToInt().toString(),
+        /* %8$s avgUnit */ unit.label,
+    )
 }

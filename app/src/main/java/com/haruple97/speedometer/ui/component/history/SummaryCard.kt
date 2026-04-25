@@ -11,7 +11,9 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.DistanceUnit
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.trip.SummaryPeriod
@@ -20,6 +22,8 @@ import com.haruple97.speedometer.ui.theme.DashboardBlack
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeSafe
 import com.haruple97.speedometer.ui.theme.GaugeTrack
+import com.haruple97.speedometer.util.formatDuration
+import com.haruple97.speedometer.util.formatOneDecimal
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,38 +62,31 @@ fun SummaryCard(
                         inactiveBorderColor = GaugeTrack,
                     ),
                 ) {
-                    Text(value.label)
+                    Text(stringResource(value.labelRes))
                 }
             }
         }
 
         val empty = summary.tripCount == 0
-        val distanceText = if (empty) "—" else formatDistance(summary.totalDistanceMeters, distanceUnit)
+        val distanceText = if (empty) "—" else formatDistanceDisplay(summary.totalDistanceMeters, distanceUnit)
         val durationText = if (empty) "—" else formatDuration(summary.totalDurationMs)
         val maxSpeedText = if (empty) "—" else speedUnit.fromKmh(summary.maxSpeedKmh).roundToInt().toString()
         val tripCountText = if (empty) "—" else summary.tripCount.toString()
 
         TripStatGrid(
             cards = listOf(
-                Triple("총 거리", distanceText, if (empty) "" else distanceUnit.label),
-                Triple("주행 시간", durationText, ""),
-                Triple("최고 속도", maxSpeedText, if (empty) "" else speedUnit.label),
-                Triple("주행 횟수", tripCountText, if (empty) "" else "회"),
+                Triple(stringResource(R.string.history_summary_distance), distanceText, if (empty) "" else distanceUnit.label),
+                Triple(stringResource(R.string.history_summary_duration), durationText, ""),
+                Triple(stringResource(R.string.history_summary_max_speed), maxSpeedText, if (empty) "" else speedUnit.label),
+                Triple(stringResource(R.string.history_summary_count), tripCountText, if (empty) "" else stringResource(R.string.history_summary_count_unit)),
             ),
         )
     }
 }
 
-private fun formatDistance(meters: Float, unit: DistanceUnit): String {
+@Composable
+private fun formatDistanceDisplay(meters: Float, unit: DistanceUnit): String {
     val km = meters / 1000f
     val display = unit.fromKm(km)
-    return if (display >= 100f) display.roundToInt().toString() else "%.1f".format(display)
-}
-
-private fun formatDuration(durationMs: Long): String {
-    if (durationMs <= 0L) return "—"
-    val totalMinutes = durationMs / 60_000L
-    val hours = totalMinutes / 60
-    val minutes = totalMinutes % 60
-    return if (hours > 0) "${hours}시간 ${minutes}분" else "${minutes}분"
+    return if (display >= 100f) display.roundToInt().toString() else formatOneDecimal(display)
 }

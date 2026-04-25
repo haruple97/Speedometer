@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -111,10 +112,10 @@ fun HistoryRoute(
 
     if (showUnlockPrompt) {
         UnlockPromptDialog(
-            title = "상세 분석 열어볼까요?",
-            message = "짧은 광고를 보면 24시간 동안 요일·시간대 주행 패턴 · 속도 구간 분석 · 월간 히트맵 · 개인 기록까지 전부 확인할 수 있어요.",
-            confirmText = "광고 보기",
-            dismissText = "다음에",
+            title = stringResource(R.string.analytics_unlock_title),
+            message = stringResource(R.string.analytics_unlock_message),
+            confirmText = stringResource(R.string.analytics_unlock_confirm),
+            dismissText = stringResource(R.string.analytics_unlock_dismiss),
             onConfirm = {
                 showUnlockPrompt = false
                 val activity = context.findActivity() ?: return@UnlockPromptDialog
@@ -166,11 +167,13 @@ fun HistoryScreen(
     onAnalyticsCardClick: () -> Unit,
 ) {
     // Snackbar 트리거 — pending trip 이 새로 생기면 한 번 띄우고 결과를 ViewModel 로 회신.
+    val deleteDoneMessage = stringResource(R.string.history_delete_done)
+    val undoLabel = stringResource(R.string.action_undo)
     LaunchedEffect(lastPendingTripId) {
         val id = lastPendingTripId ?: return@LaunchedEffect
         val result = snackbarHostState.showSnackbar(
-            message = "기록이 삭제되었습니다",
-            actionLabel = "실행 취소",
+            message = deleteDoneMessage,
+            actionLabel = undoLabel,
             duration = SnackbarDuration.Short,
             withDismissAction = false,
         )
@@ -323,14 +326,14 @@ private fun HistoryEmptyState(modifier: Modifier = Modifier) {
             )
             Spacer(Modifier.height(16.dp))
             Text(
-                text = "아직 기록이 없습니다",
+                text = stringResource(R.string.history_empty_title),
                 style = SpeedometerTextStyle.H3Style(),
                 color = DigitalWhite,
                 textAlign = TextAlign.Center,
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "주행이 감지되면 자동으로 기록됩니다",
+                text = stringResource(R.string.history_empty_body),
                 style = SpeedometerTextStyle.H4RegularStyle(),
                 color = UnitGray,
                 textAlign = TextAlign.Center,

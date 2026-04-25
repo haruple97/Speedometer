@@ -19,13 +19,18 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.UserPreferences
 import com.haruple97.speedometer.ui.component.analytics.AnalyticsInsightBuilder
 import com.haruple97.speedometer.ui.component.analytics.AnalyticsSummaryHeader
+import com.haruple97.speedometer.ui.component.analytics.rememberInsightSentences
 import com.haruple97.speedometer.ui.component.analytics.DrivingInsightRow
 import com.haruple97.speedometer.ui.component.analytics.MilestoneRow
 import com.haruple97.speedometer.ui.component.analytics.MonthHeatmap
@@ -80,12 +85,12 @@ fun AnalyticsDetailScreen(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             TopAppBar(
-                title = { Text("상세 분석", color = DigitalWhite) },
+                title = { Text(stringResource(R.string.analytics_title), color = DigitalWhite) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "뒤로",
+                            contentDescription = stringResource(R.string.nav_back),
                             tint = DigitalWhite,
                         )
                     }
@@ -110,7 +115,7 @@ fun AnalyticsDetailScreen(
             if (state.loading) return@Column
             if (state.isEmpty) {
                 Text(
-                    text = "분석할 주행 기록이 부족합니다.\n몇 번 주행 후 다시 열어보세요.",
+                    text = stringResource(R.string.analytics_empty),
                     style = SpeedometerTextStyle.Body1RegularStyle(),
                     color = UnitGray,
                     modifier = Modifier.padding(top = 64.dp),
@@ -127,8 +132,8 @@ fun AnalyticsDetailScreen(
 
             state.weekComparison?.let { comparison ->
                 SectionCard(
-                    title = "이번 주 vs 지난 주",
-                    subtitle = "주요 지표의 변화",
+                    title = stringResource(R.string.analytics_section_compare),
+                    subtitle = stringResource(R.string.analytics_section_compare_sub),
                 ) {
                     WeekComparisonRow(
                         comparison = comparison,
@@ -140,8 +145,8 @@ fun AnalyticsDetailScreen(
 
             if (state.weeklyTrend.isNotEmpty()) {
                 SectionCard(
-                    title = "주간 추이",
-                    subtitle = "최근 8주 총 주행 거리",
+                    title = stringResource(R.string.analytics_section_trend),
+                    subtitle = stringResource(R.string.analytics_section_trend_sub),
                 ) {
                     WeeklyTrendLineChart(
                         trend = state.weeklyTrend,
@@ -151,22 +156,22 @@ fun AnalyticsDetailScreen(
             }
 
             SectionCard(
-                title = "요일별 평균 속도",
-                subtitle = "요일마다의 주행 패턴",
+                title = stringResource(R.string.analytics_section_weekday),
+                subtitle = stringResource(R.string.analytics_section_weekday_sub),
             ) {
                 WeekdayBarChart(data = state.weekday, speedUnit = preferences.speedUnit)
             }
 
             SectionCard(
-                title = "시간대별 주행 빈도",
-                subtitle = "하루 중 언제 가장 많이 달리는지",
+                title = stringResource(R.string.analytics_section_hour),
+                subtitle = stringResource(R.string.analytics_section_hour_sub),
             ) {
                 TimeOfDayHistogram(data = state.hour)
             }
 
             SectionCard(
-                title = "속도 구간별 누적 거리",
-                subtitle = "안전·주의·위험·극한 구간 비중",
+                title = stringResource(R.string.analytics_section_zones),
+                subtitle = stringResource(R.string.analytics_section_zones_sub),
             ) {
                 SpeedZonePie(
                     stat = state.speedZones,
@@ -175,8 +180,8 @@ fun AnalyticsDetailScreen(
             }
 
             SectionCard(
-                title = "이번 달 주행",
-                subtitle = monthTitle(),
+                title = stringResource(R.string.analytics_section_month),
+                subtitle = monthTitle(R.string.format_date_year_month),
             ) {
                 MonthHeatmap(
                     dayStats = state.monthDays,
@@ -185,21 +190,24 @@ fun AnalyticsDetailScreen(
             }
 
             SectionCard(
-                title = "드라이빙 인사이트",
-                subtitle = "당신의 주행 패턴 요약",
+                title = stringResource(R.string.analytics_section_insight),
+                subtitle = stringResource(R.string.analytics_section_insight_sub),
             ) {
-                val insights = AnalyticsInsightBuilder.build(
-                    weekday = state.weekday,
-                    hour = state.hour,
-                    comparison = state.weekComparison,
-                    speedUnit = preferences.speedUnit,
-                )
+                val tokens = remember(state.weekday, state.hour, state.weekComparison, preferences.speedUnit) {
+                    AnalyticsInsightBuilder.build(
+                        weekday = state.weekday,
+                        hour = state.hour,
+                        comparison = state.weekComparison,
+                        speedUnit = preferences.speedUnit,
+                    )
+                }
+                val insights = rememberInsightSentences(tokens)
                 DrivingInsightRow(insights = insights)
             }
 
             SectionCard(
-                title = "누적 마일스톤",
-                subtitle = "다음 목표까지의 여정",
+                title = stringResource(R.string.analytics_section_milestone),
+                subtitle = stringResource(R.string.analytics_section_milestone_sub),
             ) {
                 MilestoneRow(
                     totalDistanceMeters = state.total.totalDistanceMeters,
@@ -208,8 +216,8 @@ fun AnalyticsDetailScreen(
             }
 
             SectionCard(
-                title = "개인 기록",
-                subtitle = "탭해서 해당 주행 상세로",
+                title = stringResource(R.string.analytics_section_records),
+                subtitle = stringResource(R.string.analytics_section_records_sub),
             ) {
                 PersonalRecordGrid(
                     topDistance = state.topDistanceTrip,
@@ -224,8 +232,11 @@ fun AnalyticsDetailScreen(
     }
 }
 
-private fun monthTitle(): String {
+@Composable
+private fun monthTitle(@androidx.annotation.StringRes patternRes: Int): String {
+    val pattern = stringResource(patternRes)
+    val locale = LocalConfiguration.current.locales[0] ?: Locale.getDefault()
     val cal = Calendar.getInstance()
-    val fmt = SimpleDateFormat("yyyy년 M월", Locale.KOREAN)
+    val fmt = remember(pattern, locale) { SimpleDateFormat(pattern, locale) }
     return fmt.format(cal.time)
 }

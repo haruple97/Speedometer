@@ -21,9 +21,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.DistanceUnit
 import com.haruple97.speedometer.data.trip.SpeedZoneStat
+import com.haruple97.speedometer.util.formatOneDecimal
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeCaution
 import com.haruple97.speedometer.ui.theme.GaugeCritical
@@ -44,10 +47,10 @@ fun SpeedZonePie(
     modifier: Modifier = Modifier,
 ) {
     val slices = listOf(
-        SliceData("안전", "<120 km/h", stat.safeMeters, GaugeSafe),
-        SliceData("주의", "120–200", stat.cautionMeters, GaugeCaution),
-        SliceData("위험", "200–280", stat.dangerMeters, GaugeDanger),
-        SliceData("극한", "≥280", stat.criticalMeters, GaugeCritical),
+        SliceData(stringResource(R.string.zone_safe), stringResource(R.string.zone_safe_range), stat.safeMeters, GaugeSafe),
+        SliceData(stringResource(R.string.zone_caution), stringResource(R.string.zone_caution_range), stat.cautionMeters, GaugeCaution),
+        SliceData(stringResource(R.string.zone_danger), stringResource(R.string.zone_danger_range), stat.dangerMeters, GaugeDanger),
+        SliceData(stringResource(R.string.zone_critical), stringResource(R.string.zone_critical_range), stat.criticalMeters, GaugeCritical),
     )
     val total = stat.totalMeters.coerceAtLeast(1f)
     val totalDisplay = distanceUnit.fromKm(stat.totalMeters / 1000f)
@@ -104,7 +107,7 @@ fun SpeedZonePie(
                     color = DigitalWhite,
                 )
                 Text(
-                    text = "총 ${distanceUnit.label}",
+                    text = stringResource(R.string.zone_total_label, distanceUnit.label),
                     style = SpeedometerTextStyle.CaptionRegularStyle(),
                     color = UnitGray,
                 )
@@ -184,7 +187,12 @@ private fun LegendItem(
                 )
             }
             Text(
-                text = "${formatDistance(distance)} ${distanceUnit.label} · ${slice.rangeText}",
+                text = stringResource(
+                    R.string.zone_legend_value,
+                    formatDistance(distance),
+                    distanceUnit.label,
+                    slice.rangeText,
+                ),
                 style = SpeedometerTextStyle.CaptionRegularStyle(),
                 color = UnitGray,
             )
@@ -192,5 +200,6 @@ private fun LegendItem(
     }
 }
 
+@Composable
 private fun formatDistance(value: Float): String =
-    if (value >= 100f) value.roundToInt().toString() else "%.1f".format(value)
+    if (value >= 100f) value.roundToInt().toString() else formatOneDecimal(value)

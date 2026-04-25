@@ -1,5 +1,6 @@
 package com.haruple97.speedometer.ui.navigation
 
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Speed
@@ -8,6 +9,7 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material.icons.outlined.Timeline
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.haruple97.speedometer.R
 
 /**
  * 바텀 내비게이션에 노출되는 최상위 탭.
@@ -18,25 +20,25 @@ import androidx.compose.ui.graphics.vector.ImageVector
  */
 enum class BottomTab(
     val route: String,
-    val label: String,
+    @StringRes val labelRes: Int,
     val filledIcon: ImageVector,
     val outlinedIcon: ImageVector,
 ) {
     Speedometer(
         route = Screen.Speedometer.route,
-        label = "계기판",
+        labelRes = R.string.tab_dashboard,
         filledIcon = Icons.Filled.Speed,
         outlinedIcon = Icons.Outlined.Speed,
     ),
     History(
         route = Screen.History.route,
-        label = "기록",
+        labelRes = R.string.tab_history,
         filledIcon = Icons.Filled.Timeline,
         outlinedIcon = Icons.Outlined.Timeline,
     ),
     Settings(
         route = Screen.Settings.route,
-        label = "설정",
+        labelRes = R.string.tab_settings,
         filledIcon = Icons.Filled.Settings,
         outlinedIcon = Icons.Outlined.Settings,
     );

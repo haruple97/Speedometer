@@ -17,7 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.ui.theme.DashboardDarkGray
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeDanger
@@ -46,7 +48,7 @@ fun SwipeDeleteBackground(state: SwipeToDismissBoxState) {
         )
         Spacer(Modifier.width(8.dp))
         Text(
-            text = "삭제",
+            text = stringResource(R.string.action_delete),
             style = SpeedometerTextStyle.H4RegularStyle(),
             color = DigitalWhite,
         )

@@ -15,8 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.DistanceUnit
+import com.haruple97.speedometer.util.formatOneDecimal
 import com.haruple97.speedometer.ui.theme.DashboardBlack
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeSafe
@@ -63,14 +66,18 @@ fun MilestoneRow(
             )
             if (nextMilestone != null) {
                 Text(
-                    text = "다음 ${distanceUnit.fromKm(target.toFloat()).roundToInt()} ${distanceUnit.label} 까지 " +
-                        "${distanceUnit.fromKm(remainingKm).roundToInt()} ${distanceUnit.label}",
+                    text = stringResource(
+                        R.string.milestone_remaining,
+                        distanceUnit.fromKm(target.toFloat()).roundToInt(),
+                        distanceUnit.label,
+                        distanceUnit.fromKm(remainingKm).roundToInt(),
+                    ),
                     style = SpeedometerTextStyle.CaptionRegularStyle(),
                     color = UnitGray,
                 )
             } else {
                 Text(
-                    text = "모든 마일스톤 달성!",
+                    text = stringResource(R.string.milestone_complete),
                     style = SpeedometerTextStyle.CaptionStyle(),
                     color = GaugeSafe,
                 )
@@ -139,5 +146,6 @@ private fun MilestoneBadge(labelKm: Int, achieved: Boolean, distanceUnit: Distan
     }
 }
 
+@Composable
 private fun formatDistance(value: Float): String =
-    if (value >= 100f) value.roundToInt().toString() else "%.1f".format(value)
+    if (value >= 100f) value.roundToInt().toString() else formatOneDecimal(value)

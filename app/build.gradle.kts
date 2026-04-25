@@ -19,6 +19,16 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    androidResources {
+        // 9개 언어만 APK 에 포함 (ko, ja, zh-rTW, es, pt-rBR, hi, in, ru + en 기본).
+        // Indonesian 은 Android 가 레거시 ISO 코드 'in' 으로 다룬다.
+        localeFilters += listOf("en", "ko", "ja", "zh-rTW", "es", "pt-rBR", "hi", "in", "ru")
+        // values-* 디렉터리를 보고 locales_config.xml 자동 생성 + Manifest 에 주입.
+        // 이 옵션은 res/resources.properties 의 unqualifiedResLocale 을 필요로 한다.
+        generateLocaleConfig = true
     }
 
     buildTypes {

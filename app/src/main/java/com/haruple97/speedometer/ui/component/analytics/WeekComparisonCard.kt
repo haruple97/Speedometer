@@ -9,7 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.DistanceUnit
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.trip.ComparisonPair
@@ -18,6 +20,8 @@ import com.haruple97.speedometer.ui.theme.GaugeCaution
 import com.haruple97.speedometer.ui.theme.GaugeSafe
 import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.UnitGray
+import com.haruple97.speedometer.util.formatDurationMinutes
+import com.haruple97.speedometer.util.formatOneDecimal
 import kotlin.math.roundToInt
 
 /**
@@ -39,18 +43,18 @@ fun WeekComparisonRow(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         ComparisonItem(
-            label = "거리",
+            label = stringResource(R.string.compare_label_distance),
             primary = "${formatDistance(distanceDisplay)} ${distanceUnit.label}",
             percentChange = comparison.distancePercentChange(),
         )
         ComparisonItem(
-            label = "시간",
-            primary = formatMinutes(minutes),
+            label = stringResource(R.string.compare_label_duration),
+            primary = formatDurationMinutes(minutes),
             percentChange = comparison.durationPercentChange(),
         )
         ComparisonItem(
-            label = "주행",
-            primary = "${current.tripCount}회",
+            label = stringResource(R.string.compare_label_count),
+            primary = stringResource(R.string.compare_count_value, current.tripCount),
             percentChange = comparison.tripCountPercentChange(),
         )
     }
@@ -92,15 +96,9 @@ private fun ComparisonItem(
     }
 }
 
+@Composable
 private fun formatDistance(value: Float): String =
-    if (value >= 100f) value.roundToInt().toString() else "%.1f".format(value)
-
-private fun formatMinutes(m: Long): String {
-    if (m <= 0) return "0분"
-    val h = m / 60
-    val rem = m % 60
-    return if (h > 0) "${h}시간 ${rem}분" else "${rem}분"
-}
+    if (value >= 100f) value.roundToInt().toString() else formatOneDecimal(value)
 
 private fun formatPercent(value: Float): String {
     val arrow = when {

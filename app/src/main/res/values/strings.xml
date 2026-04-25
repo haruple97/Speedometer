@@ -1,3 +1,286 @@
-<resources>
-    <string name="app_name">Speedometer</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="app_name" translatable="false">Speedometer</string>
+
+    <!-- ===== Bottom navigation tabs (1-2 words, may be cropped on narrow screens) ===== -->
+    <string name="tab_dashboard">Dashboard</string>
+    <string name="tab_history">History</string>
+    <string name="tab_settings">Settings</string>
+
+    <!-- ===== Common actions / dialog buttons ===== -->
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_apply">Apply</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_share">Share</string>
+    <string name="action_undo">Undo</string>
+    <string name="nav_back">Back</string>
+
+    <!-- ===== Permission gate ===== -->
+    <string name="perm_body">Location access is required.\nGrant location permission so we can measure your speed in real time.</string>
+    <string name="perm_grant_cta">Grant permission</string>
+
+    <!-- ===== Recording control button (manual record mode) — keep tight, fits in 160dp ===== -->
+    <string name="recording_start">Start</string>
+    <string name="recording_stop">Stop</string>
+
+    <!-- ===== Settings — section titles ===== -->
+    <string name="settings_section_preset">Driving preset</string>
+    <string name="settings_section_driving">Driving</string>
+    <string name="settings_section_recording">Recording</string>
+    <string name="settings_section_warning">Warnings</string>
+    <string name="settings_section_units">Units</string>
+    <string name="settings_section_app">App</string>
+
+    <!-- ===== Settings — rows ===== -->
+    <string name="settings_keep_screen_on">Keep screen on</string>
+    <string name="settings_hud_mode">HUD mode</string>
+    <string name="settings_max_speed">Max speed</string>
+    <string name="settings_auto_record">Auto-record trips</string>
+    <string name="settings_auto_record_hint">When off, use the Start/Stop button on the dashboard to record manually.</string>
+    <string name="settings_overspeed">Overspeed warning</string>
+    <string name="settings_overspeed_threshold">Threshold</string>
+    <string name="settings_unit_speed">Speed</string>
+    <string name="settings_unit_distance">Distance</string>
+    <string name="settings_share_app">Share app</string>
+    <!-- %1$s = Play Store URL -->
+    <string name="settings_share_message" translatable="false">Speedometer — %1$s</string>
+
+    <!-- ===== Speed presets (SpeedPreset enum) — names should fit a chip ===== -->
+    <string name="preset_walk_name">Walk</string>
+    <string name="preset_walk_desc">Easy stroll &amp; running</string>
+    <string name="preset_bike_name">Bike</string>
+    <string name="preset_bike_desc">Cycling &amp; road bikes</string>
+    <string name="preset_drive_name">Drive</string>
+    <string name="preset_drive_desc">Car driving with overspeed alert</string>
+    <string name="preset_express_name">Express</string>
+    <string name="preset_express_desc">High-speed rail &amp; motorsport</string>
+
+    <!-- ===== Preset confirm dialog ===== -->
+    <!-- %1$s = preset display name -->
+    <string name="preset_apply_title">%1$s preset</string>
+    <string name="preset_apply_body">The following settings will change.</string>
+    <string name="preset_change_max_speed">Max speed</string>
+    <string name="preset_change_overspeed">Overspeed warning</string>
+    <!-- %1$d = threshold value, %2$s = unit (km/h or mph) -->
+    <string name="preset_change_overspeed_on">On · %1$d %2$s</string>
+    <string name="preset_change_overspeed_off">Off</string>
+    <string name="preset_change_hud_mode">HUD mode</string>
+    <string name="preset_change_keep_screen_on">Keep screen on</string>
+    <string name="preset_state_on">On</string>
+    <string name="preset_state_off">Off</string>
+
+    <!-- ===== Slider dialogs ===== -->
+    <string name="dialog_max_speed_title">Max speed</string>
+    <string name="dialog_overspeed_threshold_title">Overspeed threshold</string>
+    <!-- %1$d = value, %2$s = unit (km/h or mph). Used as the live slider readout. -->
+    <string name="dialog_value_with_unit">%1$d %2$s</string>
+
+    <!-- ===== History tab — period selector ===== -->
+    <string name="history_period_week">This week</string>
+    <string name="history_period_month">This month</string>
+    <string name="history_period_all">All</string>
+
+    <!-- ===== History tab — summary metric labels ===== -->
+    <string name="history_summary_distance">Total distance</string>
+    <string name="history_summary_duration">Drive time</string>
+    <string name="history_summary_max_speed">Top speed</string>
+    <string name="history_summary_count">Trips</string>
+    <!-- Suffix shown next to the trip count in the summary card (e.g. "5 trips"). -->
+    <string name="history_summary_count_unit">trips</string>
+
+    <!-- ===== History tab — list item metrics (3 columns) ===== -->
+    <string name="history_item_metric_distance">Distance</string>
+    <string name="history_item_metric_time">Time</string>
+    <string name="history_item_metric_top">Top</string>
+
+    <!-- ===== History — empty state ===== -->
+    <string name="history_empty_title">No trips yet</string>
+    <string name="history_empty_body">Trips are logged automatically once driving is detected.</string>
+
+    <!-- ===== History — swipe delete snackbar ===== -->
+    <string name="history_delete_done">Trip deleted</string>
+
+    <!-- ===== Trip detail screen ===== -->
+    <string name="trip_detail_title">Trip detail</string>
+    <string name="trip_detail_not_found">Trip not found</string>
+    <string name="trip_detail_metric_distance">Distance</string>
+    <string name="trip_detail_metric_duration">Drive time</string>
+    <string name="trip_detail_metric_max_speed">Top speed</string>
+    <string name="trip_detail_metric_avg_speed">Avg speed</string>
+    <!-- Short minute unit shown next to a number (e.g. "45 m"). Keep tight; one syllable in CJK. -->
+    <string name="unit_minute_short">m</string>
+    <string name="trip_detail_delete_title">Delete this trip?</string>
+    <string name="trip_detail_delete_body">This cannot be undone.</string>
+    <string name="trip_detail_share_chooser">Share trip</string>
+    <!--
+        Trip share text. Translators: keep all 8 args, you may rearrange them.
+        %1$s = date (e.g. "Apr 25"), %2$s = distance number, %3$s = distance unit (km/mi),
+        %4$s = formatted duration (e.g. "1h 23m"),
+        %5$s = top speed number, %6$s = speed unit (km/h/mph),
+        %7$s = avg speed number, %8$s = speed unit
+    -->
+    <string name="trip_detail_share_template">%1$s drive · %2$s %3$s · %4$s · top %5$s %6$s · avg %7$s %8$s</string>
+
+    <!-- ===== Date / time format patterns =====
+         These ARE localized. Keep ICU-style symbols (M, d, E, H, m, y) — only their order/literal text changes per language. -->
+    <string name="format_date_month_day">MMM d</string>
+    <string name="format_date_month_day_weekday">MMM d (E)</string>
+    <string name="format_date_month_day_short">M/d (E)</string>
+    <string name="format_date_year_month">MMMM yyyy</string>
+    <string name="format_time_hm">HH:mm</string>
+    <!-- %1$s = start, %2$s = end (e.g. "14:00 – 15:30") -->
+    <string name="format_time_range">%1$s – %2$s</string>
+
+    <!-- ===== Duration ===== -->
+    <!-- %1$d = hours, %2$d = minutes (e.g. "1h 23m") -->
+    <string name="duration_h_m">%1$dh %2$dm</string>
+    <!-- %1$d = minutes (e.g. "45m") -->
+    <string name="duration_m">%1$dm</string>
+    <!-- Zero/no-data placeholder for duration. -->
+    <string name="duration_zero">0m</string>
+
+    <!-- ===== Weekday short labels (Sun..Sat). Used across heatmap, weekday chart, insights. ===== -->
+    <string-array name="weekday_short_labels">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+    <!--
+        Weekday wrapped for use inside a sentence. Korean adds "요일" suffix; Japanese adds "曜日";
+        most other languages just pass through. %1$s = short weekday from weekday_short_labels.
+    -->
+    <string name="weekday_with_suffix">%1$s</string>
+
+    <!-- ===== Time-of-day buckets (used in insight sentence) ===== -->
+    <string name="time_bucket_dawn">early morning</string>           <!-- 04:00–07:59 -->
+    <string name="time_bucket_commute_morning">morning commute</string> <!-- 08:00–09:59 -->
+    <string name="time_bucket_daytime">daytime</string>              <!-- 10:00–15:59 -->
+    <string name="time_bucket_commute_evening">evening commute</string> <!-- 16:00–18:59 -->
+    <string name="time_bucket_evening">evening</string>              <!-- 19:00–22:59 -->
+    <string name="time_bucket_late_night">late night</string>        <!-- 23:00–03:59 -->
+
+    <!-- ===== Driving insight sentences (full sentences, NOT concatenated). Reorder args freely. =====
+         %1$s = bucket label (e.g. "morning commute"), %2$d = peak hour (0-23), %3$d = trip count -->
+    <string name="insight_peak_bucket">You drive most often in the %1$s, around %2$d:00 (%3$d trips).</string>
+    <!-- %1$s = weekday label (e.g. "Monday"), %2$d = avg speed value, %3$s = unit (km/h or mph) -->
+    <string name="insight_fastest_weekday">Your fastest day is %1$s — averaging %2$d %3$s.</string>
+    <!-- %1$d = absolute percent change (already abs+rounded). Two distinct keys instead of an inline word swap. -->
+    <string name="insight_weekly_distance_up">You drove %1$d%% more than last week.</string>
+    <string name="insight_weekly_distance_down">You drove %1$d%% less than last week.</string>
+    <string name="insight_empty">More driving data unlocks personalized insights here.</string>
+
+    <!-- ===== WeekdayBarChart annotation — shown below the bars ===== -->
+    <!-- %1$s = weekday label, %2$d = avg speed, %3$s = speed unit -->
+    <string name="weekday_chart_fastest">Fastest day: %1$s · avg %2$d %3$s</string>
+
+    <!-- ===== TimeOfDayHistogram annotation — shown below the bars ===== -->
+    <!-- %1$d = peak hour (0-23), %2$d = trip count -->
+    <string name="hour_chart_peak">Most active hour: %1$d:00 (%2$d trips)</string>
+
+    <!-- ===== Analytics screen ===== -->
+    <string name="analytics_title">Analytics</string>
+    <string name="analytics_empty">Not enough trips to analyze yet.\nCheck back after a few drives.</string>
+
+    <string name="analytics_section_compare">This week vs last week</string>
+    <string name="analytics_section_compare_sub">Changes in your key metrics</string>
+    <string name="analytics_section_trend">Weekly trend</string>
+    <string name="analytics_section_trend_sub">Total distance over the last 8 weeks</string>
+    <string name="analytics_section_weekday">Average speed by weekday</string>
+    <string name="analytics_section_weekday_sub">Driving patterns through the week</string>
+    <string name="analytics_section_hour">Trip frequency by hour</string>
+    <string name="analytics_section_hour_sub">When you drive most during the day</string>
+    <string name="analytics_section_zones">Distance by speed zone</string>
+    <string name="analytics_section_zones_sub">Safe / Caution / Danger / Extreme split</string>
+    <string name="analytics_section_month">Driving this month</string>
+    <string name="analytics_section_insight">Driving insights</string>
+    <string name="analytics_section_insight_sub">A summary of your driving</string>
+    <string name="analytics_section_milestone">Milestones</string>
+    <string name="analytics_section_milestone_sub">On the way to your next goal</string>
+    <string name="analytics_section_records">Personal bests</string>
+    <string name="analytics_section_records_sub">Tap a card to open the trip</string>
+
+    <!-- ===== AnalyticsSummaryHeader (the big card at the top of Analytics) ===== -->
+    <string name="analytics_summary_this_month">This month</string>
+    <string name="analytics_summary_metric_count">Trips</string>
+    <string name="analytics_summary_metric_duration">Drive time</string>
+    <string name="analytics_summary_metric_top_this_month">Top this month</string>
+    <!-- %1$s = total distance (formatted), %2$s = distance unit, %3$d = total hours.
+         Translators: feel free to reorder; the comma sentence pattern is just a default. -->
+    <string name="analytics_summary_total">Total %1$s %2$s · %3$d hours of driving</string>
+
+    <!-- ===== MonthHeatmap ===== -->
+    <string name="heatmap_legend_low">Low</string>
+    <string name="heatmap_legend_high">High</string>
+    <!-- %1$s = total distance (formatted), %2$s = distance unit -->
+    <string name="heatmap_total">This month: %1$s %2$s</string>
+
+    <!-- ===== Weekly trend chart ===== -->
+    <string name="trend_xaxis_8weeks_ago">8 wks ago</string>
+    <string name="trend_xaxis_this_week">This week</string>
+    <string name="trend_empty">After 2 weeks of driving data, the trend will appear here.</string>
+
+    <!-- ===== SpeedZonePie ===== -->
+    <string name="zone_safe">Safe</string>
+    <string name="zone_safe_range" translatable="false">&lt; 120 km/h</string>
+    <string name="zone_caution">Caution</string>
+    <string name="zone_caution_range" translatable="false">120–200</string>
+    <string name="zone_danger">Danger</string>
+    <string name="zone_danger_range" translatable="false">200–280</string>
+    <string name="zone_critical">Extreme</string>
+    <string name="zone_critical_range" translatable="false">≥ 280</string>
+    <!-- Center label of the pie, e.g. "total km" / "total mi". %1$s = unit. -->
+    <string name="zone_total_label">Total %1$s</string>
+    <!-- %1$s = distance value, %2$s = distance unit, %3$s = range (e.g. "<120 km/h") -->
+    <string name="zone_legend_value">%1$s %2$s · %3$s</string>
+
+    <!-- ===== Personal records ===== -->
+    <string name="record_no_data">No record</string>
+    <string name="record_longest_distance">Longest distance</string>
+    <string name="record_top_speed">Top speed</string>
+    <string name="record_longest_duration">Longest trip</string>
+    <string name="record_most_overspeed">Most overspeed</string>
+    <!-- Overspeed event count value. %1$d = count. -->
+    <string name="record_overspeed_count">%1$d events</string>
+
+    <!-- ===== Week comparison row ===== -->
+    <string name="compare_label_distance">Distance</string>
+    <string name="compare_label_duration">Time</string>
+    <string name="compare_label_count">Trips</string>
+    <!-- %1$d = trip count -->
+    <string name="compare_count_value">%1$d trips</string>
+
+    <!-- ===== Milestone card ===== -->
+    <!-- %1$d = next target value, %2$s = distance unit, %3$d = remaining distance -->
+    <string name="milestone_remaining">%3$d %2$s to %1$d %2$s</string>
+    <string name="milestone_complete">All milestones reached!</string>
+
+    <!-- ===== Analytics access card (history tab) ===== -->
+    <string name="analytics_card_title">Detailed analytics</string>
+    <string name="analytics_card_locked">Watch a short ad to unlock detailed insights for 24 hours</string>
+    <!-- %1$d = hours remaining, %2$d = minutes remaining -->
+    <string name="analytics_card_unlocked_remaining">Unlocked · %1$dh %2$dm left</string>
+    <!-- %1$d = uses remaining (legacy state, reserved for future) -->
+    <string name="analytics_card_uses_remaining">%1$d uses left</string>
+
+    <!-- ===== Unlock prompt dialog (analytics) ===== -->
+    <string name="analytics_unlock_title">Open detailed analytics?</string>
+    <string name="analytics_unlock_message">Watch a short ad to unlock weekday/hour driving patterns, speed-zone breakdown, monthly heatmap, and personal bests for 24 hours.</string>
+    <string name="analytics_unlock_confirm">Watch ad</string>
+    <string name="analytics_unlock_dismiss">Later</string>
+    <!-- Defaults for the generic UnlockPromptDialog when no override is passed. -->
+    <string name="unlock_prompt_default_confirm">Watch ad</string>
+    <string name="unlock_prompt_default_dismiss">Later</string>
+
+    <!-- ===== SpeedTimelineChart ===== -->
+    <string name="timeline_empty">Not enough data to draw the chart</string>
+
+    <!-- ===== Native ad ===== -->
+    <string name="ad_badge">Ad</string>
+
 </resources>

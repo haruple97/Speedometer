@@ -9,9 +9,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.DistanceUnit
 import com.haruple97.speedometer.data.trip.WeekStat
 import com.haruple97.speedometer.ui.theme.GaugeSafe
@@ -35,12 +37,15 @@ fun WeeklyTrendLineChart(
     if (trend.size < 2) {
         // SectionCard 내부에서 렌더되므로 여기선 간단히 플레이스홀더 텍스트만.
         androidx.compose.material3.Text(
-            text = "주행 데이터가 2주 이상 누적되면 추이가 보여요.",
+            text = stringResource(R.string.trend_empty),
             style = SpeedometerTextStyle.Body2RegularStyle(),
             color = UnitGray,
         )
         return
     }
+
+    val firstLabelText = stringResource(R.string.trend_xaxis_8weeks_ago)
+    val lastLabelText = stringResource(R.string.trend_xaxis_this_week)
 
     val maxMeters = trend.maxOf { it.totalDistanceMeters }.coerceAtLeast(1f)
     val avgMeters = trend.sumOf { it.totalDistanceMeters.toDouble() }.toFloat() / trend.size
@@ -119,12 +124,12 @@ fun WeeklyTrendLineChart(
         )
 
         // X축: 첫 주/이번 주 라벨
-        val firstLabel = textMeasurer.measure("8주 전", labelStyle)
+        val firstLabel = textMeasurer.measure(firstLabelText, labelStyle)
         drawText(
             textLayoutResult = firstLabel,
             topLeft = Offset(plotLeft, size.height - firstLabel.size.height - 2.dp.toPx()),
         )
-        val lastLabel = textMeasurer.measure("이번 주", labelStyle)
+        val lastLabel = textMeasurer.measure(lastLabelText, labelStyle)
         drawText(
             textLayoutResult = lastLabel,
             topLeft = Offset(

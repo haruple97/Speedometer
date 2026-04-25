@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.DistanceUnit
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.trip.TripAggregate
@@ -20,6 +22,8 @@ import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeSafe
 import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.UnitGray
+import com.haruple97.speedometer.util.formatDurationMinutes
+import com.haruple97.speedometer.util.formatOneDecimal
 import kotlin.math.roundToInt
 
 /**
@@ -40,15 +44,14 @@ fun AnalyticsSummaryHeader(
     val monthKm = thisMonth.totalDistanceMeters / 1000f
     val monthDisplayDistance = distanceUnit.fromKm(monthKm)
     val avgSpeedValue = if (thisMonth.tripCount > 0) {
-        speedUnit.fromKmh(thisMonth.maxSpeedKmh).roundToInt()  // 요약엔 최고값으로 단순화
+        speedUnit.fromKmh(thisMonth.maxSpeedKmh).roundToInt()
     } else 0
     val monthMinutes = thisMonth.totalDurationMs / 60_000
-    val monthHours = monthMinutes / 60
-    val monthHoursLabel = if (monthHours > 0) "${monthHours}h ${monthMinutes % 60}m" else "${monthMinutes}분"
+    val monthHoursLabel = formatDurationMinutes(monthMinutes)
 
     val totalKm = total.totalDistanceMeters / 1000f
     val totalDisplayDistance = distanceUnit.fromKm(totalKm)
-    val totalHours = total.totalDurationMs / 3_600_000L
+    val totalHours = (total.totalDurationMs / 3_600_000L).toInt()
 
     Column(
         modifier = modifier
@@ -59,14 +62,14 @@ fun AnalyticsSummaryHeader(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Text(
-            text = "이번 달",
+            text = stringResource(R.string.analytics_summary_this_month),
             style = SpeedometerTextStyle.CaptionRegularStyle(),
             color = UnitGray,
         )
 
         Row(verticalAlignment = androidx.compose.ui.Alignment.Bottom) {
             Text(
-                text = formatDistance(monthDisplayDistance),
+                text = formatDistanceDisplay(monthDisplayDistance),
                 style = SpeedometerTextStyle.Data1Style().copy(color = DigitalWhite),
                 color = DigitalWhite,
             )
@@ -82,13 +85,27 @@ fun AnalyticsSummaryHeader(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            MetricColumn("주행 횟수", "${thisMonth.tripCount}회")
-            MetricColumn("주행 시간", monthHoursLabel)
-            MetricColumn("이번 달 최고", if (thisMonth.maxSpeedKmh > 0f) "$avgSpeedValue ${speedUnit.label}" else "—")
+            MetricColumn(
+                label = stringResource(R.string.analytics_summary_metric_count),
+                value = stringResource(R.string.compare_count_value, thisMonth.tripCount),
+            )
+            MetricColumn(
+                label = stringResource(R.string.analytics_summary_metric_duration),
+                value = monthHoursLabel,
+            )
+            MetricColumn(
+                label = stringResource(R.string.analytics_summary_metric_top_this_month),
+                value = if (thisMonth.maxSpeedKmh > 0f) "$avgSpeedValue ${speedUnit.label}" else "—",
+            )
         }
 
         Text(
-            text = "누적 총 ${formatDistance(totalDisplayDistance)} ${distanceUnit.label} · ${totalHours}시간 운전",
+            text = stringResource(
+                R.string.analytics_summary_total,
+                formatDistanceDisplay(totalDisplayDistance),
+                distanceUnit.label,
+                totalHours,
+            ),
             style = SpeedometerTextStyle.CaptionRegularStyle(),
             color = GaugeSafe,
         )
@@ -111,5 +128,6 @@ private fun MetricColumn(label: String, value: String) {
     }
 }
 
-private fun formatDistance(value: Float): String =
-    if (value >= 100f) value.roundToInt().toString() else "%.1f".format(value)
+@Composable
+private fun formatDistanceDisplay(value: Float): String =
+    if (value >= 100f) value.roundToInt().toString() else formatOneDecimal(value)

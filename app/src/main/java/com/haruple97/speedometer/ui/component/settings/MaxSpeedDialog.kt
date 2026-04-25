@@ -15,7 +15,9 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.ui.theme.DashboardDarkGray
 import com.haruple97.speedometer.ui.theme.DigitalWhite
@@ -37,7 +39,7 @@ fun MaxSpeedDialog(
     }
     val stepIncrement = 10
     SliderDialog(
-        title = "최대 속도",
+        title = stringResource(R.string.dialog_max_speed_title),
         unit = speedUnit.label,
         valueRange = range,
         stepIncrement = stepIncrement,
@@ -60,7 +62,7 @@ fun OverspeedThresholdDialog(
     }
     val stepIncrement = 5
     SliderDialog(
-        title = "과속 경고 임계값",
+        title = stringResource(R.string.dialog_overspeed_threshold_title),
         unit = speedUnit.label,
         valueRange = range,
         stepIncrement = stepIncrement,
@@ -101,7 +103,7 @@ private fun SliderDialog(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Text(
-                    text = "${draft.toInt()} $unit",
+                    text = stringResource(R.string.dialog_value_with_unit, draft.toInt(), unit),
                     style = SpeedometerTextStyle.Data2Style(),
                     color = GaugeSafe,
                     modifier = Modifier.padding(vertical = 4.dp),
@@ -123,12 +125,12 @@ private fun SliderDialog(
         },
         confirmButton = {
             TextButton(onClick = { onConfirm(draft) }) {
-                Text("확인", color = GaugeSafe)
+                Text(stringResource(R.string.action_ok), color = GaugeSafe)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("취소", color = UnitGray)
+                Text(stringResource(R.string.action_cancel), color = UnitGray)
             }
         },
     )

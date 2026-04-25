@@ -12,11 +12,14 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.trip.WeekdayStat
 import com.haruple97.speedometer.ui.theme.DigitalWhite
@@ -26,8 +29,6 @@ import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.TickMinor
 import com.haruple97.speedometer.ui.theme.UnitGray
 import kotlin.math.roundToInt
-
-private val DAY_LABELS = arrayOf("일", "월", "화", "수", "목", "금", "토")
 
 /**
  * 요일별 평균 속도 + 주행 횟수 dual-metric.
@@ -46,6 +47,7 @@ fun WeekdayBarChart(
     val dayLabelStyle = SpeedometerTextStyle.CaptionRegularStyle().copy(color = UnitGray)
     val speedLabelStyle = SpeedometerTextStyle.CaptionStyle().copy(color = DigitalWhite)
     val countLabelStyle = SpeedometerTextStyle.CaptionRegularStyle().copy(color = UnitGray)
+    val dayLabels = stringArrayResource(R.array.weekday_short_labels)
 
     val byDay = (0..6).map { day -> data.firstOrNull { it.dayOfWeek == day } }
     val maxSpeed = (data.maxOfOrNull { it.avgSpeedKmh } ?: 0f).coerceAtLeast(1f)
@@ -127,7 +129,7 @@ fun WeekdayBarChart(
 
                 // 요일 라벨
                 drawCenteredLabel(
-                    text = DAY_LABELS[index],
+                    text = dayLabels[index],
                     style = dayLabelStyle,
                     cx = cx,
                     y = size.height - 8.dp.toPx(),
@@ -139,9 +141,14 @@ fun WeekdayBarChart(
         if (fastestDay != null && data.isNotEmpty()) {
             val fastestStat = data.firstOrNull { it.dayOfWeek == fastestDay }
             if (fastestStat != null) {
+                val day = stringResource(R.string.weekday_with_suffix, dayLabels[fastestDay])
                 Text(
-                    text = "가장 빠른 날: ${DAY_LABELS[fastestDay]}요일 · 평균 " +
-                        "${speedUnit.fromKmh(fastestStat.avgSpeedKmh).roundToInt()} ${speedUnit.label}",
+                    text = stringResource(
+                        R.string.weekday_chart_fastest,
+                        day,
+                        speedUnit.fromKmh(fastestStat.avgSpeedKmh).roundToInt(),
+                        speedUnit.label,
+                    ),
                     style = SpeedometerTextStyle.CaptionRegularStyle(),
                     color = GaugeCaution,
                 )

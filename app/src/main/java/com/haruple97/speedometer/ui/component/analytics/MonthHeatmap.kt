@@ -16,9 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.DistanceUnit
 import com.haruple97.speedometer.data.trip.DayStat
+import com.haruple97.speedometer.util.formatOneDecimal
 import com.haruple97.speedometer.ui.theme.DashboardBlack
 import com.haruple97.speedometer.ui.theme.DashboardDarkGray
 import com.haruple97.speedometer.ui.theme.DigitalWhite
@@ -27,8 +31,6 @@ import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.UnitGray
 import java.util.Calendar
 import kotlin.math.roundToInt
-
-private val DAY_LABELS = arrayOf("일", "월", "화", "수", "목", "금", "토")
 
 /**
  * 이번 달 일별 주행 거리 히트맵.
@@ -61,10 +63,12 @@ fun MonthHeatmap(
         cal.get(Calendar.DAY_OF_MONTH)
     }
 
+    val dayLabels = stringArrayResource(R.array.weekday_short_labels)
+
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         // 요일 라벨
         Row(modifier = Modifier.fillMaxWidth()) {
-            DAY_LABELS.forEach { d ->
+            dayLabels.forEach { d ->
                 Text(
                     text = d,
                     style = labelStyle,
@@ -141,7 +145,7 @@ fun MonthHeatmap(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                Text(text = "적음", style = labelStyle, color = UnitGray)
+                Text(text = stringResource(R.string.heatmap_legend_low), style = labelStyle, color = UnitGray)
                 listOf(0.15f, 0.4f, 0.65f, 0.9f).forEach { t ->
                     Box(
                         modifier = Modifier
@@ -157,10 +161,10 @@ fun MonthHeatmap(
                         }
                     }
                 }
-                Text(text = "많음", style = labelStyle, color = UnitGray)
+                Text(text = stringResource(R.string.heatmap_legend_high), style = labelStyle, color = UnitGray)
             }
             Text(
-                text = "이번 달 총 ${formatDistance(totalDisplay)} ${distanceUnit.label}",
+                text = stringResource(R.string.heatmap_total, formatDistance(totalDisplay), distanceUnit.label),
                 style = SpeedometerTextStyle.CaptionStyle(),
                 color = DigitalWhite,
             )
@@ -178,5 +182,6 @@ private fun lerpColor(from: Color, to: Color, t: Float): Color {
     )
 }
 
+@Composable
 private fun formatDistance(value: Float): String =
-    if (value >= 100f) value.roundToInt().toString() else "%.1f".format(value)
+    if (value >= 100f) value.roundToInt().toString() else formatOneDecimal(value)

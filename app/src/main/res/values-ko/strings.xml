@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">Speedometer</string>
+
+    <string name="tab_dashboard">계기판</string>
+    <string name="tab_history">기록</string>
+    <string name="tab_settings">설정</string>
+
+    <string name="action_ok">확인</string>
+    <string name="action_cancel">취소</string>
+    <string name="action_apply">적용</string>
+    <string name="action_delete">삭제</string>
+    <string name="action_share">공유</string>
+    <string name="action_undo">실행 취소</string>
+    <string name="nav_back">뒤로</string>
+
+    <string name="perm_body">GPS 위치 권한이 필요합니다.\n실시간 속도를 측정하기 위해\n위치 접근을 허용해 주세요.</string>
+    <string name="perm_grant_cta">권한 허용</string>
+
+    <string name="recording_start">기록 시작</string>
+    <string name="recording_stop">기록 중지</string>
+
+    <string name="settings_section_preset">주행 프리셋</string>
+    <string name="settings_section_driving">주행</string>
+    <string name="settings_section_recording">기록</string>
+    <string name="settings_section_warning">경고</string>
+    <string name="settings_section_units">단위</string>
+    <string name="settings_section_app">앱</string>
+
+    <string name="settings_keep_screen_on">화면 켜짐 유지</string>
+    <string name="settings_hud_mode">HUD 모드</string>
+    <string name="settings_max_speed">최대 속도</string>
+    <string name="settings_auto_record">주행 자동 기록</string>
+    <string name="settings_auto_record_hint">꺼짐 시 메인 화면의 시작/정지 버튼으로 직접 기록할 수 있습니다.</string>
+    <string name="settings_overspeed">과속 경고</string>
+    <string name="settings_overspeed_threshold">임계값</string>
+    <string name="settings_unit_speed">속도</string>
+    <string name="settings_unit_distance">거리</string>
+    <string name="settings_share_app">앱 공유</string>
+
+    <string name="preset_walk_name">도보</string>
+    <string name="preset_walk_desc">가벼운 산책·러닝</string>
+    <string name="preset_bike_name">자전거</string>
+    <string name="preset_bike_desc">라이딩·로드바이크</string>
+    <string name="preset_drive_name">드라이브</string>
+    <string name="preset_drive_desc">승용차 주행·과속 경고</string>
+    <string name="preset_express_name">고속주행</string>
+    <string name="preset_express_desc">고속열차·모터스포츠</string>
+
+    <string name="preset_apply_title">%1$s 프리셋</string>
+    <string name="preset_apply_body">다음과 같이 설정이 변경됩니다.</string>
+    <string name="preset_change_max_speed">최대 속도</string>
+    <string name="preset_change_overspeed">과속 경고</string>
+    <string name="preset_change_overspeed_on">켜짐 · %1$d %2$s</string>
+    <string name="preset_change_overspeed_off">끔</string>
+    <string name="preset_change_hud_mode">HUD 모드</string>
+    <string name="preset_change_keep_screen_on">화면 켜짐 유지</string>
+    <string name="preset_state_on">켜짐</string>
+    <string name="preset_state_off">끔</string>
+
+    <string name="dialog_max_speed_title">최대 속도</string>
+    <string name="dialog_overspeed_threshold_title">과속 경고 임계값</string>
+    <string name="dialog_value_with_unit">%1$d %2$s</string>
+
+    <string name="history_period_week">이번주</string>
+    <string name="history_period_month">이번달</string>
+    <string name="history_period_all">전체</string>
+
+    <string name="history_summary_distance">총 거리</string>
+    <string name="history_summary_duration">주행 시간</string>
+    <string name="history_summary_max_speed">최고 속도</string>
+    <string name="history_summary_count">주행 횟수</string>
+    <string name="history_summary_count_unit">회</string>
+
+    <string name="history_item_metric_distance">거리</string>
+    <string name="history_item_metric_time">시간</string>
+    <string name="history_item_metric_top">최고</string>
+
+    <string name="history_empty_title">아직 기록이 없습니다</string>
+    <string name="history_empty_body">주행이 감지되면 자동으로 기록됩니다</string>
+
+    <string name="history_delete_done">기록이 삭제되었습니다</string>
+
+    <string name="trip_detail_title">기록 상세</string>
+    <string name="trip_detail_not_found">기록을 찾을 수 없습니다</string>
+    <string name="trip_detail_metric_distance">거리</string>
+    <string name="trip_detail_metric_duration">주행 시간</string>
+    <string name="trip_detail_metric_max_speed">최고 속도</string>
+    <string name="trip_detail_metric_avg_speed">평균 속도</string>
+    <string name="unit_minute_short">분</string>
+    <string name="trip_detail_delete_title">이 기록을 삭제할까요?</string>
+    <string name="trip_detail_delete_body">삭제 후에는 되돌릴 수 없습니다.</string>
+    <string name="trip_detail_share_chooser">기록 공유</string>
+    <string name="trip_detail_share_template">%1$s 주행 · %2$s %3$s · %4$s · 최고 %5$s %6$s · 평균 %7$s %8$s</string>
+
+    <string name="format_date_month_day">M월 d일</string>
+    <string name="format_date_month_day_weekday">M월 d일 (E)</string>
+    <string name="format_date_month_day_short">M/d (E)</string>
+    <string name="format_date_year_month">yyyy년 M월</string>
+    <string name="format_time_hm">HH:mm</string>
+    <string name="format_time_range">%1$s – %2$s</string>
+
+    <string name="duration_h_m">%1$d시간 %2$d분</string>
+    <string name="duration_m">%1$d분</string>
+    <string name="duration_zero">0분</string>
+
+    <string-array name="weekday_short_labels">
+        <item>일</item>
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+    </string-array>
+    <string name="weekday_with_suffix">%1$s요일</string>
+
+    <string name="time_bucket_dawn">새벽/이른 아침</string>
+    <string name="time_bucket_commute_morning">출근 시간대</string>
+    <string name="time_bucket_daytime">낮 시간대</string>
+    <string name="time_bucket_commute_evening">퇴근 시간대</string>
+    <string name="time_bucket_evening">저녁 시간대</string>
+    <string name="time_bucket_late_night">심야 시간대</string>
+
+    <string name="insight_peak_bucket">주로 %1$s (%2$d시 전후) 에 %3$d회 주행하셨어요.</string>
+    <string name="insight_fastest_weekday">%1$s에 가장 빠른 속도 (평균 %2$d %3$s) 를 기록하셨어요.</string>
+    <string name="insight_weekly_distance_up">지난 주 대비 주행 거리가 %1$d%% 늘었어요.</string>
+    <string name="insight_weekly_distance_down">지난 주 대비 주행 거리가 %1$d%% 줄었어요.</string>
+    <string name="insight_empty">더 많은 주행 기록이 쌓이면 맞춤 인사이트를 보여드릴게요.</string>
+
+    <string name="weekday_chart_fastest">가장 빠른 날: %1$s · 평균 %2$d %3$s</string>
+
+    <string name="hour_chart_peak">가장 활동적인 시간대: %1$d시 (%2$d회)</string>
+
+    <string name="analytics_title">상세 분석</string>
+    <string name="analytics_empty">분석할 주행 기록이 부족합니다.\n몇 번 주행 후 다시 열어보세요.</string>
+
+    <string name="analytics_section_compare">이번 주 vs 지난 주</string>
+    <string name="analytics_section_compare_sub">주요 지표의 변화</string>
+    <string name="analytics_section_trend">주간 추이</string>
+    <string name="analytics_section_trend_sub">최근 8주 총 주행 거리</string>
+    <string name="analytics_section_weekday">요일별 평균 속도</string>
+    <string name="analytics_section_weekday_sub">요일마다의 주행 패턴</string>
+    <string name="analytics_section_hour">시간대별 주행 빈도</string>
+    <string name="analytics_section_hour_sub">하루 중 언제 가장 많이 달리는지</string>
+    <string name="analytics_section_zones">속도 구간별 누적 거리</string>
+    <string name="analytics_section_zones_sub">안전·주의·위험·극한 구간 비중</string>
+    <string name="analytics_section_month">이번 달 주행</string>
+    <string name="analytics_section_insight">드라이빙 인사이트</string>
+    <string name="analytics_section_insight_sub">당신의 주행 패턴 요약</string>
+    <string name="analytics_section_milestone">누적 마일스톤</string>
+    <string name="analytics_section_milestone_sub">다음 목표까지의 여정</string>
+    <string name="analytics_section_records">개인 기록</string>
+    <string name="analytics_section_records_sub">탭해서 해당 주행 상세로</string>
+
+    <string name="analytics_summary_this_month">이번 달</string>
+    <string name="analytics_summary_metric_count">주행 횟수</string>
+    <string name="analytics_summary_metric_duration">주행 시간</string>
+    <string name="analytics_summary_metric_top_this_month">이번 달 최고</string>
+    <string name="analytics_summary_total">누적 총 %1$s %2$s · %3$d시간 운전</string>
+
+    <string name="heatmap_legend_low">적음</string>
+    <string name="heatmap_legend_high">많음</string>
+    <string name="heatmap_total">이번 달 총 %1$s %2$s</string>
+
+    <string name="trend_xaxis_8weeks_ago">8주 전</string>
+    <string name="trend_xaxis_this_week">이번 주</string>
+    <string name="trend_empty">주행 데이터가 2주 이상 누적되면 추이가 보여요.</string>
+
+    <string name="zone_safe">안전</string>
+    <string name="zone_caution">주의</string>
+    <string name="zone_danger">위험</string>
+    <string name="zone_critical">극한</string>
+    <string name="zone_total_label">총 %1$s</string>
+    <string name="zone_legend_value">%1$s %2$s · %3$s</string>
+
+    <string name="record_no_data">기록 없음</string>
+    <string name="record_longest_distance">최장 거리</string>
+    <string name="record_top_speed">최고 속도</string>
+    <string name="record_longest_duration">최장 시간</string>
+    <string name="record_most_overspeed">최다 과속</string>
+    <string name="record_overspeed_count">%1$d회</string>
+
+    <string name="compare_label_distance">거리</string>
+    <string name="compare_label_duration">시간</string>
+    <string name="compare_label_count">주행</string>
+    <string name="compare_count_value">%1$d회</string>
+
+    <string name="milestone_remaining">다음 %1$d %2$s 까지 %3$d %2$s</string>
+    <string name="milestone_complete">모든 마일스톤 달성!</string>
+
+    <string name="analytics_card_title">상세 분석</string>
+    <string name="analytics_card_locked">광고 시청하고 24시간 동안 상세 인사이트 열람</string>
+    <string name="analytics_card_unlocked_remaining">열람 중 · 남은 시간 %1$d시간 %2$d분</string>
+    <string name="analytics_card_uses_remaining">잔여 %1$d회</string>
+
+    <string name="analytics_unlock_title">상세 분석 열어볼까요?</string>
+    <string name="analytics_unlock_message">짧은 광고를 보면 24시간 동안 요일·시간대 주행 패턴 · 속도 구간 분석 · 월간 히트맵 · 개인 기록까지 전부 확인할 수 있어요.</string>
+    <string name="analytics_unlock_confirm">광고 보기</string>
+    <string name="analytics_unlock_dismiss">다음에</string>
+    <string name="unlock_prompt_default_confirm">광고 시청</string>
+    <string name="unlock_prompt_default_dismiss">다음에</string>
+
+    <string name="timeline_empty">그래프를 그릴 데이터가 부족합니다</string>
+
+    <string name="ad_badge">광고</string>
+
+</resources>

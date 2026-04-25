@@ -16,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.ui.theme.DashboardBlack
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeDanger
@@ -37,7 +39,7 @@ fun RecordingControlButton(
 ) {
     val container = if (isRecording) GaugeDanger else GaugeSafe
     val content = if (isRecording) DigitalWhite else DashboardBlack
-    val label = if (isRecording) "기록 중지" else "기록 시작"
+    val label = stringResource(if (isRecording) R.string.recording_stop else R.string.recording_start)
 
     Button(
         onClick = onClick,

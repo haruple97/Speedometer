@@ -23,7 +23,7 @@
                 android:background="#3A3A3A"
                 android:paddingHorizontal="6dp"
                 android:paddingVertical="2dp"
-                android:text="광고"
+                android:text="@string/ad_badge"
                 android:textColor="#F5F5F5"
                 android:textSize="11sp"
                 android:textStyle="bold" />

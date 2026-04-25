@@ -18,7 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.premium.UnlockState
 import com.haruple97.speedometer.ui.theme.DashboardDarkGray
 import com.haruple97.speedometer.ui.theme.DigitalWhite
@@ -55,7 +57,7 @@ fun AnalyticsAccessCard(
             ) {
                 Text(text = "📊", style = SpeedometerTextStyle.Body1Style())
                 Text(
-                    text = "상세 분석",
+                    text = stringResource(R.string.analytics_card_title),
                     style = SpeedometerTextStyle.Body1Style(),
                     color = DigitalWhite,
                 )
@@ -85,13 +87,14 @@ fun AnalyticsAccessCard(
     }
 }
 
+@Composable
 private fun subtitleFor(state: UnlockState): String = when (state) {
-    is UnlockState.Locked -> "광고 시청하고 24시간 동안 상세 인사이트 열람"
+    is UnlockState.Locked -> stringResource(R.string.analytics_card_locked)
     is UnlockState.UnlockedUntil -> {
         val remainingMs = state.untilMs - System.currentTimeMillis()
         val hours = remainingMs / 3_600_000
         val minutes = (remainingMs % 3_600_000) / 60_000
-        "열람 중 · 남은 시간 ${hours}시간 ${minutes}분"
+        stringResource(R.string.analytics_card_unlocked_remaining, hours.toInt(), minutes.toInt())
     }
-    is UnlockState.UsesRemaining -> "잔여 ${state.count}회"
+    is UnlockState.UsesRemaining -> stringResource(R.string.analytics_card_uses_remaining, state.count)
 }

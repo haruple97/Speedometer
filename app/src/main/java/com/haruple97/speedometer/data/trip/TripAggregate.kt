@@ -1,5 +1,7 @@
 package com.haruple97.speedometer.data.trip
 
+import androidx.annotation.StringRes
+import com.haruple97.speedometer.R
 import java.util.Calendar
 
 data class TripAggregate(
@@ -21,10 +23,10 @@ data class SampleAggregate(
     val lastTimestampMs: Long,
 )
 
-enum class SummaryPeriod(val label: String) {
-    THIS_WEEK("이번주"),
-    THIS_MONTH("이번달"),
-    ALL("전체");
+enum class SummaryPeriod(@StringRes val labelRes: Int) {
+    THIS_WEEK(R.string.history_period_week),
+    THIS_MONTH(R.string.history_period_month),
+    ALL(R.string.history_period_all);
 
     /** 기간의 시작 시각(epoch ms)을 반환. ALL 이면 0. */
     fun fromEpochMs(nowMs: Long): Long {

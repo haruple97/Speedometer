@@ -8,7 +8,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.ui.theme.DashboardDarkGray
 import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeSafe
@@ -25,8 +27,8 @@ import com.haruple97.speedometer.ui.theme.UnitGray
 fun UnlockPromptDialog(
     title: String,
     message: String,
-    confirmText: String = "광고 시청",
-    dismissText: String = "다음에",
+    confirmText: String = stringResource(R.string.unlock_prompt_default_confirm),
+    dismissText: String = stringResource(R.string.unlock_prompt_default_dismiss),
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
 ) {

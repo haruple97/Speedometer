@@ -14,11 +14,13 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.trip.TripSampleEntity
 import com.haruple97.speedometer.ui.theme.NeedleGlow
@@ -45,7 +47,7 @@ fun SpeedTimelineChart(
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                text = "그래프를 그릴 데이터가 부족합니다",
+                text = stringResource(R.string.timeline_empty),
                 style = SpeedometerTextStyle.Body2RegularStyle(),
                 color = UnitGray,
             )

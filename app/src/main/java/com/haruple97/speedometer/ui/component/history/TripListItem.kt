@@ -11,10 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.trip.TripEntity
 import com.haruple97.speedometer.ui.theme.DashboardDarkGray
@@ -22,9 +23,9 @@ import com.haruple97.speedometer.ui.theme.DigitalWhite
 import com.haruple97.speedometer.ui.theme.GaugeTrack
 import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.UnitGray
-import java.text.SimpleDateFormat
+import com.haruple97.speedometer.util.formatOneDecimal
+import com.haruple97.speedometer.util.rememberDateFormat
 import java.util.Date
-import java.util.Locale
 import kotlin.math.roundToInt
 
 @Composable
@@ -34,8 +35,8 @@ fun TripListItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val dateFormat = remember { SimpleDateFormat("M/d (E)", Locale.KOREAN) }
-    val timeFormat = remember { SimpleDateFormat("HH:mm", Locale.KOREAN) }
+    val dateFormat = rememberDateFormat(R.string.format_date_month_day_short)
+    val timeFormat = rememberDateFormat(R.string.format_time_hm)
 
     val startMs = trip.startedAt
     val endMs = if (trip.endedAt == 0L) startMs else trip.endedAt
@@ -61,7 +62,11 @@ fun TripListItem(
                 color = DigitalWhite,
             )
             Text(
-                text = "${timeFormat.format(Date(startMs))} – ${timeFormat.format(Date(endMs))}",
+                text = stringResource(
+                    R.string.format_time_range,
+                    timeFormat.format(Date(startMs)),
+                    timeFormat.format(Date(endMs)),
+                ),
                 style = SpeedometerTextStyle.CaptionRegularStyle(),
                 color = UnitGray,
             )
@@ -70,10 +75,16 @@ fun TripListItem(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Metric(label = "거리", value = "%.1f km".format(distanceKm))
-            Metric(label = "시간", value = "${durationMin}분")
             Metric(
-                label = "최고",
+                label = stringResource(R.string.history_item_metric_distance),
+                value = "${formatOneDecimal(distanceKm)} km",
+            )
+            Metric(
+                label = stringResource(R.string.history_item_metric_time),
+                value = stringResource(R.string.duration_m, durationMin),
+            )
+            Metric(
+                label = stringResource(R.string.history_item_metric_top),
                 value = "${speedUnit.fromKmh(trip.maxSpeedKmh).roundToInt()} ${speedUnit.label}",
             )
         }
@@ -103,4 +114,3 @@ private fun Metric(label: String, value: String) {
         )
     }
 }
-

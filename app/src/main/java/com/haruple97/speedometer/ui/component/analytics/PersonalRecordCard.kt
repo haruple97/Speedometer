@@ -17,14 +17,15 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.trip.TripEntity
 import com.haruple97.speedometer.ui.theme.DashboardBlack
@@ -35,9 +36,10 @@ import com.haruple97.speedometer.ui.theme.NeedleGlow
 import com.haruple97.speedometer.ui.theme.NeedleRed
 import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
 import com.haruple97.speedometer.ui.theme.UnitGray
-import java.text.SimpleDateFormat
+import com.haruple97.speedometer.util.formatDurationMinutes
+import com.haruple97.speedometer.util.formatOneDecimal
+import com.haruple97.speedometer.util.rememberDateFormat
 import java.util.Date
-import java.util.Locale
 import kotlin.math.roundToInt
 
 @Composable
@@ -82,7 +84,7 @@ fun PersonalRecordCard(
             color = DigitalWhite,
         )
         Text(
-            text = secondaryLabel ?: "기록 없음",
+            text = secondaryLabel ?: stringResource(R.string.record_no_data),
             style = SpeedometerTextStyle.CaptionRegularStyle(),
             color = UnitGray,
         )
@@ -99,7 +101,7 @@ fun PersonalRecordGrid(
     onTripClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val dateFormat = remember { SimpleDateFormat("M월 d일", Locale.KOREAN) }
+    val dateFormat = rememberDateFormat(R.string.format_date_month_day)
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -112,9 +114,9 @@ fun PersonalRecordGrid(
             PersonalRecordCard(
                 icon = Icons.Filled.Route,
                 iconTint = GaugeSafe,
-                label = "최장 거리",
+                label = stringResource(R.string.record_longest_distance),
                 primaryValue = topDistance?.let {
-                    "%.1f km".format(it.distanceMeters / 1000f)
+                    "${formatOneDecimal(it.distanceMeters / 1000f)} km"
                 } ?: "—",
                 secondaryLabel = topDistance?.let { dateFormat.format(Date(it.startedAt)) },
                 enabled = topDistance != null,
@@ -124,7 +126,7 @@ fun PersonalRecordGrid(
             PersonalRecordCard(
                 icon = Icons.Filled.Speed,
                 iconTint = NeedleGlow,
-                label = "최고 속도",
+                label = stringResource(R.string.record_top_speed),
                 primaryValue = topMaxSpeed?.let {
                     "${speedUnit.fromKmh(it.maxSpeedKmh).roundToInt()} ${speedUnit.label}"
                 } ?: "—",
@@ -141,10 +143,10 @@ fun PersonalRecordGrid(
             PersonalRecordCard(
                 icon = Icons.Filled.Schedule,
                 iconTint = GaugeCaution,
-                label = "최장 시간",
+                label = stringResource(R.string.record_longest_duration),
                 primaryValue = topDuration?.let {
                     val mins = (it.endedAt - it.startedAt) / 60_000
-                    if (mins >= 60) "${mins / 60}시간 ${mins % 60}분" else "${mins}분"
+                    formatDurationMinutes(mins)
                 } ?: "—",
                 secondaryLabel = topDuration?.let { dateFormat.format(Date(it.startedAt)) },
                 enabled = topDuration != null,
@@ -154,8 +156,10 @@ fun PersonalRecordGrid(
             PersonalRecordCard(
                 icon = Icons.Filled.Warning,
                 iconTint = NeedleRed,
-                label = "최다 과속",
-                primaryValue = topOverspeed?.let { "${it.overspeedEventCount}회" } ?: "—",
+                label = stringResource(R.string.record_most_overspeed),
+                primaryValue = topOverspeed?.let {
+                    stringResource(R.string.record_overspeed_count, it.overspeedEventCount)
+                } ?: "—",
                 secondaryLabel = topOverspeed?.let { dateFormat.format(Date(it.startedAt)) },
                 enabled = topOverspeed != null,
                 onClick = { topOverspeed?.let { onTripClick(it.id) } },

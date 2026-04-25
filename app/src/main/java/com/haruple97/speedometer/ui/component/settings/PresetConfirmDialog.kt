@@ -18,8 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.SpeedPreset
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.ui.theme.DashboardBlack
@@ -67,7 +69,7 @@ fun PresetConfirmDialog(
                     )
                 }
                 Text(
-                    text = "${preset.displayName} 프리셋",
+                    text = stringResource(R.string.preset_apply_title, stringResource(preset.displayNameRes)),
                     style = SpeedometerTextStyle.H3Style(),
                     color = DigitalWhite,
                 )
@@ -79,7 +81,7 @@ fun PresetConfirmDialog(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 Text(
-                    text = "다음과 같이 설정이 변경됩니다.",
+                    text = stringResource(R.string.preset_apply_body),
                     style = SpeedometerTextStyle.Body1RegularStyle(),
                     color = UnitGray,
                 )
@@ -91,26 +93,40 @@ fun PresetConfirmDialog(
                         .background(GaugeTrack),
                 )
 
-                ChangeRow(label = "최대 속도", value = "$maxDisplay $unitLabel")
                 ChangeRow(
-                    label = "과속 경고",
-                    value = if (preset.overspeedEnabled) "켜짐 · $thresholdDisplay $unitLabel" else "끔",
+                    label = stringResource(R.string.preset_change_max_speed),
+                    value = stringResource(R.string.dialog_value_with_unit, maxDisplay, unitLabel),
                 )
-                ChangeRow(label = "HUD 모드", value = if (preset.hudMode) "켜짐" else "끔")
                 ChangeRow(
-                    label = "화면 켜짐 유지",
-                    value = if (preset.keepScreenOn) "켜짐" else "끔",
+                    label = stringResource(R.string.preset_change_overspeed),
+                    value = if (preset.overspeedEnabled) {
+                        stringResource(R.string.preset_change_overspeed_on, thresholdDisplay, unitLabel)
+                    } else {
+                        stringResource(R.string.preset_change_overspeed_off)
+                    },
+                )
+                ChangeRow(
+                    label = stringResource(R.string.preset_change_hud_mode),
+                    value = stringResource(
+                        if (preset.hudMode) R.string.preset_state_on else R.string.preset_state_off
+                    ),
+                )
+                ChangeRow(
+                    label = stringResource(R.string.preset_change_keep_screen_on),
+                    value = stringResource(
+                        if (preset.keepScreenOn) R.string.preset_state_on else R.string.preset_state_off
+                    ),
                 )
             }
         },
         confirmButton = {
             TextButton(onClick = onConfirm) {
-                Text("적용", color = accent)
+                Text(stringResource(R.string.action_apply), color = accent)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("취소", color = UnitGray)
+                Text(stringResource(R.string.action_cancel), color = UnitGray)
             }
         },
     )

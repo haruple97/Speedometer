@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,20 +62,21 @@ fun PresetCard(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
     ) {
+        val displayName = stringResource(preset.displayNameRes)
         Icon(
             imageVector = preset.icon(),
-            contentDescription = preset.displayName,
+            contentDescription = displayName,
             tint = accent,
             modifier = Modifier.size(36.dp),
         )
         Text(
-            text = preset.displayName,
+            text = displayName,
             style = SpeedometerTextStyle.Body1Style(),
             color = DigitalWhite,
             textAlign = TextAlign.Center,
         )
         Text(
-            text = preset.description,
+            text = stringResource(preset.descriptionRes),
             style = SpeedometerTextStyle.CaptionRegularStyle(),
             color = UnitGray,
             textAlign = TextAlign.Center,

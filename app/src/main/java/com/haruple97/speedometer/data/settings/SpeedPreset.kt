@@ -1,8 +1,11 @@
 package com.haruple97.speedometer.data.settings
 
+import androidx.annotation.StringRes
+import com.haruple97.speedometer.R
+
 enum class SpeedPreset(
-    val displayName: String,
-    val description: String,
+    @StringRes val displayNameRes: Int,
+    @StringRes val descriptionRes: Int,
     val maxSpeedKmh: Float,
     val overspeedEnabled: Boolean,
     val overspeedThresholdKmh: Float,
@@ -10,8 +13,8 @@ enum class SpeedPreset(
     val keepScreenOn: Boolean,
 ) {
     WALK(
-        displayName = "도보",
-        description = "가벼운 산책·러닝",
+        displayNameRes = R.string.preset_walk_name,
+        descriptionRes = R.string.preset_walk_desc,
         maxSpeedKmh = 20f,
         overspeedEnabled = false,
         overspeedThresholdKmh = 15f,
@@ -19,8 +22,8 @@ enum class SpeedPreset(
         keepScreenOn = true,
     ),
     BIKE(
-        displayName = "자전거",
-        description = "라이딩·로드바이크",
+        displayNameRes = R.string.preset_bike_name,
+        descriptionRes = R.string.preset_bike_desc,
         maxSpeedKmh = 60f,
         overspeedEnabled = false,
         overspeedThresholdKmh = 40f,
@@ -28,8 +31,8 @@ enum class SpeedPreset(
         keepScreenOn = true,
     ),
     DRIVE(
-        displayName = "드라이브",
-        description = "승용차 주행·과속 경고",
+        displayNameRes = R.string.preset_drive_name,
+        descriptionRes = R.string.preset_drive_desc,
         maxSpeedKmh = 200f,
         overspeedEnabled = true,
         overspeedThresholdKmh = 110f,
@@ -37,8 +40,8 @@ enum class SpeedPreset(
         keepScreenOn = true,
     ),
     EXPRESS(
-        displayName = "고속주행",
-        description = "고속열차·모터스포츠",
+        displayNameRes = R.string.preset_express_name,
+        descriptionRes = R.string.preset_express_desc,
         maxSpeedKmh = 350f,
         overspeedEnabled = false,
         overspeedThresholdKmh = 300f,

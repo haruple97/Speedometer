@@ -10,9 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.trip.HourStat
 import com.haruple97.speedometer.ui.theme.GaugeSafe
 import com.haruple97.speedometer.ui.theme.SpeedometerTextStyle
@@ -94,7 +96,7 @@ fun TimeOfDayHistogram(
 
         if (peak != null && peak.tripCount >= 1) {
             Text(
-                text = "가장 활동적인 시간대: ${peak.hour}시 (${peak.tripCount}회)",
+                text = stringResource(R.string.hour_chart_peak, peak.hour, peak.tripCount),
                 style = SpeedometerTextStyle.CaptionRegularStyle(),
                 color = GaugeSafe,
             )

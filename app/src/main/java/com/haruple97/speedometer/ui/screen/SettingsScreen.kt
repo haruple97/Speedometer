@@ -25,10 +25,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.haruple97.speedometer.R
 import com.haruple97.speedometer.data.settings.DistanceUnit
 import com.haruple97.speedometer.data.settings.SpeedPreset
 import com.haruple97.speedometer.data.settings.SpeedUnit
@@ -57,6 +59,8 @@ fun SettingsRoute(
 ) {
     val preferences by viewModel.preferences.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val shareMessage = stringResource(R.string.settings_share_message, PLAY_STORE_URL)
+    val shareChooserTitle = stringResource(R.string.settings_share_app)
 
     SettingsScreen(
         preferences = preferences,
@@ -72,9 +76,9 @@ fun SettingsRoute(
         onShareApp = {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, "Speedometer — $PLAY_STORE_URL")
+                putExtra(Intent.EXTRA_TEXT, shareMessage)
             }
-            context.startActivity(Intent.createChooser(intent, "앱 공유"))
+            context.startActivity(Intent.createChooser(intent, shareChooserTitle))
         },
     )
 }
@@ -108,47 +112,51 @@ fun SettingsScreen(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState()),
         ) {
-            SettingSection(title = "주행 프리셋") {
+            SettingSection(title = stringResource(R.string.settings_section_preset)) {
                 PresetRow(
                     onPresetClick = { pendingPreset = it },
                 )
             }
 
-            SettingSection(title = "주행") {
+            SettingSection(title = stringResource(R.string.settings_section_driving)) {
                 SettingToggleRow(
-                    title = "화면 켜짐 유지",
+                    title = stringResource(R.string.settings_keep_screen_on),
                     checked = preferences.keepScreenOn,
                     onCheckedChange = onKeepScreenOnChange,
                 )
                 SettingToggleRow(
-                    title = "HUD 모드",
+                    title = stringResource(R.string.settings_hud_mode),
                     checked = preferences.hudMode,
                     onCheckedChange = onHudModeChange,
                 )
                 SettingValueRow(
-                    title = "최대 속도",
-                    value = "${preferences.speedUnit.fromKmh(preferences.maxSpeed).toInt()} ${preferences.speedUnit.label}",
+                    title = stringResource(R.string.settings_max_speed),
+                    value = stringResource(
+                        R.string.dialog_value_with_unit,
+                        preferences.speedUnit.fromKmh(preferences.maxSpeed).toInt(),
+                        preferences.speedUnit.label,
+                    ),
                     onClick = { showMaxSpeedDialog = true },
                 )
             }
 
-            SettingSection(title = "기록") {
+            SettingSection(title = stringResource(R.string.settings_section_recording)) {
                 SettingToggleRow(
-                    title = "주행 자동 기록",
+                    title = stringResource(R.string.settings_auto_record),
                     checked = preferences.autoRecordingEnabled,
                     onCheckedChange = onAutoRecordingEnabledChange,
                 )
                 Text(
-                    text = "꺼짐 시 메인 화면의 시작/정지 버튼으로 직접 기록할 수 있습니다.",
+                    text = stringResource(R.string.settings_auto_record_hint),
                     style = SpeedometerTextStyle.CaptionRegularStyle(),
                     color = UnitGray,
                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
                 )
             }
 
-            SettingSection(title = "경고") {
+            SettingSection(title = stringResource(R.string.settings_section_warning)) {
                 SettingToggleRow(
-                    title = "과속 경고",
+                    title = stringResource(R.string.settings_overspeed),
                     checked = preferences.overspeedEnabled,
                     onCheckedChange = onOverspeedEnabledChange,
                 )
@@ -158,16 +166,20 @@ fun SettingsScreen(
                     exit = fadeOut() + shrinkVertically(),
                 ) {
                     SettingValueRow(
-                        title = "임계값",
-                        value = "${preferences.speedUnit.fromKmh(preferences.overspeedThreshold).toInt()} ${preferences.speedUnit.label}",
+                        title = stringResource(R.string.settings_overspeed_threshold),
+                        value = stringResource(
+                            R.string.dialog_value_with_unit,
+                            preferences.speedUnit.fromKmh(preferences.overspeedThreshold).toInt(),
+                            preferences.speedUnit.label,
+                        ),
                         onClick = { showThresholdDialog = true },
                     )
                 }
             }
 
-            SettingSection(title = "단위") {
+            SettingSection(title = stringResource(R.string.settings_section_units)) {
                 SettingSegmentRow(
-                    title = "속도",
+                    title = stringResource(R.string.settings_unit_speed),
                     options = listOf(
                         SpeedUnit.KMH to SpeedUnit.KMH.label,
                         SpeedUnit.MPH to SpeedUnit.MPH.label,
@@ -176,7 +188,7 @@ fun SettingsScreen(
                     onSelect = onSpeedUnitChange,
                 )
                 SettingSegmentRow(
-                    title = "거리",
+                    title = stringResource(R.string.settings_unit_distance),
                     options = listOf(
                         DistanceUnit.KM to DistanceUnit.KM.label,
                         DistanceUnit.MI to DistanceUnit.MI.label,
@@ -186,9 +198,9 @@ fun SettingsScreen(
                 )
             }
 
-            SettingSection(title = "앱") {
+            SettingSection(title = stringResource(R.string.settings_section_app)) {
                 SettingActionRow(
-                    title = "앱 공유",
+                    title = stringResource(R.string.settings_share_app),
                     onClick = onShareApp,
                     leadingIcon = Icons.Filled.Share,
                 )
