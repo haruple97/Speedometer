@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">Speedometer</string>
+
+    <string name="tab_dashboard">Панель</string>
+    <string name="tab_history">История</string>
+    <string name="tab_settings">Настройки</string>
+
+    <string name="action_ok">ОК</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_apply">Применить</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_share">Поделиться</string>
+    <string name="action_undo">Отменить</string>
+    <string name="nav_back">Назад</string>
+
+    <string name="perm_body">Нужен доступ к местоположению.\nПредоставьте разрешение, чтобы измерять скорость в реальном времени.</string>
+    <string name="perm_grant_cta">Разрешить</string>
+
+    <string name="recording_start">Старт</string>
+    <string name="recording_stop">Стоп</string>
+
+    <string name="settings_section_preset">Пресет вождения</string>
+    <string name="settings_section_driving">Вождение</string>
+    <string name="settings_section_recording">Запись</string>
+    <string name="settings_section_warning">Предупреждения</string>
+    <string name="settings_section_units">Единицы</string>
+    <string name="settings_section_app">Приложение</string>
+
+    <string name="settings_keep_screen_on">Не выключать экран</string>
+    <string name="settings_hud_mode">Режим HUD</string>
+    <string name="settings_max_speed">Макс. скорость</string>
+    <string name="settings_auto_record">Автозапись поездок</string>
+    <string name="settings_auto_record_hint">Если выключено, используйте кнопки Старт/Стоп на панели для записи вручную.</string>
+    <string name="settings_overspeed">Предупреждение о превышении</string>
+    <string name="settings_overspeed_threshold">Порог</string>
+    <string name="settings_unit_speed">Скорость</string>
+    <string name="settings_unit_distance">Расстояние</string>
+    <string name="settings_share_app">Поделиться приложением</string>
+
+    <string name="preset_walk_name">Ходьба</string>
+    <string name="preset_walk_desc">Прогулка и бег</string>
+    <string name="preset_bike_name">Велосипед</string>
+    <string name="preset_bike_desc">Велоезда и шоссе</string>
+    <string name="preset_drive_name">Авто</string>
+    <string name="preset_drive_desc">Вождение с предупреждением о превышении</string>
+    <string name="preset_express_name">Экспресс</string>
+    <string name="preset_express_desc">Скоростные поезда и автоспорт</string>
+
+    <string name="preset_apply_title">Пресет «%1$s»</string>
+    <string name="preset_apply_body">Будут изменены следующие настройки.</string>
+    <string name="preset_change_max_speed">Макс. скорость</string>
+    <string name="preset_change_overspeed">Предупреждение о превышении</string>
+    <string name="preset_change_overspeed_on">Вкл. · %1$d %2$s</string>
+    <string name="preset_change_overspeed_off">Выкл.</string>
+    <string name="preset_change_hud_mode">Режим HUD</string>
+    <string name="preset_change_keep_screen_on">Не выключать экран</string>
+    <string name="preset_state_on">Вкл.</string>
+    <string name="preset_state_off">Выкл.</string>
+
+    <string name="dialog_max_speed_title">Максимальная скорость</string>
+    <string name="dialog_overspeed_threshold_title">Порог превышения скорости</string>
+    <string name="dialog_value_with_unit">%1$d %2$s</string>
+
+    <string name="history_period_week">Неделя</string>
+    <string name="history_period_month">Месяц</string>
+    <string name="history_period_all">Всё</string>
+
+    <string name="history_summary_distance">Общее расстояние</string>
+    <string name="history_summary_duration">Время в пути</string>
+    <string name="history_summary_max_speed">Макс. скорость</string>
+    <string name="history_summary_count">Поездки</string>
+    <string name="history_summary_count_unit">поездок</string>
+
+    <string name="history_item_metric_distance">Расстояние</string>
+    <string name="history_item_metric_time">Время</string>
+    <string name="history_item_metric_top">Макс.</string>
+
+    <string name="history_empty_title">Поездок ещё нет</string>
+    <string name="history_empty_body">Поездки записываются автоматически, когда обнаруживается движение.</string>
+
+    <string name="history_delete_done">Поездка удалена</string>
+
+    <string name="trip_detail_title">Детали поездки</string>
+    <string name="trip_detail_not_found">Поездка не найдена</string>
+    <string name="trip_detail_metric_distance">Расстояние</string>
+    <string name="trip_detail_metric_duration">Время</string>
+    <string name="trip_detail_metric_max_speed">Макс. скорость</string>
+    <string name="trip_detail_metric_avg_speed">Средняя скорость</string>
+    <string name="unit_minute_short">мин</string>
+    <string name="trip_detail_delete_title">Удалить эту поездку?</string>
+    <string name="trip_detail_delete_body">Это действие нельзя отменить.</string>
+    <string name="trip_detail_share_chooser">Поделиться поездкой</string>
+    <string name="trip_detail_share_template">Поездка %1$s · %2$s %3$s · %4$s · макс. %5$s %6$s · средн. %7$s %8$s</string>
+
+    <string name="format_date_month_day">d MMM</string>
+    <string name="format_date_month_day_weekday">d MMM (E)</string>
+    <string name="format_date_month_day_short">d.M (E)</string>
+    <string name="format_date_year_month">LLLL yyyy</string>
+    <string name="format_time_hm">HH:mm</string>
+    <string name="format_time_range">%1$s – %2$s</string>
+
+    <string name="duration_h_m">%1$d ч %2$d мин</string>
+    <string name="duration_m">%1$d мин</string>
+    <string name="duration_zero">0 мин</string>
+
+    <string-array name="weekday_short_labels">
+        <item>Вс</item>
+        <item>Пн</item>
+        <item>Вт</item>
+        <item>Ср</item>
+        <item>Чт</item>
+        <item>Пт</item>
+        <item>Сб</item>
+    </string-array>
+    <string name="weekday_with_suffix">%1$s</string>
+
+    <string name="time_bucket_dawn">раннего утра</string>
+    <string name="time_bucket_commute_morning">утреннего часа пик</string>
+    <string name="time_bucket_daytime">дневного времени</string>
+    <string name="time_bucket_commute_evening">вечернего часа пик</string>
+    <string name="time_bucket_evening">вечера</string>
+    <string name="time_bucket_late_night">позднего вечера</string>
+
+    <string name="insight_peak_bucket">Чаще всего вы ездите во время %1$s, около %2$d:00 (%3$d поездок).</string>
+    <string name="insight_fastest_weekday">Самый быстрый день — %1$s, средняя скорость %2$d %3$s.</string>
+    <string name="insight_weekly_distance_up">Вы проехали на %1$d%% больше, чем на прошлой неделе.</string>
+    <string name="insight_weekly_distance_down">Вы проехали на %1$d%% меньше, чем на прошлой неделе.</string>
+    <string name="insight_empty">С накоплением данных здесь появятся персональные подсказки.</string>
+
+    <string name="weekday_chart_fastest">Самый быстрый день: %1$s · средн. %2$d %3$s</string>
+
+    <string name="hour_chart_peak">Самое активное время: %1$d:00 (%2$d поездок)</string>
+
+    <string name="analytics_title">Подробная аналитика</string>
+    <string name="analytics_empty">Поездок пока недостаточно для анализа.\nЗагляните позже после нескольких поездок.</string>
+
+    <string name="analytics_section_compare">Эта неделя и прошлая</string>
+    <string name="analytics_section_compare_sub">Изменения ключевых показателей</string>
+    <string name="analytics_section_trend">Недельный тренд</string>
+    <string name="analytics_section_trend_sub">Общее расстояние за последние 8 недель</string>
+    <string name="analytics_section_weekday">Средняя скорость по дням</string>
+    <string name="analytics_section_weekday_sub">Ваш ритм поездок по неделе</string>
+    <string name="analytics_section_hour">Частота поездок по часам</string>
+    <string name="analytics_section_hour_sub">В какое время вы ездите чаще всего</string>
+    <string name="analytics_section_zones">Расстояние по зонам скорости</string>
+    <string name="analytics_section_zones_sub">Безопасно / Внимание / Опасно / Крайне</string>
+    <string name="analytics_section_month">Поездки в этом месяце</string>
+    <string name="analytics_section_insight">Подсказки по вождению</string>
+    <string name="analytics_section_insight_sub">Сводка вашего стиля вождения</string>
+    <string name="analytics_section_milestone">Этапы</string>
+    <string name="analytics_section_milestone_sub">Путь к следующей цели</string>
+    <string name="analytics_section_records">Личные рекорды</string>
+    <string name="analytics_section_records_sub">Нажмите карточку, чтобы открыть поездку</string>
+
+    <string name="analytics_summary_this_month">В этом месяце</string>
+    <string name="analytics_summary_metric_count">Поездки</string>
+    <string name="analytics_summary_metric_duration">Время</string>
+    <string name="analytics_summary_metric_top_this_month">Макс. за месяц</string>
+    <string name="analytics_summary_total">Всего %1$s %2$s · %3$d ч за рулём</string>
+
+    <string name="heatmap_legend_low">Мало</string>
+    <string name="heatmap_legend_high">Много</string>
+    <string name="heatmap_total">За месяц: %1$s %2$s</string>
+
+    <string name="trend_xaxis_8weeks_ago">8 нед. назад</string>
+    <string name="trend_xaxis_this_week">Эта нед.</string>
+    <string name="trend_empty">После 2 недель данных тренд появится здесь.</string>
+
+    <string name="zone_safe">Безопасно</string>
+    <string name="zone_caution">Внимание</string>
+    <string name="zone_danger">Опасно</string>
+    <string name="zone_critical">Крайне</string>
+    <string name="zone_total_label">Всего %1$s</string>
+    <string name="zone_legend_value">%1$s %2$s · %3$s</string>
+
+    <string name="record_no_data">Нет данных</string>
+    <string name="record_longest_distance">Самая длинная</string>
+    <string name="record_top_speed">Макс. скорость</string>
+    <string name="record_longest_duration">Самая длительная</string>
+    <string name="record_most_overspeed">Больше превышений</string>
+    <string name="record_overspeed_count">%1$d событий</string>
+
+    <string name="compare_label_distance">Расстояние</string>
+    <string name="compare_label_duration">Время</string>
+    <string name="compare_label_count">Поездки</string>
+    <string name="compare_count_value">%1$d поездок</string>
+
+    <string name="milestone_remaining">До %1$d %2$s осталось %3$d %2$s</string>
+    <string name="milestone_complete">Все этапы пройдены!</string>
+
+    <string name="analytics_card_title">Подробная аналитика</string>
+    <string name="analytics_card_locked">Посмотрите короткий ролик, чтобы открыть аналитику на 24 часа</string>
+    <string name="analytics_card_unlocked_remaining">Открыто · осталось %1$d ч %2$d мин</string>
+    <string name="analytics_card_uses_remaining">Осталось %1$d</string>
+
+    <string name="analytics_unlock_title">Открыть подробную аналитику?</string>
+    <string name="analytics_unlock_message">Посмотрите короткий ролик, чтобы на 24 часа открыть паттерны вождения по дням и часам, разбивку по зонам скорости, тепловую карту месяца и личные рекорды.</string>
+    <string name="analytics_unlock_confirm">Смотреть</string>
+    <string name="analytics_unlock_dismiss">Позже</string>
+    <string name="unlock_prompt_default_confirm">Смотреть</string>
+    <string name="unlock_prompt_default_dismiss">Позже</string>
+
+    <string name="timeline_empty">Недостаточно данных для графика</string>
+
+    <string name="ad_badge">Реклама</string>
+
+</resources>

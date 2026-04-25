@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">Speedometer</string>
+
+    <string name="tab_dashboard">儀表板</string>
+    <string name="tab_history">記錄</string>
+    <string name="tab_settings">設定</string>
+
+    <string name="action_ok">確定</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_apply">套用</string>
+    <string name="action_delete">刪除</string>
+    <string name="action_share">分享</string>
+    <string name="action_undo">復原</string>
+    <string name="nav_back">返回</string>
+
+    <string name="perm_body">需要位置權限。\n為了即時測量速度,\n請允許存取位置資訊。</string>
+    <string name="perm_grant_cta">允許權限</string>
+
+    <string name="recording_start">開始記錄</string>
+    <string name="recording_stop">停止記錄</string>
+
+    <string name="settings_section_preset">行駛預設</string>
+    <string name="settings_section_driving">行駛</string>
+    <string name="settings_section_recording">記錄</string>
+    <string name="settings_section_warning">警示</string>
+    <string name="settings_section_units">單位</string>
+    <string name="settings_section_app">應用程式</string>
+
+    <string name="settings_keep_screen_on">螢幕保持開啟</string>
+    <string name="settings_hud_mode">HUD 模式</string>
+    <string name="settings_max_speed">最高速度</string>
+    <string name="settings_auto_record">自動記錄行程</string>
+    <string name="settings_auto_record_hint">關閉時可使用儀表板上的開始/停止按鈕手動記錄。</string>
+    <string name="settings_overspeed">超速警示</string>
+    <string name="settings_overspeed_threshold">閾值</string>
+    <string name="settings_unit_speed">速度</string>
+    <string name="settings_unit_distance">距離</string>
+    <string name="settings_share_app">分享應用程式</string>
+
+    <string name="preset_walk_name">散步</string>
+    <string name="preset_walk_desc">散步與慢跑</string>
+    <string name="preset_bike_name">自行車</string>
+    <string name="preset_bike_desc">騎乘與公路車</string>
+    <string name="preset_drive_name">駕駛</string>
+    <string name="preset_drive_desc">汽車駕駛與超速警示</string>
+    <string name="preset_express_name">高速</string>
+    <string name="preset_express_desc">高鐵與賽車運動</string>
+
+    <string name="preset_apply_title">%1$s 預設</string>
+    <string name="preset_apply_body">下列設定將會變更。</string>
+    <string name="preset_change_max_speed">最高速度</string>
+    <string name="preset_change_overspeed">超速警示</string>
+    <string name="preset_change_overspeed_on">開啟 · %1$d %2$s</string>
+    <string name="preset_change_overspeed_off">關閉</string>
+    <string name="preset_change_hud_mode">HUD 模式</string>
+    <string name="preset_change_keep_screen_on">螢幕保持開啟</string>
+    <string name="preset_state_on">開啟</string>
+    <string name="preset_state_off">關閉</string>
+
+    <string name="dialog_max_speed_title">最高速度</string>
+    <string name="dialog_overspeed_threshold_title">超速警示閾值</string>
+    <string name="dialog_value_with_unit">%1$d %2$s</string>
+
+    <string name="history_period_week">本週</string>
+    <string name="history_period_month">本月</string>
+    <string name="history_period_all">全部</string>
+
+    <string name="history_summary_distance">總距離</string>
+    <string name="history_summary_duration">行駛時間</string>
+    <string name="history_summary_max_speed">最高速度</string>
+    <string name="history_summary_count">行程次數</string>
+    <string name="history_summary_count_unit">次</string>
+
+    <string name="history_item_metric_distance">距離</string>
+    <string name="history_item_metric_time">時間</string>
+    <string name="history_item_metric_top">最高</string>
+
+    <string name="history_empty_title">尚無記錄</string>
+    <string name="history_empty_body">偵測到行駛時會自動記錄</string>
+
+    <string name="history_delete_done">已刪除記錄</string>
+
+    <string name="trip_detail_title">行程詳情</string>
+    <string name="trip_detail_not_found">找不到行程</string>
+    <string name="trip_detail_metric_distance">距離</string>
+    <string name="trip_detail_metric_duration">行駛時間</string>
+    <string name="trip_detail_metric_max_speed">最高速度</string>
+    <string name="trip_detail_metric_avg_speed">平均速度</string>
+    <string name="unit_minute_short">分</string>
+    <string name="trip_detail_delete_title">要刪除這筆記錄嗎?</string>
+    <string name="trip_detail_delete_body">刪除後無法復原。</string>
+    <string name="trip_detail_share_chooser">分享記錄</string>
+    <string name="trip_detail_share_template">%1$s 行駛 · %2$s %3$s · %4$s · 最高 %5$s %6$s · 平均 %7$s %8$s</string>
+
+    <string name="format_date_month_day">M月d日</string>
+    <string name="format_date_month_day_weekday">M月d日 (E)</string>
+    <string name="format_date_month_day_short">M/d (E)</string>
+    <string name="format_date_year_month">yyyy年M月</string>
+    <string name="format_time_hm">HH:mm</string>
+    <string name="format_time_range">%1$s – %2$s</string>
+
+    <string name="duration_h_m">%1$d 小時 %2$d 分</string>
+    <string name="duration_m">%1$d 分</string>
+    <string name="duration_zero">0 分</string>
+
+    <string-array name="weekday_short_labels">
+        <item>日</item>
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+    </string-array>
+    <string name="weekday_with_suffix">星期%1$s</string>
+
+    <string name="time_bucket_dawn">凌晨</string>
+    <string name="time_bucket_commute_morning">上班尖峰時段</string>
+    <string name="time_bucket_daytime">白天</string>
+    <string name="time_bucket_commute_evening">下班尖峰時段</string>
+    <string name="time_bucket_evening">傍晚</string>
+    <string name="time_bucket_late_night">深夜</string>
+
+    <string name="insight_peak_bucket">您主要在 %1$s (約 %2$d 點) 行駛 %3$d 次。</string>
+    <string name="insight_fastest_weekday">速度最快的是 %1$s,平均 %2$d %3$s。</string>
+    <string name="insight_weekly_distance_up">行駛距離比上週增加 %1$d%%。</string>
+    <string name="insight_weekly_distance_down">行駛距離比上週減少 %1$d%%。</string>
+    <string name="insight_empty">行駛資料累積後,將為您顯示客製化洞察。</string>
+
+    <string name="weekday_chart_fastest">最快的日子: %1$s · 平均 %2$d %3$s</string>
+
+    <string name="hour_chart_peak">最活躍時段: %1$d 點 (%2$d 次)</string>
+
+    <string name="analytics_title">詳細分析</string>
+    <string name="analytics_empty">行駛記錄不足無法分析。\n累積幾次行程後再開啟。</string>
+
+    <string name="analytics_section_compare">本週 vs 上週</string>
+    <string name="analytics_section_compare_sub">主要指標的變化</string>
+    <string name="analytics_section_trend">週間趨勢</string>
+    <string name="analytics_section_trend_sub">最近 8 週的總行駛距離</string>
+    <string name="analytics_section_weekday">各星期幾的平均速度</string>
+    <string name="analytics_section_weekday_sub">每天的行駛模式</string>
+    <string name="analytics_section_hour">時段行駛頻率</string>
+    <string name="analytics_section_hour_sub">一天中行駛最多的時段</string>
+    <string name="analytics_section_zones">速度區段累計距離</string>
+    <string name="analytics_section_zones_sub">安全/注意/危險/極限 比例</string>
+    <string name="analytics_section_month">本月行駛</string>
+    <string name="analytics_section_insight">駕駛洞察</string>
+    <string name="analytics_section_insight_sub">您的駕駛模式摘要</string>
+    <string name="analytics_section_milestone">累計里程碑</string>
+    <string name="analytics_section_milestone_sub">通往下個目標的旅程</string>
+    <string name="analytics_section_records">個人最佳</string>
+    <string name="analytics_section_records_sub">點選卡片查看該行程</string>
+
+    <string name="analytics_summary_this_month">本月</string>
+    <string name="analytics_summary_metric_count">行程次數</string>
+    <string name="analytics_summary_metric_duration">行駛時間</string>
+    <string name="analytics_summary_metric_top_this_month">本月最高</string>
+    <string name="analytics_summary_total">累計 %1$s %2$s · %3$d 小時駕駛</string>
+
+    <string name="heatmap_legend_low">少</string>
+    <string name="heatmap_legend_high">多</string>
+    <string name="heatmap_total">本月共 %1$s %2$s</string>
+
+    <string name="trend_xaxis_8weeks_ago">8 週前</string>
+    <string name="trend_xaxis_this_week">本週</string>
+    <string name="trend_empty">累積 2 週以上資料後即可看到趨勢。</string>
+
+    <string name="zone_safe">安全</string>
+    <string name="zone_caution">注意</string>
+    <string name="zone_danger">危險</string>
+    <string name="zone_critical">極限</string>
+    <string name="zone_total_label">總 %1$s</string>
+    <string name="zone_legend_value">%1$s %2$s · %3$s</string>
+
+    <string name="record_no_data">無記錄</string>
+    <string name="record_longest_distance">最長距離</string>
+    <string name="record_top_speed">最高速度</string>
+    <string name="record_longest_duration">最長時間</string>
+    <string name="record_most_overspeed">超速最多</string>
+    <string name="record_overspeed_count">%1$d 次</string>
+
+    <string name="compare_label_distance">距離</string>
+    <string name="compare_label_duration">時間</string>
+    <string name="compare_label_count">行程</string>
+    <string name="compare_count_value">%1$d 次</string>
+
+    <string name="milestone_remaining">距離下個 %1$d %2$s 還有 %3$d %2$s</string>
+    <string name="milestone_complete">所有里程碑達成!</string>
+
+    <string name="analytics_card_title">詳細分析</string>
+    <string name="analytics_card_locked">觀看短廣告即可解鎖 24 小時詳細洞察</string>
+    <string name="analytics_card_unlocked_remaining">已解鎖 · 剩餘 %1$d 小時 %2$d 分</string>
+    <string name="analytics_card_uses_remaining">剩餘 %1$d 次</string>
+
+    <string name="analytics_unlock_title">要開啟詳細分析嗎?</string>
+    <string name="analytics_unlock_message">觀看短廣告即可在 24 小時內查看星期/時段行駛模式、速度區段分析、月份熱圖以及個人最佳記錄。</string>
+    <string name="analytics_unlock_confirm">觀看廣告</string>
+    <string name="analytics_unlock_dismiss">稍後</string>
+    <string name="unlock_prompt_default_confirm">觀看廣告</string>
+    <string name="unlock_prompt_default_dismiss">稍後</string>
+
+    <string name="timeline_empty">資料不足無法繪製圖表</string>
+
+    <string name="ad_badge">廣告</string>
+
+</resources>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">Speedometer</string>
+
+    <string name="tab_dashboard">Tablero</string>
+    <string name="tab_history">Historial</string>
+    <string name="tab_settings">Ajustes</string>
+
+    <string name="action_ok">Aceptar</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_apply">Aplicar</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="action_share">Compartir</string>
+    <string name="action_undo">Deshacer</string>
+    <string name="nav_back">Atrás</string>
+
+    <string name="perm_body">Se requiere acceso a la ubicación.\nConcede el permiso para medir tu velocidad en tiempo real.</string>
+    <string name="perm_grant_cta">Conceder permiso</string>
+
+    <string name="recording_start">Iniciar</string>
+    <string name="recording_stop">Detener</string>
+
+    <string name="settings_section_preset">Perfil de conducción</string>
+    <string name="settings_section_driving">Conducción</string>
+    <string name="settings_section_recording">Grabación</string>
+    <string name="settings_section_warning">Avisos</string>
+    <string name="settings_section_units">Unidades</string>
+    <string name="settings_section_app">App</string>
+
+    <string name="settings_keep_screen_on">Mantener pantalla activa</string>
+    <string name="settings_hud_mode">Modo HUD</string>
+    <string name="settings_max_speed">Velocidad máxima</string>
+    <string name="settings_auto_record">Grabar viajes automáticamente</string>
+    <string name="settings_auto_record_hint">Si está desactivado, usa el botón Iniciar/Detener del tablero para grabar manualmente.</string>
+    <string name="settings_overspeed">Aviso de exceso de velocidad</string>
+    <string name="settings_overspeed_threshold">Umbral</string>
+    <string name="settings_unit_speed">Velocidad</string>
+    <string name="settings_unit_distance">Distancia</string>
+    <string name="settings_share_app">Compartir app</string>
+
+    <string name="preset_walk_name">Caminar</string>
+    <string name="preset_walk_desc">Paseo y running</string>
+    <string name="preset_bike_name">Bici</string>
+    <string name="preset_bike_desc">Ciclismo y bici de carretera</string>
+    <string name="preset_drive_name">Conducir</string>
+    <string name="preset_drive_desc">Conducción con aviso de exceso</string>
+    <string name="preset_express_name">Exprés</string>
+    <string name="preset_express_desc">Tren de alta velocidad y motor</string>
+
+    <string name="preset_apply_title">Perfil %1$s</string>
+    <string name="preset_apply_body">Se aplicarán los siguientes ajustes.</string>
+    <string name="preset_change_max_speed">Velocidad máxima</string>
+    <string name="preset_change_overspeed">Aviso de exceso</string>
+    <string name="preset_change_overspeed_on">Activado · %1$d %2$s</string>
+    <string name="preset_change_overspeed_off">Desactivado</string>
+    <string name="preset_change_hud_mode">Modo HUD</string>
+    <string name="preset_change_keep_screen_on">Mantener pantalla activa</string>
+    <string name="preset_state_on">Activado</string>
+    <string name="preset_state_off">Desactivado</string>
+
+    <string name="dialog_max_speed_title">Velocidad máxima</string>
+    <string name="dialog_overspeed_threshold_title">Umbral de exceso de velocidad</string>
+    <string name="dialog_value_with_unit">%1$d %2$s</string>
+
+    <string name="history_period_week">Semana</string>
+    <string name="history_period_month">Mes</string>
+    <string name="history_period_all">Todo</string>
+
+    <string name="history_summary_distance">Distancia total</string>
+    <string name="history_summary_duration">Tiempo de viaje</string>
+    <string name="history_summary_max_speed">Velocidad máx.</string>
+    <string name="history_summary_count">Viajes</string>
+    <string name="history_summary_count_unit">viajes</string>
+
+    <string name="history_item_metric_distance">Distancia</string>
+    <string name="history_item_metric_time">Tiempo</string>
+    <string name="history_item_metric_top">Máx.</string>
+
+    <string name="history_empty_title">Aún no hay viajes</string>
+    <string name="history_empty_body">Los viajes se graban automáticamente al detectar conducción.</string>
+
+    <string name="history_delete_done">Viaje eliminado</string>
+
+    <string name="trip_detail_title">Detalle del viaje</string>
+    <string name="trip_detail_not_found">No se encontró el viaje</string>
+    <string name="trip_detail_metric_distance">Distancia</string>
+    <string name="trip_detail_metric_duration">Tiempo</string>
+    <string name="trip_detail_metric_max_speed">Velocidad máx.</string>
+    <string name="trip_detail_metric_avg_speed">Velocidad media</string>
+    <string name="unit_minute_short">min</string>
+    <string name="trip_detail_delete_title">¿Eliminar este viaje?</string>
+    <string name="trip_detail_delete_body">Esta acción no se puede deshacer.</string>
+    <string name="trip_detail_share_chooser">Compartir viaje</string>
+    <string name="trip_detail_share_template">Viaje del %1$s · %2$s %3$s · %4$s · máx. %5$s %6$s · media %7$s %8$s</string>
+
+    <string name="format_date_month_day">d MMM</string>
+    <string name="format_date_month_day_weekday">d MMM (E)</string>
+    <string name="format_date_month_day_short">d/M (E)</string>
+    <string name="format_date_year_month">MMMM yyyy</string>
+    <string name="format_time_hm">HH:mm</string>
+    <string name="format_time_range">%1$s – %2$s</string>
+
+    <string name="duration_h_m">%1$d h %2$d min</string>
+    <string name="duration_m">%1$d min</string>
+    <string name="duration_zero">0 min</string>
+
+    <string-array name="weekday_short_labels">
+        <item>Dom</item>
+        <item>Lun</item>
+        <item>Mar</item>
+        <item>Mié</item>
+        <item>Jue</item>
+        <item>Vie</item>
+        <item>Sáb</item>
+    </string-array>
+    <string name="weekday_with_suffix">%1$s</string>
+
+    <string name="time_bucket_dawn">la madrugada</string>
+    <string name="time_bucket_commute_morning">la hora punta de la mañana</string>
+    <string name="time_bucket_daytime">el día</string>
+    <string name="time_bucket_commute_evening">la hora punta de la tarde</string>
+    <string name="time_bucket_evening">la noche</string>
+    <string name="time_bucket_late_night">la madrugada profunda</string>
+
+    <string name="insight_peak_bucket">Conduces sobre todo en %1$s, hacia las %2$d:00 (%3$d viajes).</string>
+    <string name="insight_fastest_weekday">Tu día más rápido es %1$s — media de %2$d %3$s.</string>
+    <string name="insight_weekly_distance_up">Conduciste un %1$d%% más que la semana pasada.</string>
+    <string name="insight_weekly_distance_down">Conduciste un %1$d%% menos que la semana pasada.</string>
+    <string name="insight_empty">Cuando acumules más viajes, verás aquí ideas personalizadas.</string>
+
+    <string name="weekday_chart_fastest">Día más rápido: %1$s · media %2$d %3$s</string>
+
+    <string name="hour_chart_peak">Hora con más viajes: %1$d:00 (%2$d viajes)</string>
+
+    <string name="analytics_title">Análisis</string>
+    <string name="analytics_empty">No hay viajes suficientes para analizar.\nVuelve después de algunos viajes.</string>
+
+    <string name="analytics_section_compare">Esta semana vs la pasada</string>
+    <string name="analytics_section_compare_sub">Cambios en tus métricas clave</string>
+    <string name="analytics_section_trend">Tendencia semanal</string>
+    <string name="analytics_section_trend_sub">Distancia total de las últimas 8 semanas</string>
+    <string name="analytics_section_weekday">Velocidad media por día</string>
+    <string name="analytics_section_weekday_sub">Tu patrón de conducción semanal</string>
+    <string name="analytics_section_hour">Frecuencia por hora</string>
+    <string name="analytics_section_hour_sub">A qué horas conduces más</string>
+    <string name="analytics_section_zones">Distancia por zona de velocidad</string>
+    <string name="analytics_section_zones_sub">Reparto Seguro / Precaución / Riesgo / Extremo</string>
+    <string name="analytics_section_month">Conducción este mes</string>
+    <string name="analytics_section_insight">Insights de conducción</string>
+    <string name="analytics_section_insight_sub">Resumen de tu conducción</string>
+    <string name="analytics_section_milestone">Hitos</string>
+    <string name="analytics_section_milestone_sub">Camino hacia tu próximo objetivo</string>
+    <string name="analytics_section_records">Récords personales</string>
+    <string name="analytics_section_records_sub">Toca una tarjeta para abrir el viaje</string>
+
+    <string name="analytics_summary_this_month">Este mes</string>
+    <string name="analytics_summary_metric_count">Viajes</string>
+    <string name="analytics_summary_metric_duration">Tiempo</string>
+    <string name="analytics_summary_metric_top_this_month">Máx. del mes</string>
+    <string name="analytics_summary_total">Total %1$s %2$s · %3$d horas conducidas</string>
+
+    <string name="heatmap_legend_low">Bajo</string>
+    <string name="heatmap_legend_high">Alto</string>
+    <string name="heatmap_total">Este mes: %1$s %2$s</string>
+
+    <string name="trend_xaxis_8weeks_ago">Hace 8 sem.</string>
+    <string name="trend_xaxis_this_week">Esta sem.</string>
+    <string name="trend_empty">Tras 2 semanas de datos verás la tendencia aquí.</string>
+
+    <string name="zone_safe">Seguro</string>
+    <string name="zone_caution">Precaución</string>
+    <string name="zone_danger">Riesgo</string>
+    <string name="zone_critical">Extremo</string>
+    <string name="zone_total_label">Total %1$s</string>
+    <string name="zone_legend_value">%1$s %2$s · %3$s</string>
+
+    <string name="record_no_data">Sin datos</string>
+    <string name="record_longest_distance">Mayor distancia</string>
+    <string name="record_top_speed">Velocidad máx.</string>
+    <string name="record_longest_duration">Viaje más largo</string>
+    <string name="record_most_overspeed">Más excesos</string>
+    <string name="record_overspeed_count">%1$d eventos</string>
+
+    <string name="compare_label_distance">Distancia</string>
+    <string name="compare_label_duration">Tiempo</string>
+    <string name="compare_label_count">Viajes</string>
+    <string name="compare_count_value">%1$d viajes</string>
+
+    <string name="milestone_remaining">Faltan %3$d %2$s para %1$d %2$s</string>
+    <string name="milestone_complete">¡Todos los hitos alcanzados!</string>
+
+    <string name="analytics_card_title">Análisis detallado</string>
+    <string name="analytics_card_locked">Mira un breve anuncio para desbloquear los detalles 24 horas</string>
+    <string name="analytics_card_unlocked_remaining">Desbloqueado · quedan %1$d h %2$d min</string>
+    <string name="analytics_card_uses_remaining">Quedan %1$d usos</string>
+
+    <string name="analytics_unlock_title">¿Abrir el análisis detallado?</string>
+    <string name="analytics_unlock_message">Mira un breve anuncio para desbloquear durante 24 horas tus patrones por día y hora, el reparto por zonas de velocidad, el mapa térmico mensual y tus récords personales.</string>
+    <string name="analytics_unlock_confirm">Ver anuncio</string>
+    <string name="analytics_unlock_dismiss">Más tarde</string>
+    <string name="unlock_prompt_default_confirm">Ver anuncio</string>
+    <string name="unlock_prompt_default_dismiss">Más tarde</string>
+
+    <string name="timeline_empty">No hay datos suficientes para el gráfico</string>
+
+    <string name="ad_badge">Anuncio</string>
+
+</resources>

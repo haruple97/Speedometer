@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">Speedometer</string>
+
+    <string name="tab_dashboard">Dasbor</string>
+    <string name="tab_history">Riwayat</string>
+    <string name="tab_settings">Pengaturan</string>
+
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Batal</string>
+    <string name="action_apply">Terapkan</string>
+    <string name="action_delete">Hapus</string>
+    <string name="action_share">Bagikan</string>
+    <string name="action_undo">Urungkan</string>
+    <string name="nav_back">Kembali</string>
+
+    <string name="perm_body">Akses lokasi diperlukan.\nBerikan izin lokasi agar kecepatanmu dapat diukur secara real-time.</string>
+    <string name="perm_grant_cta">Beri izin</string>
+
+    <string name="recording_start">Mulai</string>
+    <string name="recording_stop">Berhenti</string>
+
+    <string name="settings_section_preset">Preset berkendara</string>
+    <string name="settings_section_driving">Berkendara</string>
+    <string name="settings_section_recording">Perekaman</string>
+    <string name="settings_section_warning">Peringatan</string>
+    <string name="settings_section_units">Satuan</string>
+    <string name="settings_section_app">Aplikasi</string>
+
+    <string name="settings_keep_screen_on">Layar tetap aktif</string>
+    <string name="settings_hud_mode">Mode HUD</string>
+    <string name="settings_max_speed">Kecepatan maks.</string>
+    <string name="settings_auto_record">Rekam perjalanan otomatis</string>
+    <string name="settings_auto_record_hint">Saat dimatikan, gunakan tombol Mulai/Berhenti pada dasbor untuk merekam manual.</string>
+    <string name="settings_overspeed">Peringatan kecepatan</string>
+    <string name="settings_overspeed_threshold">Batas</string>
+    <string name="settings_unit_speed">Kecepatan</string>
+    <string name="settings_unit_distance">Jarak</string>
+    <string name="settings_share_app">Bagikan aplikasi</string>
+
+    <string name="preset_walk_name">Jalan kaki</string>
+    <string name="preset_walk_desc">Jalan santai &amp; lari</string>
+    <string name="preset_bike_name">Sepeda</string>
+    <string name="preset_bike_desc">Bersepeda &amp; sepeda balap</string>
+    <string name="preset_drive_name">Berkendara</string>
+    <string name="preset_drive_desc">Mengemudi dengan peringatan kecepatan</string>
+    <string name="preset_express_name">Ekspres</string>
+    <string name="preset_express_desc">Kereta cepat &amp; balap motor</string>
+
+    <string name="preset_apply_title">Preset %1$s</string>
+    <string name="preset_apply_body">Pengaturan berikut akan berubah.</string>
+    <string name="preset_change_max_speed">Kecepatan maks.</string>
+    <string name="preset_change_overspeed">Peringatan kecepatan</string>
+    <string name="preset_change_overspeed_on">Aktif · %1$d %2$s</string>
+    <string name="preset_change_overspeed_off">Nonaktif</string>
+    <string name="preset_change_hud_mode">Mode HUD</string>
+    <string name="preset_change_keep_screen_on">Layar tetap aktif</string>
+    <string name="preset_state_on">Aktif</string>
+    <string name="preset_state_off">Nonaktif</string>
+
+    <string name="dialog_max_speed_title">Kecepatan maksimum</string>
+    <string name="dialog_overspeed_threshold_title">Batas peringatan kecepatan</string>
+    <string name="dialog_value_with_unit">%1$d %2$s</string>
+
+    <string name="history_period_week">Minggu ini</string>
+    <string name="history_period_month">Bulan ini</string>
+    <string name="history_period_all">Semua</string>
+
+    <string name="history_summary_distance">Jarak total</string>
+    <string name="history_summary_duration">Waktu berkendara</string>
+    <string name="history_summary_max_speed">Kecepatan maks.</string>
+    <string name="history_summary_count">Perjalanan</string>
+    <string name="history_summary_count_unit">perjalanan</string>
+
+    <string name="history_item_metric_distance">Jarak</string>
+    <string name="history_item_metric_time">Waktu</string>
+    <string name="history_item_metric_top">Maks.</string>
+
+    <string name="history_empty_title">Belum ada perjalanan</string>
+    <string name="history_empty_body">Perjalanan akan direkam otomatis ketika berkendara terdeteksi.</string>
+
+    <string name="history_delete_done">Perjalanan dihapus</string>
+
+    <string name="trip_detail_title">Detail perjalanan</string>
+    <string name="trip_detail_not_found">Perjalanan tidak ditemukan</string>
+    <string name="trip_detail_metric_distance">Jarak</string>
+    <string name="trip_detail_metric_duration">Waktu</string>
+    <string name="trip_detail_metric_max_speed">Kecepatan maks.</string>
+    <string name="trip_detail_metric_avg_speed">Kecepatan rata-rata</string>
+    <string name="unit_minute_short">mnt</string>
+    <string name="trip_detail_delete_title">Hapus perjalanan ini?</string>
+    <string name="trip_detail_delete_body">Tindakan ini tidak bisa dibatalkan.</string>
+    <string name="trip_detail_share_chooser">Bagikan perjalanan</string>
+    <string name="trip_detail_share_template">Perjalanan %1$s · %2$s %3$s · %4$s · maks. %5$s %6$s · rata-rata %7$s %8$s</string>
+
+    <string name="format_date_month_day">d MMM</string>
+    <string name="format_date_month_day_weekday">d MMM (E)</string>
+    <string name="format_date_month_day_short">d/M (E)</string>
+    <string name="format_date_year_month">MMMM yyyy</string>
+    <string name="format_time_hm">HH:mm</string>
+    <string name="format_time_range">%1$s – %2$s</string>
+
+    <string name="duration_h_m">%1$d j %2$d mnt</string>
+    <string name="duration_m">%1$d mnt</string>
+    <string name="duration_zero">0 mnt</string>
+
+    <string-array name="weekday_short_labels">
+        <item>Min</item>
+        <item>Sen</item>
+        <item>Sel</item>
+        <item>Rab</item>
+        <item>Kam</item>
+        <item>Jum</item>
+        <item>Sab</item>
+    </string-array>
+    <string name="weekday_with_suffix">%1$s</string>
+
+    <string name="time_bucket_dawn">subuh</string>
+    <string name="time_bucket_commute_morning">jam berangkat kerja</string>
+    <string name="time_bucket_daytime">siang hari</string>
+    <string name="time_bucket_commute_evening">jam pulang kerja</string>
+    <string name="time_bucket_evening">malam</string>
+    <string name="time_bucket_late_night">larut malam</string>
+
+    <string name="insight_peak_bucket">Kamu paling sering berkendara saat %1$s, sekitar pukul %2$d:00 (%3$d perjalanan).</string>
+    <string name="insight_fastest_weekday">Hari tercepat kamu adalah %1$s — rata-rata %2$d %3$s.</string>
+    <string name="insight_weekly_distance_up">Kamu berkendara %1$d%% lebih banyak dari minggu lalu.</string>
+    <string name="insight_weekly_distance_down">Kamu berkendara %1$d%% lebih sedikit dari minggu lalu.</string>
+    <string name="insight_empty">Setelah lebih banyak data, insight personal akan muncul di sini.</string>
+
+    <string name="weekday_chart_fastest">Hari tercepat: %1$s · rata-rata %2$d %3$s</string>
+
+    <string name="hour_chart_peak">Jam paling aktif: %1$d:00 (%2$d perjalanan)</string>
+
+    <string name="analytics_title">Analitik</string>
+    <string name="analytics_empty">Perjalanan belum cukup untuk dianalisis.\nKembali setelah beberapa kali berkendara.</string>
+
+    <string name="analytics_section_compare">Minggu ini vs minggu lalu</string>
+    <string name="analytics_section_compare_sub">Perubahan metrik utamamu</string>
+    <string name="analytics_section_trend">Tren mingguan</string>
+    <string name="analytics_section_trend_sub">Total jarak 8 minggu terakhir</string>
+    <string name="analytics_section_weekday">Kecepatan rata-rata per hari</string>
+    <string name="analytics_section_weekday_sub">Pola berkendara mingguanmu</string>
+    <string name="analytics_section_hour">Frekuensi per jam</string>
+    <string name="analytics_section_hour_sub">Kapan kamu paling sering berkendara</string>
+    <string name="analytics_section_zones">Jarak per zona kecepatan</string>
+    <string name="analytics_section_zones_sub">Distribusi Aman / Hati-hati / Bahaya / Ekstrem</string>
+    <string name="analytics_section_month">Berkendara bulan ini</string>
+    <string name="analytics_section_insight">Insight berkendara</string>
+    <string name="analytics_section_insight_sub">Ringkasan cara berkendaramu</string>
+    <string name="analytics_section_milestone">Pencapaian</string>
+    <string name="analytics_section_milestone_sub">Menuju target berikutnya</string>
+    <string name="analytics_section_records">Rekor pribadi</string>
+    <string name="analytics_section_records_sub">Ketuk kartu untuk membuka perjalanannya</string>
+
+    <string name="analytics_summary_this_month">Bulan ini</string>
+    <string name="analytics_summary_metric_count">Perjalanan</string>
+    <string name="analytics_summary_metric_duration">Waktu</string>
+    <string name="analytics_summary_metric_top_this_month">Maks. bulan ini</string>
+    <string name="analytics_summary_total">Total %1$s %2$s · %3$d jam berkendara</string>
+
+    <string name="heatmap_legend_low">Sedikit</string>
+    <string name="heatmap_legend_high">Banyak</string>
+    <string name="heatmap_total">Bulan ini: %1$s %2$s</string>
+
+    <string name="trend_xaxis_8weeks_ago">8 mgg lalu</string>
+    <string name="trend_xaxis_this_week">Mgg ini</string>
+    <string name="trend_empty">Setelah 2 minggu data, tren akan tampil di sini.</string>
+
+    <string name="zone_safe">Aman</string>
+    <string name="zone_caution">Hati-hati</string>
+    <string name="zone_danger">Bahaya</string>
+    <string name="zone_critical">Ekstrem</string>
+    <string name="zone_total_label">Total %1$s</string>
+    <string name="zone_legend_value">%1$s %2$s · %3$s</string>
+
+    <string name="record_no_data">Tidak ada</string>
+    <string name="record_longest_distance">Jarak terjauh</string>
+    <string name="record_top_speed">Kecepatan tertinggi</string>
+    <string name="record_longest_duration">Perjalanan terlama</string>
+    <string name="record_most_overspeed">Kelebihan terbanyak</string>
+    <string name="record_overspeed_count">%1$d kali</string>
+
+    <string name="compare_label_distance">Jarak</string>
+    <string name="compare_label_duration">Waktu</string>
+    <string name="compare_label_count">Perjalanan</string>
+    <string name="compare_count_value">%1$d perjalanan</string>
+
+    <string name="milestone_remaining">Sisa %3$d %2$s menuju %1$d %2$s</string>
+    <string name="milestone_complete">Semua pencapaian terpenuhi!</string>
+
+    <string name="analytics_card_title">Analitik detail</string>
+    <string name="analytics_card_locked">Tonton iklan singkat untuk membuka analitik 24 jam</string>
+    <string name="analytics_card_unlocked_remaining">Terbuka · sisa %1$d j %2$d mnt</string>
+    <string name="analytics_card_uses_remaining">Sisa %1$d kali</string>
+
+    <string name="analytics_unlock_title">Buka analitik detail?</string>
+    <string name="analytics_unlock_message">Tonton iklan singkat untuk membuka selama 24 jam pola berkendara per hari/jam, distribusi zona kecepatan, heatmap bulanan, dan rekor pribadimu.</string>
+    <string name="analytics_unlock_confirm">Tonton iklan</string>
+    <string name="analytics_unlock_dismiss">Nanti</string>
+    <string name="unlock_prompt_default_confirm">Tonton iklan</string>
+    <string name="unlock_prompt_default_dismiss">Nanti</string>
+
+    <string name="timeline_empty">Data tidak cukup untuk grafik</string>
+
+    <string name="ad_badge">Iklan</string>
+
+</resources>

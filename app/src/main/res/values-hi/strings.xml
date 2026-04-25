@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">Speedometer</string>
+
+    <string name="tab_dashboard">डैशबोर्ड</string>
+    <string name="tab_history">इतिहास</string>
+    <string name="tab_settings">सेटिंग्स</string>
+
+    <string name="action_ok">ठीक है</string>
+    <string name="action_cancel">रद्द करें</string>
+    <string name="action_apply">लागू करें</string>
+    <string name="action_delete">हटाएं</string>
+    <string name="action_share">शेयर करें</string>
+    <string name="action_undo">पूर्ववत करें</string>
+    <string name="nav_back">वापस</string>
+
+    <string name="perm_body">स्थान की अनुमति आवश्यक है।\nरीयल-टाइम स्पीड मापने के लिए\nलोकेशन एक्सेस की अनुमति दें।</string>
+    <string name="perm_grant_cta">अनुमति दें</string>
+
+    <string name="recording_start">शुरू करें</string>
+    <string name="recording_stop">रोकें</string>
+
+    <string name="settings_section_preset">ड्राइविंग प्रीसेट</string>
+    <string name="settings_section_driving">ड्राइविंग</string>
+    <string name="settings_section_recording">रिकॉर्डिंग</string>
+    <string name="settings_section_warning">चेतावनी</string>
+    <string name="settings_section_units">इकाइयाँ</string>
+    <string name="settings_section_app">ऐप</string>
+
+    <string name="settings_keep_screen_on">स्क्रीन चालू रखें</string>
+    <string name="settings_hud_mode">HUD मोड</string>
+    <string name="settings_max_speed">अधिकतम गति</string>
+    <string name="settings_auto_record">ट्रिप अपने आप रिकॉर्ड करें</string>
+    <string name="settings_auto_record_hint">बंद होने पर डैशबोर्ड के Start/Stop बटन से मैन्युअल रिकॉर्ड करें।</string>
+    <string name="settings_overspeed">ओवरस्पीड चेतावनी</string>
+    <string name="settings_overspeed_threshold">सीमा</string>
+    <string name="settings_unit_speed">गति</string>
+    <string name="settings_unit_distance">दूरी</string>
+    <string name="settings_share_app">ऐप शेयर करें</string>
+
+    <string name="preset_walk_name">पैदल</string>
+    <string name="preset_walk_desc">सैर और दौड़</string>
+    <string name="preset_bike_name">साइकिल</string>
+    <string name="preset_bike_desc">साइक्लिंग और रोड बाइक</string>
+    <string name="preset_drive_name">ड्राइव</string>
+    <string name="preset_drive_desc">ओवरस्पीड चेतावनी के साथ ड्राइविंग</string>
+    <string name="preset_express_name">एक्सप्रेस</string>
+    <string name="preset_express_desc">तेज़ ट्रेन और मोटरस्पोर्ट</string>
+
+    <string name="preset_apply_title">%1$s प्रीसेट</string>
+    <string name="preset_apply_body">निम्न सेटिंग्स बदल जाएँगी।</string>
+    <string name="preset_change_max_speed">अधिकतम गति</string>
+    <string name="preset_change_overspeed">ओवरस्पीड चेतावनी</string>
+    <string name="preset_change_overspeed_on">चालू · %1$d %2$s</string>
+    <string name="preset_change_overspeed_off">बंद</string>
+    <string name="preset_change_hud_mode">HUD मोड</string>
+    <string name="preset_change_keep_screen_on">स्क्रीन चालू रखें</string>
+    <string name="preset_state_on">चालू</string>
+    <string name="preset_state_off">बंद</string>
+
+    <string name="dialog_max_speed_title">अधिकतम गति</string>
+    <string name="dialog_overspeed_threshold_title">ओवरस्पीड सीमा</string>
+    <string name="dialog_value_with_unit">%1$d %2$s</string>
+
+    <string name="history_period_week">यह सप्ताह</string>
+    <string name="history_period_month">यह माह</string>
+    <string name="history_period_all">सभी</string>
+
+    <string name="history_summary_distance">कुल दूरी</string>
+    <string name="history_summary_duration">ड्राइव समय</string>
+    <string name="history_summary_max_speed">अधिकतम गति</string>
+    <string name="history_summary_count">कुल ट्रिप</string>
+    <string name="history_summary_count_unit">ट्रिप</string>
+
+    <string name="history_item_metric_distance">दूरी</string>
+    <string name="history_item_metric_time">समय</string>
+    <string name="history_item_metric_top">अधि.</string>
+
+    <string name="history_empty_title">अभी कोई ट्रिप नहीं</string>
+    <string name="history_empty_body">ड्राइविंग पता चलते ही ट्रिप अपने आप रिकॉर्ड हो जाती है।</string>
+
+    <string name="history_delete_done">ट्रिप हटाई गई</string>
+
+    <string name="trip_detail_title">ट्रिप विवरण</string>
+    <string name="trip_detail_not_found">ट्रिप नहीं मिली</string>
+    <string name="trip_detail_metric_distance">दूरी</string>
+    <string name="trip_detail_metric_duration">समय</string>
+    <string name="trip_detail_metric_max_speed">अधिकतम गति</string>
+    <string name="trip_detail_metric_avg_speed">औसत गति</string>
+    <string name="unit_minute_short">मि</string>
+    <string name="trip_detail_delete_title">यह ट्रिप हटाएं?</string>
+    <string name="trip_detail_delete_body">यह क्रिया वापस नहीं होगी।</string>
+    <string name="trip_detail_share_chooser">ट्रिप शेयर करें</string>
+    <string name="trip_detail_share_template">%1$s ट्रिप · %2$s %3$s · %4$s · अधि. %5$s %6$s · औसत %7$s %8$s</string>
+
+    <string name="format_date_month_day">d MMM</string>
+    <string name="format_date_month_day_weekday">d MMM (E)</string>
+    <string name="format_date_month_day_short">d/M (E)</string>
+    <string name="format_date_year_month">MMMM yyyy</string>
+    <string name="format_time_hm">HH:mm</string>
+    <string name="format_time_range">%1$s – %2$s</string>
+
+    <string name="duration_h_m">%1$d घं %2$d मि</string>
+    <string name="duration_m">%1$d मि</string>
+    <string name="duration_zero">0 मि</string>
+
+    <string-array name="weekday_short_labels">
+        <item>रवि</item>
+        <item>सोम</item>
+        <item>मंगल</item>
+        <item>बुध</item>
+        <item>गुरु</item>
+        <item>शुक्र</item>
+        <item>शनि</item>
+    </string-array>
+    <string name="weekday_with_suffix">%1$s</string>
+
+    <string name="time_bucket_dawn">तड़के</string>
+    <string name="time_bucket_commute_morning">सुबह की भीड़ का समय</string>
+    <string name="time_bucket_daytime">दिन में</string>
+    <string name="time_bucket_commute_evening">शाम की भीड़ का समय</string>
+    <string name="time_bucket_evening">शाम</string>
+    <string name="time_bucket_late_night">देर रात</string>
+
+    <string name="insight_peak_bucket">आप ज़्यादातर %1$s के समय %2$d:00 बजे के आस-पास %3$d ट्रिप करते हैं।</string>
+    <string name="insight_fastest_weekday">सबसे तेज़ दिन है %1$s — औसत %2$d %3$s।</string>
+    <string name="insight_weekly_distance_up">पिछले हफ्ते की तुलना में %1$d%% ज़्यादा चले।</string>
+    <string name="insight_weekly_distance_down">पिछले हफ्ते की तुलना में %1$d%% कम चले।</string>
+    <string name="insight_empty">और ड्राइविंग डेटा जुड़ने पर यहाँ आपके लिए ख़ास इनसाइट दिखेंगे।</string>
+
+    <string name="weekday_chart_fastest">सबसे तेज़ दिन: %1$s · औसत %2$d %3$s</string>
+
+    <string name="hour_chart_peak">सबसे सक्रिय समय: %1$d:00 (%2$d ट्रिप)</string>
+
+    <string name="analytics_title">विस्तृत विश्लेषण</string>
+    <string name="analytics_empty">विश्लेषण के लिए पर्याप्त ट्रिप नहीं हैं।\nकुछ ट्रिप के बाद दोबारा खोलें।</string>
+
+    <string name="analytics_section_compare">यह सप्ताह vs पिछला</string>
+    <string name="analytics_section_compare_sub">मुख्य संकेतकों में बदलाव</string>
+    <string name="analytics_section_trend">साप्ताहिक रुझान</string>
+    <string name="analytics_section_trend_sub">पिछले 8 सप्ताह की कुल दूरी</string>
+    <string name="analytics_section_weekday">दिन के हिसाब से औसत गति</string>
+    <string name="analytics_section_weekday_sub">सप्ताह में आपका ड्राइविंग पैटर्न</string>
+    <string name="analytics_section_hour">घंटे के हिसाब से ट्रिप</string>
+    <string name="analytics_section_hour_sub">दिन में आप कब ज़्यादा चलते हैं</string>
+    <string name="analytics_section_zones">गति-क्षेत्र अनुसार दूरी</string>
+    <string name="analytics_section_zones_sub">सुरक्षित / सावधानी / जोखिम / अति का अनुपात</string>
+    <string name="analytics_section_month">इस माह की ड्राइविंग</string>
+    <string name="analytics_section_insight">ड्राइविंग इनसाइट</string>
+    <string name="analytics_section_insight_sub">आपकी ड्राइविंग का सारांश</string>
+    <string name="analytics_section_milestone">माइलस्टोन</string>
+    <string name="analytics_section_milestone_sub">अगले लक्ष्य की ओर सफ़र</string>
+    <string name="analytics_section_records">व्यक्तिगत रिकॉर्ड</string>
+    <string name="analytics_section_records_sub">कार्ड टैप करें ट्रिप खोलने के लिए</string>
+
+    <string name="analytics_summary_this_month">इस माह</string>
+    <string name="analytics_summary_metric_count">ट्रिप</string>
+    <string name="analytics_summary_metric_duration">समय</string>
+    <string name="analytics_summary_metric_top_this_month">इस माह अधिकतम</string>
+    <string name="analytics_summary_total">कुल %1$s %2$s · %3$d घंटे ड्राइविंग</string>
+
+    <string name="heatmap_legend_low">कम</string>
+    <string name="heatmap_legend_high">अधिक</string>
+    <string name="heatmap_total">इस माह: %1$s %2$s</string>
+
+    <string name="trend_xaxis_8weeks_ago">8 सप्ताह पहले</string>
+    <string name="trend_xaxis_this_week">यह सप्ताह</string>
+    <string name="trend_empty">2 सप्ताह से अधिक डेटा होने पर रुझान दिखेगा।</string>
+
+    <string name="zone_safe">सुरक्षित</string>
+    <string name="zone_caution">सावधानी</string>
+    <string name="zone_danger">जोखिम</string>
+    <string name="zone_critical">अति</string>
+    <string name="zone_total_label">कुल %1$s</string>
+    <string name="zone_legend_value">%1$s %2$s · %3$s</string>
+
+    <string name="record_no_data">कोई रिकॉर्ड नहीं</string>
+    <string name="record_longest_distance">सबसे लंबी दूरी</string>
+    <string name="record_top_speed">अधिकतम गति</string>
+    <string name="record_longest_duration">सबसे लंबी ट्रिप</string>
+    <string name="record_most_overspeed">सबसे अधिक ओवरस्पीड</string>
+    <string name="record_overspeed_count">%1$d बार</string>
+
+    <string name="compare_label_distance">दूरी</string>
+    <string name="compare_label_duration">समय</string>
+    <string name="compare_label_count">ट्रिप</string>
+    <string name="compare_count_value">%1$d ट्रिप</string>
+
+    <string name="milestone_remaining">अगले %1$d %2$s तक %3$d %2$s शेष</string>
+    <string name="milestone_complete">सभी माइलस्टोन हासिल!</string>
+
+    <string name="analytics_card_title">विस्तृत विश्लेषण</string>
+    <string name="analytics_card_locked">छोटा विज्ञापन देखें और 24 घंटे विश्लेषण खोलें</string>
+    <string name="analytics_card_unlocked_remaining">अनलॉक · शेष %1$d घं %2$d मि</string>
+    <string name="analytics_card_uses_remaining">शेष %1$d बार</string>
+
+    <string name="analytics_unlock_title">विस्तृत विश्लेषण खोलें?</string>
+    <string name="analytics_unlock_message">छोटा विज्ञापन देखकर 24 घंटे तक दिन/समय ड्राइविंग पैटर्न, गति-क्षेत्र विश्लेषण, मासिक हीटमैप और व्यक्तिगत रिकॉर्ड देख सकते हैं।</string>
+    <string name="analytics_unlock_confirm">विज्ञापन देखें</string>
+    <string name="analytics_unlock_dismiss">बाद में</string>
+    <string name="unlock_prompt_default_confirm">विज्ञापन देखें</string>
+    <string name="unlock_prompt_default_dismiss">बाद में</string>
+
+    <string name="timeline_empty">ग्राफ़ बनाने के लिए डेटा कम है</string>
+
+    <string name="ad_badge">विज्ञापन</string>
+
+</resources>

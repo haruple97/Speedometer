@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">Speedometer</string>
+
+    <string name="tab_dashboard">ダッシュボード</string>
+    <string name="tab_history">履歴</string>
+    <string name="tab_settings">設定</string>
+
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">キャンセル</string>
+    <string name="action_apply">適用</string>
+    <string name="action_delete">削除</string>
+    <string name="action_share">共有</string>
+    <string name="action_undo">元に戻す</string>
+    <string name="nav_back">戻る</string>
+
+    <string name="perm_body">位置情報の権限が必要です。\nリアルタイムで速度を計測するため\n位置情報へのアクセスを許可してください。</string>
+    <string name="perm_grant_cta">許可する</string>
+
+    <string name="recording_start">記録開始</string>
+    <string name="recording_stop">記録停止</string>
+
+    <string name="settings_section_preset">走行プリセット</string>
+    <string name="settings_section_driving">走行</string>
+    <string name="settings_section_recording">記録</string>
+    <string name="settings_section_warning">警告</string>
+    <string name="settings_section_units">単位</string>
+    <string name="settings_section_app">アプリ</string>
+
+    <string name="settings_keep_screen_on">画面をオンのまま</string>
+    <string name="settings_hud_mode">HUDモード</string>
+    <string name="settings_max_speed">最高速度</string>
+    <string name="settings_auto_record">自動で記録</string>
+    <string name="settings_auto_record_hint">オフのときはダッシュボードの開始/停止ボタンで手動記録できます。</string>
+    <string name="settings_overspeed">速度超過警告</string>
+    <string name="settings_overspeed_threshold">しきい値</string>
+    <string name="settings_unit_speed">速度</string>
+    <string name="settings_unit_distance">距離</string>
+    <string name="settings_share_app">アプリを共有</string>
+
+    <string name="preset_walk_name">散歩</string>
+    <string name="preset_walk_desc">ウォーキング・ランニング</string>
+    <string name="preset_bike_name">自転車</string>
+    <string name="preset_bike_desc">サイクリング・ロードバイク</string>
+    <string name="preset_drive_name">ドライブ</string>
+    <string name="preset_drive_desc">乗用車の走行と速度超過警告</string>
+    <string name="preset_express_name">高速</string>
+    <string name="preset_express_desc">高速鉄道・モータースポーツ</string>
+
+    <string name="preset_apply_title">%1$s プリセット</string>
+    <string name="preset_apply_body">以下の設定が変更されます。</string>
+    <string name="preset_change_max_speed">最高速度</string>
+    <string name="preset_change_overspeed">速度超過警告</string>
+    <string name="preset_change_overspeed_on">オン · %1$d %2$s</string>
+    <string name="preset_change_overspeed_off">オフ</string>
+    <string name="preset_change_hud_mode">HUDモード</string>
+    <string name="preset_change_keep_screen_on">画面をオンのまま</string>
+    <string name="preset_state_on">オン</string>
+    <string name="preset_state_off">オフ</string>
+
+    <string name="dialog_max_speed_title">最高速度</string>
+    <string name="dialog_overspeed_threshold_title">速度超過のしきい値</string>
+    <string name="dialog_value_with_unit">%1$d %2$s</string>
+
+    <string name="history_period_week">今週</string>
+    <string name="history_period_month">今月</string>
+    <string name="history_period_all">すべて</string>
+
+    <string name="history_summary_distance">総距離</string>
+    <string name="history_summary_duration">走行時間</string>
+    <string name="history_summary_max_speed">最高速度</string>
+    <string name="history_summary_count">走行回数</string>
+    <string name="history_summary_count_unit">回</string>
+
+    <string name="history_item_metric_distance">距離</string>
+    <string name="history_item_metric_time">時間</string>
+    <string name="history_item_metric_top">最高</string>
+
+    <string name="history_empty_title">記録はまだありません</string>
+    <string name="history_empty_body">走行を検出すると自動的に記録されます</string>
+
+    <string name="history_delete_done">記録を削除しました</string>
+
+    <string name="trip_detail_title">トリップ詳細</string>
+    <string name="trip_detail_not_found">トリップが見つかりません</string>
+    <string name="trip_detail_metric_distance">距離</string>
+    <string name="trip_detail_metric_duration">走行時間</string>
+    <string name="trip_detail_metric_max_speed">最高速度</string>
+    <string name="trip_detail_metric_avg_speed">平均速度</string>
+    <string name="unit_minute_short">分</string>
+    <string name="trip_detail_delete_title">この記録を削除しますか?</string>
+    <string name="trip_detail_delete_body">削除すると元に戻せません。</string>
+    <string name="trip_detail_share_chooser">記録を共有</string>
+    <string name="trip_detail_share_template">%1$s 走行 · %2$s %3$s · %4$s · 最高 %5$s %6$s · 平均 %7$s %8$s</string>
+
+    <string name="format_date_month_day">M月d日</string>
+    <string name="format_date_month_day_weekday">M月d日 (E)</string>
+    <string name="format_date_month_day_short">M/d (E)</string>
+    <string name="format_date_year_month">yyyy年M月</string>
+    <string name="format_time_hm">HH:mm</string>
+    <string name="format_time_range">%1$s – %2$s</string>
+
+    <string name="duration_h_m">%1$d時間%2$d分</string>
+    <string name="duration_m">%1$d分</string>
+    <string name="duration_zero">0分</string>
+
+    <string-array name="weekday_short_labels">
+        <item>日</item>
+        <item>月</item>
+        <item>火</item>
+        <item>水</item>
+        <item>木</item>
+        <item>金</item>
+        <item>土</item>
+    </string-array>
+    <string name="weekday_with_suffix">%1$s曜日</string>
+
+    <string name="time_bucket_dawn">早朝</string>
+    <string name="time_bucket_commute_morning">朝の通勤時間帯</string>
+    <string name="time_bucket_daytime">日中</string>
+    <string name="time_bucket_commute_evening">夕方の帰宅時間帯</string>
+    <string name="time_bucket_evening">夜</string>
+    <string name="time_bucket_late_night">深夜</string>
+
+    <string name="insight_peak_bucket">主に %1$s (%2$d 時前後) に %3$d 回走行しています。</string>
+    <string name="insight_fastest_weekday">最速は %1$s — 平均 %2$d %3$s。</string>
+    <string name="insight_weekly_distance_up">先週より走行距離が %1$d%% 増えました。</string>
+    <string name="insight_weekly_distance_down">先週より走行距離が %1$d%% 減りました。</string>
+    <string name="insight_empty">走行データが増えると、あなたに合わせたインサイトが表示されます。</string>
+
+    <string name="weekday_chart_fastest">最速の日: %1$s · 平均 %2$d %3$s</string>
+
+    <string name="hour_chart_peak">最も活発な時間: %1$d 時 (%2$d 回)</string>
+
+    <string name="analytics_title">詳細分析</string>
+    <string name="analytics_empty">分析できる走行記録が不足しています。\n何回か走行してから再度開いてください。</string>
+
+    <string name="analytics_section_compare">今週 vs 先週</string>
+    <string name="analytics_section_compare_sub">主要指標の変化</string>
+    <string name="analytics_section_trend">週間推移</string>
+    <string name="analytics_section_trend_sub">過去 8 週間の総走行距離</string>
+    <string name="analytics_section_weekday">曜日別の平均速度</string>
+    <string name="analytics_section_weekday_sub">曜日ごとの走行パターン</string>
+    <string name="analytics_section_hour">時間帯別の走行頻度</string>
+    <string name="analytics_section_hour_sub">一日のうちでよく走る時間帯</string>
+    <string name="analytics_section_zones">速度帯別の累計距離</string>
+    <string name="analytics_section_zones_sub">安全・注意・危険・限界の比率</string>
+    <string name="analytics_section_month">今月の走行</string>
+    <string name="analytics_section_insight">ドライビングインサイト</string>
+    <string name="analytics_section_insight_sub">あなたの走行パターン</string>
+    <string name="analytics_section_milestone">累計マイルストーン</string>
+    <string name="analytics_section_milestone_sub">次の目標までの道のり</string>
+    <string name="analytics_section_records">パーソナル記録</string>
+    <string name="analytics_section_records_sub">タップして該当の走行を表示</string>
+
+    <string name="analytics_summary_this_month">今月</string>
+    <string name="analytics_summary_metric_count">走行回数</string>
+    <string name="analytics_summary_metric_duration">走行時間</string>
+    <string name="analytics_summary_metric_top_this_month">今月の最高</string>
+    <string name="analytics_summary_total">累計 %1$s %2$s · %3$d 時間の運転</string>
+
+    <string name="heatmap_legend_low">少ない</string>
+    <string name="heatmap_legend_high">多い</string>
+    <string name="heatmap_total">今月の合計 %1$s %2$s</string>
+
+    <string name="trend_xaxis_8weeks_ago">8 週間前</string>
+    <string name="trend_xaxis_this_week">今週</string>
+    <string name="trend_empty">2 週間以上のデータが集まると推移が表示されます。</string>
+
+    <string name="zone_safe">安全</string>
+    <string name="zone_caution">注意</string>
+    <string name="zone_danger">危険</string>
+    <string name="zone_critical">限界</string>
+    <string name="zone_total_label">合計 %1$s</string>
+    <string name="zone_legend_value">%1$s %2$s · %3$s</string>
+
+    <string name="record_no_data">記録なし</string>
+    <string name="record_longest_distance">最長距離</string>
+    <string name="record_top_speed">最高速度</string>
+    <string name="record_longest_duration">最長時間</string>
+    <string name="record_most_overspeed">速度超過最多</string>
+    <string name="record_overspeed_count">%1$d 回</string>
+
+    <string name="compare_label_distance">距離</string>
+    <string name="compare_label_duration">時間</string>
+    <string name="compare_label_count">走行</string>
+    <string name="compare_count_value">%1$d 回</string>
+
+    <string name="milestone_remaining">次の %1$d %2$s まであと %3$d %2$s</string>
+    <string name="milestone_complete">すべてのマイルストーン達成!</string>
+
+    <string name="analytics_card_title">詳細分析</string>
+    <string name="analytics_card_locked">広告を見て 24 時間、詳細インサイトを解放</string>
+    <string name="analytics_card_unlocked_remaining">解放中 · 残り %1$d 時間 %2$d 分</string>
+    <string name="analytics_card_uses_remaining">残り %1$d 回</string>
+
+    <string name="analytics_unlock_title">詳細分析を開きますか?</string>
+    <string name="analytics_unlock_message">短い広告を見ると、24 時間にわたって曜日・時間帯の走行パターン、速度帯分析、月間ヒートマップ、パーソナル記録まですべて確認できます。</string>
+    <string name="analytics_unlock_confirm">広告を見る</string>
+    <string name="analytics_unlock_dismiss">あとで</string>
+    <string name="unlock_prompt_default_confirm">広告を見る</string>
+    <string name="unlock_prompt_default_dismiss">あとで</string>
+
+    <string name="timeline_empty">グラフを描画するデータが不足しています</string>
+
+    <string name="ad_badge">広告</string>
+
+</resources>
