@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name" translatable="false">Speedometer</string>
+    <string name="app_name">Speedy - GPS測速器·行車紀錄</string>
 
     <string name="tab_dashboard">儀表板</string>
     <string name="tab_history">記錄</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name" translatable="false">Speedometer</string>
+    <string name="app_name">스피디 - GPS 속도계·주행 기록</string>
 
     <string name="tab_dashboard">계기판</string>
     <string name="tab_history">기록</string>

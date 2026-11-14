@@ -1,0 +1,53 @@
+스피디 출시 준비 / 2026-11-14
+
+공개 웹사이트 (개인 GitHub 계정 haruple97)
+- https://haruple97.github.io/
+- https://haruple97.github.io/privacy.html
+- https://haruple97.github.io/app-ads.txt
+- GitHub: https://github.com/haruple97/haruple97.github.io
+- 공개 문의 이메일: ghfnrktl23@gmail.com (사용자가 공개 주소로 지정)
+- Pages built, HTTPS, 방침 HTTP 200 및 로컬 파일과 동일함 확인.
+- app-ads.txt 응답: google.com, pub-3898269947993948, DIRECT, f08c47fec0942fa0
+- InBody Sites는 빈 비공개·미게시 프로젝트만 생성됨. 사용자 개인 계정 선택 후 파일 업로드/게시하지 않음.
+
+코드 수정
+- 637eefb: UMP privacyOptionsRequirementStatus 관찰, 필요한 경우 설정 진입점 표시,
+  개인정보 양식 표시 중 앱 오픈 광고 차단, 오류 안내. 9개 언어 리소스.
+- e738cf5: 공개 개인정보처리방침 링크를 앱 설정에 추가.
+- 기존 QA 수정: 6c84a0d.
+- 기존 사용자 strings.xml 변경과 IDE 설정은 커밋에서 제외.
+
+검증
+- assembleDebug, testDebugUnitTest, lintDebug 통과.
+- 최종 assembleRelease도 통과 (서명되지 않은 APK; Play 업로드용 서명 AAB는 별도).
+- Samsung SM-F956N / Android 16 실제 기기 PrivacyOptionsUiTest 2개 통과.
+  필요한 경우 메뉴 표시 및 클릭 콜백 / 필요하지 않은 경우 메뉴 숨김.
+- 실제 UMP 동의창 표시/동의 변경까지의 종단 검증은 아직 미완료.
+- 폰에서 설정의 개인정보처리방침 메뉴 → 공개 HTTPS 페이지 확인.
+- 캡처: screenshots/privacy-policy-menu.png, privacy-policy-opened.png,
+  privacy-site-live.png.
+- 릴리스 광고 ID와 계정 일치 여부는 AdMob-review.txt 참고.
+
+테스트 중 데이터 보존 사고
+- connectedDebugAndroidTest 완료 후 대상 앱이 제거됨. 사전 DB 백업을 하지 않음.
+- 재설치 후 Android 백업에서 복원된 것으로 보이는 기록 6건 확인.
+- 테스트 전 기존 7건 + 오늘 QA 2건이 모두 유지되지 않음. 누락 데이터 복구 미완료.
+- 사용자에게 즉시 설명 및 사과. 남은 DB/설정은 private-backup/app-data.tar에 보존.
+- 이후 검증은 데이터 유지 adb install -r 및 화면 확인만 진행. 추가 계측 자동 설치/제거 금지.
+
+남은 출시 단계
+- AdMob에 Speedy EU consent 초안 저장 완료. 스피디 앱만 선택,
+  개인정보 URL 저장, 모든 지역에 거부 버튼 표시, 영어 기본 언어.
+- 사용자 승인 후 AdMob 게시 완료. 목록에서 '게시됨', 게시 전환 on 확인.
+- 증빙: screenshots/admob-publish-confirm.png, play-create-declarations.png.
+- 사용자 승인 후 정책·서명·수출법 선언 체크 및 Play 앱 생성 완료.
+  https://play.google.com/console/u/0/developers/5935288817079911274/app/4972991342525427480/app-dashboard
+  스토어 출시/심사 제출은 아직 하지 않음.
+- Play Console 개발자 웹사이트 https://haruple97.github.io/ 및 공개 문의 이메일 저장 완료.
+- Play Console 스토어 공개 후 AdMob 스토어 연결 필요.
+- 앱 인증 및 app-ads.txt 크롤링 완료, AdMob 앱 검토 승인까지 확인해야 실광고 출시 준비 완료.
+- 서명된 릴리스 AAB 및 스토어 필수 정책 설문/등록정보 준비 필요.
+- 공개 페이지 생성만으로 AdMob 인증 완료가 되지는 않음.
+- Play 개인정보처리방침 URL 저장 완료, 대시보드에서 해당 작업 완료 표시 확인.
+- 최종 증빙: screenshots/play-app-created.png, play-contact-saved.png,
+  admob-message-published.png. 이후 덮어쓰기 업데이트로 남은 기록 6건 유지 확인.

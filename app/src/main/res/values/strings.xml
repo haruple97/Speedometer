@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="app_name" translatable="false">Speedometer</string>
+    <string name="app_name">Speedy - GPS Speedometer &amp; Trip Log</string>
 
     <!-- ===== Bottom navigation tabs (1-2 words, may be cropped on narrow screens) ===== -->
     <string name="tab_dashboard">Dashboard</string>

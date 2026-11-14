@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name" translatable="false">Speedometer</string>
+    <string name="app_name">スピーディ - GPS速度計・走行記録</string>
 
     <string name="tab_dashboard">ダッシュボード</string>
     <string name="tab_history">履歴</string>

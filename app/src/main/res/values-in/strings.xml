@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name" translatable="false">Speedometer</string>
+    <string name="app_name">Speedy - Speedometer GPS &amp; Catatan Perjalanan</string>
 
     <string name="tab_dashboard">Dasbor</string>
     <string name="tab_history">Riwayat</string>

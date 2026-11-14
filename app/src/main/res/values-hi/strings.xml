@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name" translatable="false">Speedometer</string>
+    <string name="app_name">स्पीडी - GPS स्पीडोमीटर और ड्राइव लॉग</string>
 
     <string name="tab_dashboard">डैशबोर्ड</string>
     <string name="tab_history">इतिहास</string>
