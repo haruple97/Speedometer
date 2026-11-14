@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.haruple97.speedometer.R
+import com.haruple97.speedometer.data.settings.DistanceUnit
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.settings.UserPreferences
 import com.haruple97.speedometer.data.trip.TripEntity
@@ -86,7 +87,7 @@ fun TripDetailRoute(
             viewModel.delete(tripId, onDeleted = onNavigateBack)
         },
         onShare = { trip ->
-            val text = buildShareText(trip, preferences.speedUnit, sharePattern, locale, shareTemplate)
+            val text = buildShareText(trip, preferences.speedUnit, preferences.distanceUnit, sharePattern, locale, shareTemplate)
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, text)
@@ -168,9 +169,9 @@ fun TripDetailScreen(
         val endedAt = if (trip.endedAt == 0L) startedAt else trip.endedAt
         val durationMin = ((endedAt - startedAt) / 60_000f).roundToInt().coerceAtLeast(0)
         val distanceKm = trip.distanceMeters / 1000f
-        val distanceDisplay = if (unit == SpeedUnit.MPH) distanceKm * 0.621371f else distanceKm
+        val distanceDisplay = preferences.distanceUnit.fromKm(distanceKm)
         val distanceText = formatOneDecimal(distanceDisplay)
-        val distanceUnit = if (unit == SpeedUnit.MPH) "mi" else "km"
+        val distanceUnit = preferences.distanceUnit.label
 
         Column(
             modifier = Modifier
@@ -266,9 +267,10 @@ fun TripDetailScreen(
     }
 }
 
-private fun buildShareText(
+internal fun buildShareText(
     trip: TripEntity,
     unit: SpeedUnit,
+    distanceUnit: DistanceUnit,
     datePattern: String,
     locale: Locale,
     template: String,
@@ -283,8 +285,8 @@ private fun buildShareText(
         "${durationMin}m"
     }
     val distanceKm = trip.distanceMeters / 1000f
-    val distanceDisplay = if (unit == SpeedUnit.MPH) distanceKm * 0.621371f else distanceKm
-    val distanceLabel = if (unit == SpeedUnit.MPH) "mi" else "km"
+    val distanceDisplay = distanceUnit.fromKm(distanceKm)
+    val distanceLabel = distanceUnit.label
     return template.format(
         /* %1$s date */ dateFormat.format(Date(startedAt)),
         /* %2$s distance */ String.format(locale, "%.1f", distanceDisplay),

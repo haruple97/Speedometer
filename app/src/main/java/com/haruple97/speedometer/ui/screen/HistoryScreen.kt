@@ -239,6 +239,7 @@ fun HistoryScreen(
                         is HistoryListItem.Trip -> {
                             SwipeDeletableTripRow(
                                 trip = item.trip,
+                                distanceUnit = preferences.distanceUnit,
                                 speedUnit = preferences.speedUnit,
                                 onClick = { onTripSelected(item.trip.id) },
                                 onSwipeDelete = { onSwipeDelete(item.trip.id) },
@@ -262,6 +263,7 @@ fun HistoryScreen(
 private fun LazyItemScope.SwipeDeletableTripRow(
     trip: TripEntity,
     speedUnit: com.haruple97.speedometer.data.settings.SpeedUnit,
+    distanceUnit: com.haruple97.speedometer.data.settings.DistanceUnit,
     onClick: () -> Unit,
     onSwipeDelete: () -> Unit,
 ) {
@@ -285,6 +287,7 @@ private fun LazyItemScope.SwipeDeletableTripRow(
     ) {
         TripListItem(
             trip = trip,
+            distanceUnit = distanceUnit,
             speedUnit = speedUnit,
             onClick = onClick,
         )

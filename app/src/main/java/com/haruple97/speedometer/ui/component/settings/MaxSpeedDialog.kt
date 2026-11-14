@@ -1,5 +1,6 @@
 package com.haruple97.speedometer.ui.component.settings
 
+import kotlin.math.roundToInt
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,10 +35,10 @@ fun MaxSpeedDialog(
     onConfirm: (Float) -> Unit,
 ) {
     val range = when (speedUnit) {
-        SpeedUnit.KMH -> 100f..400f
-        SpeedUnit.MPH -> 60f..250f
+        SpeedUnit.KMH -> 10f..400f
+        SpeedUnit.MPH -> 5f..250f
     }
-    val stepIncrement = 10
+    val stepIncrement = 5
     SliderDialog(
         title = stringResource(R.string.dialog_max_speed_title),
         unit = speedUnit.label,
@@ -45,7 +46,9 @@ fun MaxSpeedDialog(
         stepIncrement = stepIncrement,
         currentDisplay = speedUnit.fromKmh(currentKmh),
         onDismiss = onDismiss,
-        onConfirm = { display -> onConfirm(speedUnit.toKmh(display)) },
+        onConfirm = { display ->
+            onConfirm(if (display == speedUnit.fromKmh(currentKmh)) currentKmh else speedUnit.toKmh(display))
+        },
     )
 }
 
@@ -57,8 +60,8 @@ fun OverspeedThresholdDialog(
     onConfirm: (Float) -> Unit,
 ) {
     val range = when (speedUnit) {
-        SpeedUnit.KMH -> 30f..250f
-        SpeedUnit.MPH -> 20f..160f
+        SpeedUnit.KMH -> 5f..400f
+        SpeedUnit.MPH -> 5f..250f
     }
     val stepIncrement = 5
     SliderDialog(
@@ -68,7 +71,9 @@ fun OverspeedThresholdDialog(
         stepIncrement = stepIncrement,
         currentDisplay = speedUnit.fromKmh(currentKmh),
         onDismiss = onDismiss,
-        onConfirm = { display -> onConfirm(speedUnit.toKmh(display)) },
+        onConfirm = { display ->
+            onConfirm(if (display == speedUnit.fromKmh(currentKmh)) currentKmh else speedUnit.toKmh(display))
+        },
     )
 }
 
@@ -82,8 +87,10 @@ private fun SliderDialog(
     onDismiss: () -> Unit,
     onConfirm: (Float) -> Unit,
 ) {
-    val steps = ((valueRange.endInclusive - valueRange.start).toInt() / stepIncrement) - 1
-    var draft by remember { mutableFloatStateOf(currentDisplay.coerceIn(valueRange)) }
+    // 단위 전환 직후에도 저장된 값을 편집창의 경계로 잘라내지 않는다.
+    val editableRange = minOf(valueRange.start, currentDisplay)..maxOf(valueRange.endInclusive, currentDisplay)
+    val steps = ((editableRange.endInclusive - editableRange.start).toInt() / stepIncrement - 1).coerceAtLeast(0)
+    var draft by remember(currentDisplay) { mutableFloatStateOf(currentDisplay) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -103,7 +110,7 @@ private fun SliderDialog(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Text(
-                    text = stringResource(R.string.dialog_value_with_unit, draft.toInt(), unit),
+                    text = stringResource(R.string.dialog_value_with_unit, draft.roundToInt(), unit),
                     style = SpeedometerTextStyle.Data2Style(),
                     color = GaugeSafe,
                     modifier = Modifier.padding(vertical = 4.dp),
@@ -111,7 +118,7 @@ private fun SliderDialog(
                 Slider(
                     value = draft,
                     onValueChange = { draft = it },
-                    valueRange = valueRange,
+                    valueRange = editableRange,
                     steps = steps,
                     colors = SliderDefaults.colors(
                         thumbColor = GaugeSafe,

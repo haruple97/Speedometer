@@ -1,0 +1,4 @@
+<resources>
+    <string name="perm_settings_body">測量速度需要精確位置權限。請開啟應用程式設定，允許存取位置並啟用精確位置。</string>
+    <string name="perm_settings_cta">開啟應用程式設定</string>
+</resources>

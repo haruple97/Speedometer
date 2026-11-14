@@ -1,0 +1,4 @@
+<resources>
+    <string name="perm_settings_body">Lokasi akurat diperlukan untuk mengukur kecepatan. Buka setelan, izinkan akses lokasi, dan aktifkan lokasi akurat.</string>
+    <string name="perm_settings_cta">Buka setelan</string>
+</resources>

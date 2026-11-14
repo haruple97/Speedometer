@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.haruple97.speedometer.R
+import com.haruple97.speedometer.data.settings.DistanceUnit
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.trip.TripEntity
 import com.haruple97.speedometer.ui.theme.DashboardBlack
@@ -98,6 +99,7 @@ fun PersonalRecordGrid(
     topDuration: TripEntity?,
     topOverspeed: TripEntity?,
     speedUnit: SpeedUnit,
+    distanceUnit: DistanceUnit,
     onTripClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -116,7 +118,7 @@ fun PersonalRecordGrid(
                 iconTint = GaugeSafe,
                 label = stringResource(R.string.record_longest_distance),
                 primaryValue = topDistance?.let {
-                    "${formatOneDecimal(it.distanceMeters / 1000f)} km"
+                    "${formatOneDecimal(distanceUnit.fromKm(it.distanceMeters / 1000f))} ${distanceUnit.label}"
                 } ?: "—",
                 secondaryLabel = topDistance?.let { dateFormat.format(Date(it.startedAt)) },
                 enabled = topDistance != null,

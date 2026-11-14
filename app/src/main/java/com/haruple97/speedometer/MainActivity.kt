@@ -1,5 +1,12 @@
 package com.haruple97.speedometer
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.Settings
+import androidx.core.content.ContextCompat
+import androidx.compose.runtime.DisposableEffect
+import androidx.lifecycle.LifecycleEventObserver
 import android.Manifest
 import android.app.PictureInPictureParams
 import android.content.res.Configuration
@@ -67,7 +74,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         observeKeepScreenOn()
         observeAutoRecording()
-        observeTripRecording()
         recoverDanglingTrips()
         initializeAds()
         setContent {
@@ -81,16 +87,6 @@ class MainActivity : ComponentActivity() {
     private fun initializeAds() {
         AdConsentManager(this).gatherConsent {
             MobileAdsInitializer.initialize(applicationContext)
-        }
-    }
-
-    private fun observeTripRecording() {
-        val repo = LocationRepositoryProvider.get(applicationContext)
-        val recorder = TripRecorderProvider.get(applicationContext)
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                repo.speedFlow.collect { recorder.onSample(it) }
-            }
         }
     }
 
@@ -142,7 +138,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
-        enterPictureInPictureMode(pipParams)
+        if (hasPreciseLocation()) enterPictureInPictureMode(pipParams)
     }
 
     private fun appOpenAdManager() =
@@ -162,43 +158,77 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+private fun android.content.Context.hasPreciseLocation(): Boolean =
+    ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+        PackageManager.PERMISSION_GRANTED
+
 @Composable
 private fun LocationPermissionGate(isInPipMode: Boolean) {
-    val context = androidx.compose.ui.platform.LocalContext.current
-    var hasPermission by remember { mutableStateOf(false) }
+    val activity = androidx.compose.ui.platform.LocalContext.current as MainActivity
+    val requestHistory = remember { activity.getSharedPreferences("location_permission", 0) }
+    var hasPermission by remember { mutableStateOf(activity.hasPreciseLocation()) }
+    var needsSettings by remember { mutableStateOf(false) }
 
-    val permissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        val granted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true
-        // 첫 권한 허용 직후 warm resume 시 App Open 광고 보호.
+    fun refreshPermission() {
+        val granted = activity.hasPreciseLocation()
         if (granted && !hasPermission) {
-            (context.applicationContext as SpeedometerApplication)
+            (activity.applicationContext as SpeedometerApplication)
                 .appOpenAdManager.markPermissionJustGranted()
         }
         hasPermission = granted
+        needsSettings = !granted && requestHistory.getBoolean("requested", false) &&
+            !activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { refreshPermission() }
+
+    DisposableEffect(activity) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) refreshPermission()
+        }
+        activity.lifecycle.addObserver(observer)
+        refreshPermission()
+        onDispose { activity.lifecycle.removeObserver(observer) }
     }
 
     LaunchedEffect(Unit) {
-        permissionLauncher.launch(
-            arrayOf(
+        if (!hasPermission && !requestHistory.getBoolean("requested", false)) {
+            requestHistory.edit().putBoolean("requested", true).apply()
+            permissionLauncher.launch(arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
-        )
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+            ))
+        }
     }
 
     if (hasPermission) {
+        // 권한 승인 후 구독해야 최초 승인 직후에도 위치 요청이 정상 시작된다.
+        LaunchedEffect(activity) {
+            activity.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                val repo = LocationRepositoryProvider.get(activity.applicationContext)
+                val recorder = TripRecorderProvider.get(activity.applicationContext)
+                repo.speedFlow.collect { recorder.onSample(it) }
+            }
+        }
         SpeedometerAppNavHost(isInPipMode = isInPipMode)
     } else {
         PermissionRequestScreen(
+            needsSettings = needsSettings,
             onRequestPermission = {
-                permissionLauncher.launch(
-                    arrayOf(
+                if (needsSettings) {
+                    activity.startActivity(Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.parse("package:${activity.packageName}"),
+                    ))
+                } else {
+                    requestHistory.edit().putBoolean("requested", true).apply()
+                    permissionLauncher.launch(arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                )
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                    ))
+                }
             }
         )
     }
@@ -206,6 +236,7 @@ private fun LocationPermissionGate(isInPipMode: Boolean) {
 
 @Composable
 private fun PermissionRequestScreen(
+    needsSettings: Boolean,
     onRequestPermission: () -> Unit
 ) {
     Column(
@@ -223,7 +254,7 @@ private fun PermissionRequestScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = stringResource(R.string.perm_body),
+            text = stringResource(if (needsSettings) R.string.perm_settings_body else R.string.perm_body),
             style = SpeedometerTextStyle.H4RegularStyle(),
             color = UnitGray,
             textAlign = TextAlign.Center
@@ -236,7 +267,7 @@ private fun PermissionRequestScreen(
             )
         ) {
             Text(
-                text = stringResource(R.string.perm_grant_cta),
+                text = stringResource(if (needsSettings) R.string.perm_settings_cta else R.string.perm_grant_cta),
                 color = DashboardBlack
             )
         }

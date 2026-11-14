@@ -1,0 +1,4 @@
+<resources>
+    <string name="perm_settings_body">速度を測定するには正確な位置情報の権限が必要です。アプリの設定で位置情報へのアクセスを許可し、正確な位置情報を有効にしてください。</string>
+    <string name="perm_settings_cta">アプリの設定を開く</string>
+</resources>

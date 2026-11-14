@@ -1,0 +1,4 @@
+<resources>
+    <string name="perm_settings_body">Precise location is required to measure speed. Open Settings, allow location access, and enable precise location.</string>
+    <string name="perm_settings_cta">Open settings</string>
+</resources>

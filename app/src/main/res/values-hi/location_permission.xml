@@ -1,0 +1,4 @@
+<resources>
+    <string name="perm_settings_body">गति मापने के लिए सटीक स्थान की अनुमति आवश्यक है। सेटिंग खोलें, स्थान की अनुमति दें और सटीक स्थान चालू करें।</string>
+    <string name="perm_settings_cta">सेटिंग खोलें</string>
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="perm_settings_body">A localização exata é necessária para medir a velocidade. Abra as configurações, permita o acesso à localização e ative a localização exata.</string>
+    <string name="perm_settings_cta">Abrir configurações</string>
+</resources>

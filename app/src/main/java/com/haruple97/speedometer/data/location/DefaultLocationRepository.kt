@@ -1,7 +1,20 @@
 package com.haruple97.speedometer.data.location
 
 import android.annotation.SuppressLint
+import android.Manifest
 import android.content.Context
+import android.content.BroadcastReceiver
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.location.LocationManager
+import android.os.SystemClock
+import androidx.core.content.ContextCompat
+import androidx.core.location.LocationManagerCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.flowOn
 import android.location.Location
 import android.os.Looper
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -23,6 +36,9 @@ class DefaultLocationRepository(
     scope: CoroutineScope,
 ) : LocationRepository {
 
+    private val appContext = context.applicationContext
+    private val locationManager = appContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
     private val fusedClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(context)
 
@@ -38,10 +54,26 @@ class DefaultLocationRepository(
 
     @SuppressLint("MissingPermission")
     private val rawSpeedFlow: Flow<SpeedData> = callbackFlow {
+        var lastFixElapsedMs: Long? = null
+        var requested = false
+        fun invalidate() {
+            lastFixElapsedMs = null
+            lastLocation = null
+            filter.reset()
+            // timestamp=0: 신호 상실을 정지 주행 샘플로 기록하지 않는다.
+            trySend(SpeedData())
+        }
+        invalidate()
         val callback = object : LocationCallback() {
             override fun onLocationResult(result: LocationResult) {
                 val location = result.lastLocation ?: return
 
+                val now = SystemClock.elapsedRealtime()
+                val fixElapsedMs = location.elapsedRealtimeNanos / 1_000_000L
+                if (!LocationManagerCompat.isLocationEnabled(locationManager) ||
+                    !isLocationFresh(now, fixElapsedMs)) return
+                if (lastFixElapsedMs != null && !isLocationFresh(now, lastFixElapsedMs)) invalidate()
+                if (lastFixElapsedMs != null && fixElapsedMs <= lastFixElapsedMs!!) return
                 val prev = lastLocation
                 val deltaDistance = if (prev != null) prev.distanceTo(location) else 0f
 
@@ -59,6 +91,7 @@ class DefaultLocationRepository(
 
                 val filteredMps = filter.filter(rawSpeedMps, location) ?: return
                 lastLocation = location
+                lastFixElapsedMs = fixElapsedMs
 
                 trySend(
                     SpeedData(
@@ -72,20 +105,54 @@ class DefaultLocationRepository(
             }
         }
 
-        fusedClient.requestLocationUpdates(
-            locationRequest,
-            callback,
-            Looper.getMainLooper()
-        )
-
-        awaitClose {
-            fusedClient.removeLocationUpdates(callback)
+        fun requestUpdates() {
+            if (requested || !LocationManagerCompat.isLocationEnabled(locationManager) ||
+                ContextCompat.checkSelfPermission(appContext, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) return
+            requested = true
+            try {
+                fusedClient.requestLocationUpdates(locationRequest, callback, Looper.getMainLooper())
+                    .addOnFailureListener {
+                        requested = false
+                        invalidate()
+                    }
+            } catch (_: SecurityException) {
+                requested = false
+                invalidate()
+            }
         }
-    }
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (!LocationManagerCompat.isLocationEnabled(locationManager)) {
+                    invalidate()
+                } else {
+                    requestUpdates()
+                }
+            }
+        }
+        ContextCompat.registerReceiver(appContext, receiver,
+            IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED)
+        requestUpdates()
+        val watchdog = launch {
+            while (true) {
+                delay(1_000L)
+                if (lastFixElapsedMs != null &&
+                    !isLocationFresh(SystemClock.elapsedRealtime(), lastFixElapsedMs)) invalidate()
+                requestUpdates()
+            }
+        }
+        awaitClose {
+            watchdog.cancel()
+            appContext.unregisterReceiver(receiver)
+            fusedClient.removeLocationUpdates(callback)
+            lastLocation = null
+            filter.reset()
+        }
+    }.flowOn(Dispatchers.Main.immediate)
 
     override val speedFlow: Flow<SpeedData> = rawSpeedFlow.shareIn(
         scope = scope,
-        started = SharingStarted.WhileSubscribed(5_000L),
+        started = SharingStarted.WhileSubscribed(5_000L, replayExpirationMillis = 0L),
         replay = 1,
     )
 

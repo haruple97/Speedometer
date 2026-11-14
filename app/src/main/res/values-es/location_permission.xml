@@ -1,0 +1,4 @@
+<resources>
+    <string name="perm_settings_body">Se necesita la ubicación precisa para medir la velocidad. Abre los ajustes, permite el acceso a la ubicación y activa la ubicación precisa.</string>
+    <string name="perm_settings_cta">Abrir ajustes</string>
+</resources>

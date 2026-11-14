@@ -221,6 +221,7 @@ fun AnalyticsDetailScreen(
             ) {
                 PersonalRecordGrid(
                     topDistance = state.topDistanceTrip,
+                    distanceUnit = preferences.distanceUnit,
                     topMaxSpeed = state.topMaxSpeedTrip,
                     topDuration = state.topDurationTrip,
                     topOverspeed = state.topOverspeedTrip,

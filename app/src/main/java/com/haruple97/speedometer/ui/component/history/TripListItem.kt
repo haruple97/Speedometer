@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.haruple97.speedometer.R
+import com.haruple97.speedometer.data.settings.DistanceUnit
 import com.haruple97.speedometer.data.settings.SpeedUnit
 import com.haruple97.speedometer.data.trip.TripEntity
 import com.haruple97.speedometer.ui.theme.DashboardDarkGray
@@ -32,6 +33,7 @@ import kotlin.math.roundToInt
 fun TripListItem(
     trip: TripEntity,
     speedUnit: SpeedUnit,
+    distanceUnit: DistanceUnit,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -77,7 +79,7 @@ fun TripListItem(
         ) {
             Metric(
                 label = stringResource(R.string.history_item_metric_distance),
-                value = "${formatOneDecimal(distanceKm)} km",
+                value = "${formatOneDecimal(distanceUnit.fromKm(distanceKm))} ${distanceUnit.label}",
             )
             Metric(
                 label = stringResource(R.string.history_item_metric_time),
