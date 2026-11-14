@@ -1,0 +1,4 @@
+<resources>
+    <string name="settings_privacy_options">Ad privacy choices</string>
+    <string name="privacy_options_error">Unable to open privacy choices. Please try again later.</string>
+</resources>

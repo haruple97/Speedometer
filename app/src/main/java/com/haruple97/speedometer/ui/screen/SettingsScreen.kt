@@ -1,6 +1,10 @@
 package com.haruple97.speedometer.ui.screen
 
+import android.app.Activity
 import android.content.Intent
+import android.widget.Toast
+import androidx.compose.material.icons.filled.PrivacyTip
+import com.haruple97.speedometer.data.ads.AdConsentManager
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -59,6 +63,9 @@ fun SettingsRoute(
 ) {
     val preferences by viewModel.preferences.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val consentManager = remember(context) { (context as? Activity)?.let(::AdConsentManager) }
+    val privacyOptionsRequired by AdConsentManager.privacyOptionsRequired.collectAsStateWithLifecycle()
+    val privacyError = stringResource(R.string.privacy_options_error)
     val shareMessage = stringResource(R.string.settings_share_message, PLAY_STORE_URL)
     val shareChooserTitle = stringResource(R.string.settings_share_app)
 
@@ -73,6 +80,12 @@ fun SettingsRoute(
         onDistanceUnitChange = viewModel::setDistanceUnit,
         onApplyPreset = viewModel::applyPreset,
         onAutoRecordingEnabledChange = viewModel::setAutoRecordingEnabled,
+        privacyOptionsRequired = privacyOptionsRequired && consentManager != null,
+        onPrivacyOptions = {
+            consentManager?.showPrivacyOptions { error ->
+                if (error != null) Toast.makeText(context, privacyError, Toast.LENGTH_LONG).show()
+            }
+        },
         onShareApp = {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
@@ -96,6 +109,8 @@ fun SettingsScreen(
     onApplyPreset: (SpeedPreset) -> Unit,
     onAutoRecordingEnabledChange: (Boolean) -> Unit,
     onShareApp: () -> Unit,
+    privacyOptionsRequired: Boolean = false,
+    onPrivacyOptions: () -> Unit = {},
 ) {
     var showMaxSpeedDialog by remember { mutableStateOf(false) }
     var showThresholdDialog by remember { mutableStateOf(false) }
@@ -199,6 +214,13 @@ fun SettingsScreen(
             }
 
             SettingSection(title = stringResource(R.string.settings_section_app)) {
+                if (privacyOptionsRequired) {
+                    SettingActionRow(
+                        title = stringResource(R.string.settings_privacy_options),
+                        onClick = onPrivacyOptions,
+                        leadingIcon = Icons.Filled.PrivacyTip,
+                    )
+                }
                 SettingActionRow(
                     title = stringResource(R.string.settings_share_app),
                     onClick = onShareApp,

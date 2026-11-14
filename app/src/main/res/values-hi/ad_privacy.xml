@@ -1,0 +1,4 @@
+<resources>
+    <string name="settings_privacy_options">विज्ञापन निजता सेटिंग</string>
+    <string name="privacy_options_error">निजता सेटिंग नहीं खुल सकीं। कृपया बाद में फिर कोशिश करें।</string>
+</resources>

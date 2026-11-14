@@ -197,6 +197,7 @@ class AppOpenAdManager(
     }
 
     private fun canShow(): Boolean {
+        if (AdConsentManager.isFormShowing) return false
         val now = System.currentTimeMillis()
         if (state.launchCount <= minLaunchCount) return false
         if (now - state.firstInstallMs < installCooldownMs) return false

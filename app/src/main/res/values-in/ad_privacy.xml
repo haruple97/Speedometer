@@ -1,0 +1,4 @@
+<resources>
+    <string name="settings_privacy_options">Privasi iklan</string>
+    <string name="privacy_options_error">Tidak dapat membuka setelan privasi. Coba lagi nanti.</string>
+</resources>

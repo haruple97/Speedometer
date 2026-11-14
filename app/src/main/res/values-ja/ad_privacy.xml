@@ -1,0 +1,4 @@
+<resources>
+    <string name="settings_privacy_options">広告のプライバシー設定</string>
+    <string name="privacy_options_error">プライバシー設定を開けません。しばらくしてから再試行してください。</string>
+</resources>

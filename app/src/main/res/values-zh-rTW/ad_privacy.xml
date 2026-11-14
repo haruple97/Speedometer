@@ -1,0 +1,4 @@
+<resources>
+    <string name="settings_privacy_options">廣告隱私設定</string>
+    <string name="privacy_options_error">無法開啟隱私設定，請稍後再試。</string>
+</resources>
