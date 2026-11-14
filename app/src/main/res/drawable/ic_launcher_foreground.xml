@@ -1,73 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
-
-    <!-- (a) 글라스 디스크 바디 — 반투명 흰색 반구 (radial alpha fade) -->
-    <path android:pathData="M54,54 m-26,0 a26,26 0 1,0 52,0 a26,26 0 1,0 -52,0">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:centerX="54"
-                android:centerY="54"
-                android:gradientRadius="26"
-                android:type="radial">
-                <item android:color="#52FFFFFF" android:offset="0.0" />
-                <item android:color="#14FFFFFF" android:offset="1.0" />
-            </gradient>
-        </aapt:attr>
-    </path>
-
-    <!-- (b) 상단 볼록 하이라이트 — 위에서 내려오는 빛 반사 타원 -->
-    <path android:pathData="M48,38 m-18,0 a18,8 0 1,0 36,0 a18,8 0 1,0 -36,0">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:endX="48"
-                android:endY="46"
-                android:startX="48"
-                android:startY="30"
-                android:type="linear">
-                <item android:color="#8CFFFFFF" android:offset="0.0" />
-                <item android:color="#00FFFFFF" android:offset="1.0" />
-            </gradient>
-        </aapt:attr>
-    </path>
-
-    <!-- (c) 상단 rim light — 글라스 윗 테두리 빛 반사 -->
-    <path
-        android:pathData="M30,48 A24,24 0 0 1 78,48"
-        android:strokeColor="#8CFFFFFF"
-        android:strokeLineCap="round"
-        android:strokeWidth="1.2" />
-
-    <!-- (d) 하단 내부 그림자 — 볼록감 강화 -->
-    <path
-        android:pathData="M32,58 A22,22 0 0 0 76,58"
-        android:strokeColor="#1F000000"
-        android:strokeLineCap="round"
-        android:strokeWidth="1.2" />
-
-    <!-- (e) 게이지 호 — 글라스 안쪽 흰색 각인 -->
-    <path
-        android:pathData="M37,63 A17,17 0 1 1 71,63"
-        android:strokeColor="#EBFFFFFF"
-        android:strokeLineCap="round"
-        android:strokeWidth="2.6" />
-
-    <!-- (f) 뾰족한 바늘 — 끝으로 갈수록 뾰족해지는 삼각형 -->
-    <path
-        android:fillColor="#FAFFFFFF"
-        android:pathData="M65.1,43.9 L55.2,55.3 L52.8,52.7 Z" />
-
-    <!-- (g) 허브 외곽 — 흰 디스크 -->
-    <path
-        android:fillColor="#FAFFFFFF"
-        android:pathData="M54,54 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
-
-    <!-- (h) 허브 중심점 — 베이스와 동일한 레이싱 레드 핀 -->
-    <path
-        android:fillColor="#FF1744"
-        android:pathData="M54,54 m-1.5,0 a1.5,1.5 0 1,0 3,0 a1.5,1.5 0 1,0 -3,0" />
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+<!-- Original frosted-glass speedometer. All artwork stays within the adaptive safe zone. -->
+<path android:pathData="M23,55 a31,31 0 1,0 62,0 a31,31 0 1,0 -62,0"><aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="31" android:startY="25" android:endX="74" android:endY="85"><item android:offset="0" android:color="#77E3F4FF"/><item android:offset="0.38" android:color="#287DA4BD"/><item android:offset="0.72" android:color="#123A5B7A"/><item android:offset="1" android:color="#487F9CAF"/></gradient></aapt:attr></path>
+<path android:pathData="M23.4,55 a30.6,30.6 0 1,0 61.2,0 a30.6,30.6 0 1,0 -61.2,0" android:strokeColor="#45DDEFFF" android:strokeWidth="0.65" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M25.245,44.534 A30.6,30.6 0 0,1 73.669,31.559" android:strokeColor="#A6F0FAFF" android:strokeWidth="0.8" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M82.755,65.466 A30.6,30.6 0 0,1 48.686,85.135" android:strokeColor="#335E9FAF" android:strokeWidth="0.8" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M35.615,70.427 A24,24 0 1,1 72.385,70.427" android:strokeColor="#397C9CAC" android:strokeWidth="3" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M35.615,39.573 A24,24 0 0,1 70.971,38.029" android:strokeColor="#D9EAF7FF" android:strokeWidth="3" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M38.679,67.856 L40.747,66.120" android:strokeColor="#BBDDEDF4" android:strokeWidth="1.05" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M34.594,59.838 L36.341,59.403" android:strokeColor="#BBDDEDF4" android:strokeWidth="0.75" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M34.437,50.842 L37.078,51.403" android:strokeColor="#BBDDEDF4" android:strokeWidth="1.05" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M38.240,42.687 L39.658,43.795" android:strokeColor="#BBDDEDF4" android:strokeWidth="0.75" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M45.233,37.024 L46.416,39.451" android:strokeColor="#BBDDEDF4" android:strokeWidth="1.05" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M54.000,35.000 L54.000,36.800" android:strokeColor="#BBDDEDF4" android:strokeWidth="0.75" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M62.767,37.024 L61.584,39.451" android:strokeColor="#BBDDEDF4" android:strokeWidth="1.05" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M69.760,42.687 L68.342,43.795" android:strokeColor="#BBDDEDF4" android:strokeWidth="0.75" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M73.563,50.842 L70.922,51.403" android:strokeColor="#BBDDEDF4" android:strokeWidth="1.05" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M73.406,59.838 L71.659,59.403" android:strokeColor="#BBDDEDF4" android:strokeWidth="0.75" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M69.321,67.856 L67.253,66.120" android:strokeColor="#BBDDEDF4" android:strokeWidth="1.05" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M44,55 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0"><aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="47" android:startY="46" android:endX="62" android:endY="64"><item android:offset="0" android:color="#50D7EDFA"/><item android:offset="0.5" android:color="#133C647F"/><item android:offset="1" android:color="#427493A8"/></gradient></aapt:attr></path>
+<path android:pathData="M44.2,55 a9.8,9.8 0 1,0 19.6,0 a9.8,9.8 0 1,0 -19.6,0" android:strokeColor="#38D7EDFA" android:strokeWidth="0.5" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M50.7,58.7 Q49.2,56.2 52,53.4 L71.8,38.2 L57,58.2 Q54.4,61.4 50.7,58.7 Z"><aapt:attr name="android:fillColor"><gradient android:type="linear" android:startX="50" android:startY="60" android:endX="70" android:endY="38"><item android:offset="0" android:color="#9DBAD3E5"/><item android:offset="0.55" android:color="#EDF7FCFF"/><item android:offset="1" android:color="#FFFFFFFF"/></gradient></aapt:attr></path>
+<path android:pathData="M54,55 L67.8,42.4" android:strokeColor="#70718FA9" android:strokeWidth="0.8" android:strokeLineCap="round" android:strokeLineJoin="round"/>
+<path android:pathData="M51.9,55 a2.1,2.1 0 1,0 4.2,0 a2.1,2.1 0 1,0 -4.2,0" android:fillColor="#DDE6F4FC"/>
 </vector>
