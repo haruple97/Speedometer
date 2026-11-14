@@ -1,4 +1,5 @@
 <resources>
     <string name="settings_privacy_options">광고 개인정보 설정</string>
     <string name="privacy_options_error">개인정보 설정을 열 수 없습니다. 잠시 후 다시 시도해 주세요.</string>
+    <string name="settings_privacy_policy">개인정보처리방침</string>
 </resources>

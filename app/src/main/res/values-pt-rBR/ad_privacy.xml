@@ -1,4 +1,5 @@
 <resources>
     <string name="settings_privacy_options">Privacidade dos anúncios</string>
     <string name="privacy_options_error">Não foi possível abrir as opções de privacidade. Tente novamente mais tarde.</string>
+    <string name="settings_privacy_policy">Política de privacidade</string>
 </resources>

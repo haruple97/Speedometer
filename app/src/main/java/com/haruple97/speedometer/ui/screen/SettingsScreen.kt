@@ -2,6 +2,8 @@ package com.haruple97.speedometer.ui.screen
 
 import android.app.Activity
 import android.content.Intent
+import android.content.ActivityNotFoundException
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.material.icons.filled.PrivacyTip
 import com.haruple97.speedometer.data.ads.AdConsentManager
@@ -80,6 +82,13 @@ fun SettingsRoute(
         onDistanceUnitChange = viewModel::setDistanceUnit,
         onApplyPreset = viewModel::applyPreset,
         onAutoRecordingEnabledChange = viewModel::setAutoRecordingEnabled,
+        onPrivacyPolicy = {
+            try {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://haruple97.github.io/privacy.html")))
+            } catch (_: ActivityNotFoundException) {
+                Toast.makeText(context, privacyError, Toast.LENGTH_LONG).show()
+            }
+        },
         privacyOptionsRequired = privacyOptionsRequired && consentManager != null,
         onPrivacyOptions = {
             consentManager?.showPrivacyOptions { error ->
@@ -111,6 +120,7 @@ fun SettingsScreen(
     onShareApp: () -> Unit,
     privacyOptionsRequired: Boolean = false,
     onPrivacyOptions: () -> Unit = {},
+    onPrivacyPolicy: () -> Unit = {},
 ) {
     var showMaxSpeedDialog by remember { mutableStateOf(false) }
     var showThresholdDialog by remember { mutableStateOf(false) }
@@ -214,6 +224,11 @@ fun SettingsScreen(
             }
 
             SettingSection(title = stringResource(R.string.settings_section_app)) {
+                SettingActionRow(
+                    title = stringResource(R.string.settings_privacy_policy),
+                    onClick = onPrivacyPolicy,
+                    leadingIcon = Icons.Filled.PrivacyTip,
+                )
                 if (privacyOptionsRequired) {
                     SettingActionRow(
                         title = stringResource(R.string.settings_privacy_options),

@@ -1,4 +1,5 @@
 <resources>
     <string name="settings_privacy_options">Конфиденциальность рекламы</string>
     <string name="privacy_options_error">Не удалось открыть настройки конфиденциальности. Повторите попытку позже.</string>
+    <string name="settings_privacy_policy">Политика конфиденциальности</string>
 </resources>
